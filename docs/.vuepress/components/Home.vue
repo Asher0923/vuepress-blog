@@ -83,7 +83,7 @@ export default {
 };
 </script>
 
-<style lang="postcss">
+<style>
 .container{
     position: absolute;
     left: 0;
