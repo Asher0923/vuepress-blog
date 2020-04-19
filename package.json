@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vuepress dev docs",
     "build": "vuepress build docs",
-    "deploy": "npx bash deploy.sh"
+    "deploy": "npm run build && gh-pages -d docs/.vuepress/dist"
   },
   "keywords": [],
   "author": "",
@@ -15,5 +15,8 @@
     "element-ui": "^2.13.1",
     "mint-ui": "^2.2.13",
     "moment": "^2.24.0"
+  },
+  "devDependencies": {
+    "gh-pages": "^2.2.0"
   }
 }

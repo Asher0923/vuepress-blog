@@ -7,50 +7,50 @@
       </div>
       <mt-swipe :auto="4000" v-if="isMobile" style="height: 250px">
         <mt-swipe-item style="background: #548780">
-          <img src="/web.png" height="150px" width="150px" />
+          <img :src="$withBase('/web.png')" height="150px" width="150px" />
         </mt-swipe-item>
         <mt-swipe-item>
-          <img src="/python.png" height="200px" width="200px" />
+          <img :src="$withBase('/python.png')" height="200px" width="200px" />
         </mt-swipe-item>
         <mt-swipe-item>
-          <img src="/other.png" height="200px" width="200px" />
+          <img :src="$withBase('/other.png')" height="200px" width="200px" />
         </mt-swipe-item>
       </mt-swipe>
       <div class="carousel" v-if="!isMobile">
         <el-carousel height="300px" type="card" :interval="4000">
           <el-carousel-item>
             <div class="medium" @click="$router.push('/web/')">
-              <img src="/js.png" />
+              <img :src="$withBase('/js.png')" />
               <p>Web基础</p>
             </div>
           </el-carousel-item>
           <el-carousel-item>
             <div class="medium">
-              <img src="/vue.png" />
+              <img :src="$withBase('/vue.png')" />
               <p>Vue</p>
             </div>
           </el-carousel-item>
           <el-carousel-item>
             <div class="medium">
-              <img src="/react.png" />
+              <img :src="$withBase('/react.png')" />
               <p>React</p>
             </div>
           </el-carousel-item>
           <el-carousel-item>
             <div class="medium">
-              <img src="/webpack.png" />
+              <img :src="$withBase('/webpack.png')" />
               <p>Webpack</p>
             </div>
           </el-carousel-item>
           <el-carousel-item>
             <div class="medium">
-              <img src="/node.png" />
+              <img :src="$withBase('/node.png')" />
               <p>Node</p>
             </div>
           </el-carousel-item>
           <el-carousel-item>
             <div class="medium">
-              <img src="/other.png" />
+              <img :src="$withBase('/other.png')" />
               <p>其他</p>
             </div>
           </el-carousel-item>
@@ -84,11 +84,11 @@ export default {
 </script>
 
 <style>
-.container{
-    position: absolute;
-    left: 0;
-    width: 100%;
-    top: 0px
+.container {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  top: 0px;
 }
 .top {
   display: flex;

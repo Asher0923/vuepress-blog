@@ -5,6 +5,7 @@ module.exports = {
   title: "Asher's Blog",
   head: [["link", { rel: "icon", href: "/favicon.ico" }]],
   base: "/vuepress-blog/",
+  repo:  'https://github.com/Asher0923/vuepress-blog',
   plugins: [
     [
       "@vuepress/last-updated",
