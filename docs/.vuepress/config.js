@@ -5,17 +5,12 @@ module.exports = {
   title: "Asher's Blog",
   head: [["link", { rel: "icon", href: "/favicon.ico" }]],
   base: "/vuepress-blog/",
-  repo:  'https://github.com/Asher0923/vuepress-blog',
-  plugins: [
-    [
-      "@vuepress/last-updated",
-      {
-        transformer: timestamp => {
-          return moment(timestamp).format("LLLL");
-        }
-      }
-    ]
-  ],
+  plugins: {
+    "@vuepress/last-updated": {
+      transformer: timestamp => moment(timestamp).format("LL")
+    },
+    "@vuepress/back-to-top": true
+  },
   themeConfig: {
     logo: "/logo.jpg",
     sidebarDepth: 2,
@@ -28,7 +23,7 @@ module.exports = {
       { text: "Webpack", link: "/webpack/" },
       { text: "Node", link: "/node/" },
       { text: "其他", link: "/more/" },
-      { text: "GitHub", link: "https://baidu.com" }
+      { text: "GitHub", link: "https://github.com/Asher0923/vuepress-blog" }
     ],
     sidebar: {
       "/web/": [

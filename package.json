@@ -17,6 +17,7 @@
     "moment": "^2.24.0"
   },
   "devDependencies": {
+    "@vuepress/plugin-back-to-top": "^1.4.1",
     "gh-pages": "^2.2.0"
   }
 }
