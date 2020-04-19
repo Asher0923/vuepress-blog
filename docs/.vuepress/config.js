@@ -9,7 +9,7 @@ module.exports = {
     "@vuepress/last-updated": {
       transformer: timestamp => moment(timestamp).format("LL")
     },
-    "@vuepress/back-to-top": true
+    // "@vuepress/back-to-top": true
   },
   themeConfig: {
     logo: "/logo.jpg",
