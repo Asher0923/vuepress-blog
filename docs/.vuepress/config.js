@@ -4,7 +4,6 @@ moment.locale("zh-cn");
 module.exports = {
   title: "Asher's Blog",
   head: [["link", { rel: "icon", href: "/favicon.ico" }]],
-  dest: "./dist",
   base: "/vuepress-blog-asher/",
   plugins: [
     [
