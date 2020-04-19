@@ -1,12 +1,25 @@
+const moment = require("moment");
+moment.locale("zh-cn");
+
 module.exports = {
   title: "Asher's Blog",
   head: [["link", { rel: "icon", href: "/favicon.ico" }]],
   dest: "./dist",
-  base:'vuepress-blog-asher/',
+  base: "/vuepress-blog-asher/",
+  plugins: [
+    [
+      "@vuepress/last-updated",
+      {
+        transformer: timestamp => {
+          return moment(timestamp).format("LLLL");
+        }
+      }
+    ]
+  ],
   themeConfig: {
     logo: "/logo.jpg",
     sidebarDepth: 2,
-    lastUpdated: "Last Updated",
+    lastUpdated: "更新时间",
     nav: [
       { text: "首页", link: "/" },
       { text: "Web基础", link: "/web/" },
