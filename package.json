@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "vuepress dev docs",
-    "build": "vuepress build docs",
-    "deploy": "npm run build && gh-pages -d docs/.vuepress/dist"
+    "build": "vuepress build docs"
   },
   "keywords": [],
   "author": "",
@@ -16,7 +15,5 @@
     "mint-ui": "^2.2.13",
     "moment": "^2.24.0"
   },
-  "devDependencies": {
-    "gh-pages": "^2.2.0"
-  }
+  "devDependencies": {}
 }
