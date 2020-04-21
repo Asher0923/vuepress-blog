@@ -2,7 +2,7 @@
   <div class="container">
     <div class="top">
       <div class="hexo">
-        <h1 class="title">Asher's Blog</h1>
+        <h1 class="headline">Asher's Blog</h1>
         <p class="desc">Web前端学习笔记，每天进步一点点，成长足迹看得见</p>
       </div>
       <mt-swipe :auto="4000" v-if="isMobile" style="height: 250px">
@@ -112,7 +112,7 @@ export default {
   text-align: center;
 }
 
-.title {
+.headline {
   font-size: 30px;
 }
 

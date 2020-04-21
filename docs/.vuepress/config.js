@@ -4,17 +4,16 @@ moment.locale("zh-cn");
 module.exports = {
   title: "Asher's Blog",
   head: [["link", { rel: "icon", href: "/favicon.ico" }]],
-  // base: "/vuepress-blog/",
   plugins: {
     "@vuepress/last-updated": {
       transformer: timestamp => moment(timestamp).format("LL")
-    },
-    // "@vuepress/back-to-top": true
+    }
   },
   themeConfig: {
     logo: "/logo.jpg",
     sidebarDepth: 2,
     lastUpdated: "更新时间",
+    smoothScroll: true,
     nav: [
       { text: "首页", link: "/" },
       { text: "Web基础", link: "/web/" },
@@ -22,7 +21,13 @@ module.exports = {
       { text: "React", link: "/react/" },
       { text: "Webpack", link: "/webpack/" },
       { text: "Node", link: "/node/" },
-      { text: "其他", link: "/more/" },
+      {
+        text: "其他",
+        items: [
+          { text: "数据结构", link: "/more/数据结构/" },
+          { text: "算法", link: "/more/算法/" }
+        ]
+      },
       { text: "GitHub", link: "https://github.com/Asher0923/vuepress-blog" }
     ],
     sidebar: {
@@ -37,6 +42,10 @@ module.exports = {
             ["/web/javaScript/闭包", "闭包"]
           ]
         }
+      ],
+      "/more/": [
+        ["/more/数据结构/", "数据结构"],
+        ["/more/算法/", "算法"]
       ]
     }
   },
