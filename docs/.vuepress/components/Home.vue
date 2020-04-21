@@ -32,7 +32,7 @@
       </div>
     </div>
     <div class="recent-update">
-      <p style="font-size: 26px; font-weight: bolder;margin-bottom: -10px">最近更新</p>
+      <p style="font-size: 26px; font-weight: bolder;margin-bottom: -10px; margin-left: 10px">最近更新</p>
       <el-divider></el-divider>
       <div v-for="(item,index) in tableData" :key="item.key">
         <el-row>
@@ -68,7 +68,7 @@ export default {
         { path: "/react/", imgUrl: "/react.png", label: "React" },
         { path: "/webpack/", imgUrl: "/webpack.png", label: "Webpack" },
         { path: "/node/", imgUrl: "/node.png", label: "Node" },
-        { path: "/other/", imgUrl: "/other.png", label: "其他" }
+        { path: "/more/数据结构", imgUrl: "/other.png", label: "数据结构与算法" }
       ]
     };
   },
@@ -77,9 +77,12 @@ export default {
   },
   mounted() {
     this._isMobile();
-    this.tableData = this.$site.pages.filter(item => {
+    const _data = this.$site.pages.filter(item => {
       return item.title;
-    });
+    })
+    this.tableData = _data.sort(function(item1, item2){
+      return item1.lastUpdated < item2.lastUpdated ? 1 : -1
+    }).splice(0, 10);
   },
   methods: {
     _isMobile() {
