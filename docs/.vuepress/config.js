@@ -44,7 +44,14 @@ module.exports = {
         }
       ],
       "/more/": [
-        ["/more/数据结构/", "数据结构"],
+        {
+          title: "数据结构",
+          collapsable: false,
+          children: [
+            ["/more/数据结构/", "数据结构概览"],
+            ["/more/数据结构/二叉树", "二叉树"]
+          ]
+        },
         ["/more/算法/", "算法"]
       ]
     }
