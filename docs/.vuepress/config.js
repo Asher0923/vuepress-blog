@@ -49,7 +49,8 @@ module.exports = {
           collapsable: false,
           children: [
             ["/more/数据结构/", "数据结构概览"],
-            ["/more/数据结构/二叉树", "二叉树"]
+            ["/more/数据结构/二叉树", "二叉树"],
+            ["/more/数据结构/链表", "链表"]
           ]
         },
         ["/more/算法/", "算法"]
