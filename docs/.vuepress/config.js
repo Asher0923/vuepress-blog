@@ -32,33 +32,54 @@ module.exports = {
     ],
     sidebar: {
       "/web/": [
-        ["/web/", "HTML"],
+        ["/web/", "概览"],
+        ["/web/html", "HTML"],
         ["/web/css", "CSS"],
         {
           title: "JavaScript",
           collapsable: false,
           children: [
             ["/web/javaScript/类型转换", "类型转换"],
-            ["/web/javaScript/闭包", "闭包"]
+            ["/web/javaScript/闭包", "闭包"],
+            ["/web/javaScript/原型链", "原型链"],
+            ["/web/javaScript/拷贝", "拷贝"],
+            ["/web/javaScript/继承", "继承"],
+            ["/web/javaScript/this", "this"],
+            ["/web/javaScript/防抖节流", "防抖节流"],
+            ["/web/javaScript/模块化", "模块化"],
+            ["/web/javaScript/设计模式", "设计模式"],
+            ["/web/javaScript/EventLoop", "Event Loop"],
+            ["/web/javaScript/DOM", "DOM"]
           ]
-        }
+        },
+        ["/web/ES6", "ES6"]
       ],
       "/more/": [
         {
           title: "数据结构",
           collapsable: false,
           children: [
-            ["/more/数据结构/", "数据结构概览"],
+            ["/more/数据结构/", "概览"],
+            ["/more/数据结构/栈和队列", "栈和队列"],
             ["/more/数据结构/二叉树", "二叉树"],
             ["/more/数据结构/链表", "链表"]
           ]
         },
-        ["/more/算法/", "算法"]
-      ]
+        {
+          title: "算法",
+          collapsable: false,
+          children: [
+            ["/more/算法/", "概览"],
+            ["/more/算法/排序", "排序"],
+            ["/more/算法/搜索", "搜索"]
+          ]
+        }
+      ],
+      "/webpack/": [["/webpack/", "Webpack"]],
+      "/node/": [["/node/", "Node"]]
     }
   },
   markdown: {
-    //markdown
     lineNumbers: true //显示行号
   }
 };
