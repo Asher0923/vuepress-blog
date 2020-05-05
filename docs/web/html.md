@@ -150,6 +150,31 @@ title: 'Web基础-HTML'
 
 ## `Canvas` / `SVG`
 
+- Canvas
+
+  ```
+  <canvas id="myCanvas" width="200" height="100"></canvas>
+  // canvas元素本身是没有绘图能力的，所有的绘制工作必须在JavaScript内部完成
+  var c = document.getElementById('myCanvas')
+  var ctx = c.getContext("2d")
+  ctx.fillStyle('#FF0000')
+  ctx.fillRect(0, 0, 150, 75)
+  ```
+
+- SVG
+
+  可伸缩矢量图形，使用XML格式定义图形，在放大或改变尺寸的情况下图形质量不会有损失
+
+| Canvas                                             | SVG                                                     |
+| -------------------------------------------------- | ------------------------------------------------------- |
+| 依赖分辨率                                         | 不依赖分辨率                                            |
+| 不支持事件处理器                                   | 支持事件处理器                                          |
+| 弱的文本渲染能力                                   | 最适合带有大型渲染区域的应用程序（比如谷歌地图）        |
+| 能够以 .png 或 .jpg 格式保存结果图像               | 复杂度高会减慢渲染速度（任何过度使用 DOM 的应用都不快） |
+| 最适合图像密集型的游戏，其中的许多对象会被频繁重绘 | 不适合游戏应用                                          |
+
+
+
 ## 本地存储
 
 |              |                           `Cookie`                           |       `localStorage`       |              `sessionStorage`              |
@@ -181,15 +206,141 @@ title: 'Web基础-HTML'
   // api和localStorage一样
   ```
 
-## 离线存储
-
 ## 回流重绘
+
+- 浏览器渲染过程
+
+  1. 浏览器使用流式布局模型
+  2. 浏览器会把HTML解析成DOM，把CSS解析成CSSOM，DOM和CSSOM合并产生了Render Tree
+  3. 有了Render Tree，就知道所有节点的样式，然后计算节点在页面中的大小和位置，最后把节点绘制到页面上
+  4. 由于浏览器使用流式布局，对Render Tree的计算通常只需要遍历一次就可以完成，但table及其内部元素除外，他们需要多次计算，通常要花3倍同等元素的时间，所以要避免使用table布局
+
+- 回流
+
+  当Render Tree中部分或全部元素的尺寸、结构或某些属性发生改变时，浏览器重新渲染部分或全部文档的过程称为回流
+
+  1. 页面首次渲染
+
+  2. 浏览器窗口大小发生改变
+
+  3. 元素尺寸或位置发生改变
+
+  4. 元素内容变化（文字数量或图片大小等）
+
+  5. 元素字体大小变化
+
+  6. 添加或删除可见的DOM元素
+
+  7. 激活CSS伪类
+
+  8. 查询某些属性或调用某些方法
+
+     ```
+     clientWidth、clientHeight、clientTop、clientLeft
+     offsetWidth、offsetHeight、offsetTop、offsetLeft
+     scrollWidth、scrollHeight、scrollTop、scrollLeft
+     scrollIntoView()、scrollIntoViewIfNeeded()
+     getComputedStyle()
+     getBoundingClientRect()
+     scrollTo()
+     ```
+
+- 重绘
+
+  当页面中元素样式的改变并不影响它在文档流中的位置时（比如：color、background-color、visibility等），浏览器会将新样式赋予给元素并重新绘制它，这个过程称为重绘。
+
+- 性能影响
+
+  回流必会引起重绘，重绘不一定回流，回流比重绘的代价高
+
+  现代浏览器对频繁的回流或重绘操作进行优化：
+
+  浏览器会维护一个队列，把所有引起回流和重绘的操作放到队列中，如果队列中的任务数量或者时间达到一个阈值，（至少一个浏览器刷新帧16ms，60赫兹刷新率的屏幕，1000ms/60）浏览器就会将队列清空，但是在获取布局尺寸等信息时，为保证准确性，当访问一下属性或方法时，浏览器也会立即清空队列
+
+  ```
+  clientWidth、clientHeight、clientTop、clientLeft
+  offsetWidth、offsetHeight、offsetTop、offsetLeft
+  scrollWidth、scrollHeight、scrollTop、scrollLeft
+  width、height
+  getComputedStyle()
+  getBoundingClientRect()
+  ```
+
+- 如何避免
+
+  避免使用table布局
+
+  尽可能在DOM数的最末端改变class： 减小回流的范围
+
+  将动画效果应用到`position`属性为`absolute`或`fixed`的元素上 ，避免影响其他元素的布局，这样只是一个重绘，而不是回流； 
+
+   避免使用`CSS`表达式（例如：`calc()`）
+
+   避免频繁操作样式，最好一次性重写`style`属性，或者将样式列表定义为`class`并一次性更改`class`属性 
+
+  避免频繁操作`DOM` 
+
+  也可以先为元素设置`display: none`，操作结束后再把它显示出来。因为在`display`属性为`none`的元素上进行的`DOM`操作不会引发回流和重绘 
 
 ## 浏览器工作原理
 
+- 加载
+
+  1. 浏览器根据DNS服务器得到域名的IP地址
+  2. 向这个IP的机器发送HTTP请求
+  3. 服务器收到、处理并返回HTTP请求
+  4. 浏览器得到并返回内容
+
+- 渲染
+
+  1. 根据HTML结构生成DOM树
+  2. 根据CSS生成CSSOM
+  3. 将DOM和CSSOM整合形成Render Tree
+  4. 根据Render Tree开始渲染和展示
+  5. 遇到`script`标签时，会执行并阻塞渲染
+
+- Web安全
+
+  1. SQL注入：
+
+     输入时进行了恶意的SQL拼接，导致最后生成的SQL有问题
+
+  2. XSS：
+
+     通过某种方式（发布文章、评论）等将一段特定的JS代码隐蔽的输入进去，JS代码一旦执行，就可以获取服务端数据、cookie等
+
+     预防：用正则替换
+
+     ```
+     < 替换为：&lt;
+     > 替换为：&gt;
+     & 替换为：&amp;
+     ‘ 替换为：&#x27;
+     ” 替换为：&quot;
+     ```
+
+  3. CSRF：
+
+     借助了cookie的特性，劫持操作者的权限来完成某个操作，而不是拿到用户的信息
+
+     预防： 加入各个层级的权限验证
+
 ## 图片懒加载和预加载
 
-## `webSocket`
+- 懒加载
 
-## `webWorker`
+  - 也叫延迟加载，指的是在长网页中延迟加载图片，用户滚动到它们之前，可视区域外的图像不会加载
 
+  - 当访问一个页面的时候，先把img标签的src属性设为空字符串，而图片的真正路径则设置在data-original属性中，当页面滚动的时候需要去监听scroll事件，在scroll事件的回调中，判断懒加载的图片是否进入可视区域，如果在就将图片的src属性设置为data-original的值
+
+    ```
+    <img src="" class="image-item" lazyload="true"  data-original="images/1.png"/>
+    ```
+
+- 预加载
+
+  -  预加载简单来说就是将所有所需的资源提前请求加载到本地，这样后面在需要用到时就直接从缓存取资源
+  - 实现方式
+    1.  用CSS和JavaScript实现预加载 
+    2.  仅使用JavaScript实现预加载 
+    3.  使用Ajax实现预加载 

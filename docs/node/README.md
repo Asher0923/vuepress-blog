@@ -4,7 +4,7 @@ title: 'Node基础'
 
 ## http
 
-```
+``` js
 // 1.引入http模块
 const http = require('http')
 // 2.用http模块创建服务
@@ -22,7 +22,7 @@ http.createServer(function(req, res){
 
  - parse：通过query获取参数
 
-```
+``` js
 console.log(url.parse("http://www.baidu.com/new?name=zhangsan"))
 /**
  * Console：
@@ -43,14 +43,14 @@ console.log(url.parse("http://www.baidu.com/new?name=zhangsan"))
  */
 ```
  - resolve: 追加或替换地址
- ```
+ ``` js
  console.log(url.resolve("http://www.baidu.com/zs", "张三"))
 
 // Console：
 // http://www.baidu.com/张三
  ```
  - format: 逆向 parse，根据地址信息获取原 url 信息
- ```
+ ``` js
  console.log(url.format({
   protocol: 'http:',
   slashes: true,
@@ -70,7 +70,7 @@ console.log(url.parse("http://www.baidu.com/new?name=zhangsan"))
 // http://www.baidu.com/new?name=zhangsan
  ```
 - 
-```
+``` js
 // 1.引入url模块
 const url = require('url')
 // 2.引入http模块
@@ -141,7 +141,7 @@ http.createServer(function(req, res){
 
 流
 
-```
+``` js
 //新建fs
 const fs = require('fs')
 
@@ -190,7 +190,7 @@ writeStream.on('finish', () => {
 - 设置跨域的处理方式，允许进行跨域
 - 进行请求的判断处理
 - 请求的结果返回给客户端
-```
+``` js
 // 加载 http 模块
 var http = require('http');
 
@@ -246,7 +246,7 @@ console.log('http server is start...');
 
 ## 连接MySQL
 
-```
+``` js
 var mysql = require('mysql');
 var connection = mysql.createConnection({
   host: 'localhost',

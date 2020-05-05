@@ -4,7 +4,7 @@ title: 'JS基础-this'
 
 ## call
 
-```
+``` js
 //手动实现call
 Function.prototype.myCall = function(target) {
   //this指向的是调用此函数的方法，将此方法中的this指向target，即让target调用this，再将结果导出
@@ -22,7 +22,7 @@ Function.prototype.myCall = function(target) {
 
 ## apply
 
-```
+``` js
 //手动实现apply
 Function.prototype.myApply = function(target) {
   if (typeof this !== 'function') {
@@ -43,7 +43,7 @@ Function.prototype.myApply = function(target) {
 
 ## bind
 
-```
+``` js
 //手动实现bind
 Function.prototype.myBind = function(target) {
   if (typeof this !== 'function') {

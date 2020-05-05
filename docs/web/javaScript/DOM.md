@@ -6,7 +6,7 @@ title: 'JS基础-DOM BOM'
 
 - 获取节点
 
-  ```
+  ``` js
   //返回带有指定 ID 的元素
   document.getElementById(idName)
   
@@ -37,7 +37,7 @@ title: 'JS基础-DOM BOM'
 
 - 获取/设置/删除元素属性
 
-  ```
+  ``` js
   //获取元素属性值
   element.getAttribute(attributeName)
   
@@ -50,7 +50,7 @@ title: 'JS基础-DOM BOM'
 
 - 创建节点
 
-  ```
+  ``` js
   //创建节点
   document.createElement('h1')
   
@@ -66,7 +66,7 @@ title: 'JS基础-DOM BOM'
 
 - 增加节点
 
-  ```
+  ``` js
   //向element的子节点列表的末尾添加新的子节点
   element.appendChild(node)
   
@@ -76,14 +76,14 @@ title: 'JS基础-DOM BOM'
 
 - 删除节点
 
-  ```
+  ``` js
   //从子节点列表中删除某个节点，删除成功返回该被删除的节点，否则返回null
   element.removeChild(node)
   ```
 
 - 替换节点
 
-  ```
+  ``` js
   //使用一个节点替换另一个节点
   element.replaceChild(newChild, oldChild)
   ```
@@ -92,14 +92,14 @@ title: 'JS基础-DOM BOM'
 
 - 获取当前元素的父节点
 
-  ```
+  ``` js
   //返回某节点的父节点，如果指定的节点没有父节点则返回null 
   element.parentNode
   ```
 
 - 获取当前元素的子节点
 
-  ```
+  ``` js
   //返回元素的子元素的集合，只返回元素节点
   element.children
   
@@ -115,7 +115,7 @@ title: 'JS基础-DOM BOM'
 
 - 获取当前元素的同级元素
 
-  ```
+  ``` js
   //返回当前元素之后紧跟的节点（处于同一树层级），没有就返回null 
   element.nextSibling
   
@@ -125,7 +125,7 @@ title: 'JS基础-DOM BOM'
 
 - 获取/设置当前元素的文本
 
-  ```
+  ``` js
   // 设置或返回元素的开始和结束标签之间的的全部内容,包括Html标签
   element.innerHTML
   
@@ -135,7 +135,7 @@ title: 'JS基础-DOM BOM'
 
 - 获取元素节点类型
 
-  ```
+  ``` js
   //元素节点--1  属性节点--2  文本节点--3  Document--9
   element.nodeType
   ```

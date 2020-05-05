@@ -20,7 +20,7 @@ title: 'ES6'
 
   > 允许为函数的参数设置默认值，即直接写在参数定义的后面。
 
-  ```
+  ``` js
     function log(x, y = 'World') {
       console.log(x, y);
     }
@@ -35,7 +35,7 @@ title: 'ES6'
   > `ES6` 引入 rest 参数（形式为`...变量名`），用于获取函数的多余参数，这样就不需要使用`arguments`对象了。rest 参数搭配的变量是一个数组，该变量将多余的参数放入数组中。
   > `arguments`对象不是数组，而是一个类似数组的对象。所以为了使用数组的方法，必须使用`Array.prototype.slice.call`先将其转为数组。`rest` 参数就不存在这个问题，它就是一个真正的数组，数组特有的方法都可以使用。
 
-  ```
+  ``` js
     // arguments变量的写法
     function sortNumbers() {
       return Array.prototype.slice.call(arguments).sort();
@@ -49,7 +49,7 @@ title: 'ES6'
 
   > 1.函数体内的`this`对象，就是定义时所在的对象，而不是使用时所在的对象 2.不可以当做构造函数，无`prototype`属性 3.无 arguments 对象，如果要用，可以用 rest 参数代替 4.不可以使用`yield`命令，因此箭头函数不能用作`Generator`函数
 
-  ```
+  ``` js
     // ES6
     function foo() {
       setTimeout(() => {
@@ -71,7 +71,7 @@ title: 'ES6'
 
 > 默认部署`iterator`接口的数据结构有 `Array`、`Map`、`Set`、`String`、`TypedArray`（类数组）、函数的 arguments 对象、`NodeList` 对象，注意普通对象默认是没有 `iterator` 接口的（可以自己创建 `iterator` 接口让普通对象也可以迭代）
 
-```
+``` js
   let arr = [1,2,3]
   let iterator = arr[Symbol.iterator]()
 
@@ -91,12 +91,12 @@ title: 'ES6'
 > `ES6` 允许按照一定模式，从数组和对象中提取值，对变量进行赋值，这被称为解构，允许设置默认值 (严格等于 undefined 时生效)
 
 - 数组的解构
-  ```
+  ``` js
    let [a, b, c] = [1, 2, 3];
   ```
 - 对象的解构
 
-  ```
+  ``` js
     let { foo, bar } = { foo: "aaa", bar: "bbb" };
 
     //若变量名与属性名不一致需写成
@@ -110,7 +110,7 @@ title: 'ES6'
 
 - 扩展运算符
 
-  ```
+  ``` js
     let arr = [1,2,3,4,5]
     le arr2 = [...arr,6,7] // [1,2,3,4,5,6,7]
 
@@ -120,7 +120,7 @@ title: 'ES6'
   ```
 
 - 剩余运算符
-  ```
+  ``` js
     function fun(...rest){
       console.log(rest)
     }
@@ -131,7 +131,7 @@ title: 'ES6'
 
 - set 类似于数组，但是成员都是唯一的，判断标准类似于'==='(`NaN`在set中为相等)，不会做类型转换，可接受数组或者具有`iterator`接口的数据结构作为参数
 
-  ```
+  ``` js
   const arr = [1,2,3,4,5,5,5]
   const set = new Set(arr)
   //[1,2,3,4,5]  
@@ -144,7 +144,7 @@ title: 'ES6'
 
 - map类似于对象，但是键的范围不限于字符串，可以是各种类型的值。
 
-  ```
+  ``` js
   const obj = {a: 1}
   const map = new Map()
   map.set(obj, 'test')
@@ -157,7 +157,7 @@ title: 'ES6'
 
 - 有三种状态 pending(进行中)、fulfilled(成功)和rejected(失败)，状态改变只有从pending->fulfilled和pending->rejected两种情况，一旦状态改变了，就不会再改变，这时候称为resolved。
 
-```
+``` js
 const promise = new Promise(function (reslove, reject) {
   setTimeout(() => {
     console.log(1)
@@ -181,7 +181,7 @@ const p2 = promise.then((res) => {
 
 - Generator函数的定义跟普通函数差不多，只是在function关键字后面加了一个星号，执行Generator函数会返回一个遍历器对象，需要用next()将指针移向下一个状态，直到遇到yield表达式(或return语句)。
 
-```
+``` js
 function* test() {
   yield 10;
   yield 20;
@@ -197,7 +197,7 @@ a.next() //{value: undefined, done: true}
 
 - 可用for of 解构赋值  剩余运算符来遍历
 
-```
+``` js
 for (let val of a ){
   console.log(val)
 }
@@ -210,7 +210,7 @@ console.log(...test())
 
 - 异步使用
 
-```
+``` js
 function* test(params) {
   yield fn(params) //调接口
 }

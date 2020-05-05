@@ -34,7 +34,7 @@ title: 'webpack'
   > output：告诉 `webpack` 在哪里输出 构建后的包、包的名称 等
 
 - 配置单入口
-  ```
+  ``` js
     let path = require('path');
     //单出口
     module.exports = {
@@ -47,7 +47,7 @@ title: 'webpack'
   ```
 - 配置多入口
 
-  ```
+  ``` js
     let path = require('path');
     //多出口
     module.exports = {
@@ -77,7 +77,7 @@ title: 'webpack'
   - 在使用 `html-webpack-plugin` 生成 `index.html` 时，`publicPath` 是可以不用配置的，因为生产环境下，`index.html` 会和其他静态资源打包到同一个文件下，开发环境默认打包到根目录下。
     
     > 参考资料: https://www.cnblogs.com/SamWeb/p/8353367.html
-  ```
+  ``` js
     ...
     output:{
       filename: 'bundle.js',
@@ -94,11 +94,11 @@ title: 'webpack'
 
 - 使用方式
 
-  ```
+  ``` js
     npm install --save-dev style-loader css-loader url-loader
   ```
   
-```
+``` js
     module.exports = {
       module: {
         rules: [
@@ -131,7 +131,7 @@ title: 'webpack'
 > JavaScript 语法编译器，babel 执行编译的过程中，会从项目根目录下的.babelrc 文件中读取配置，.babelrc 文件中，主要对预设(presets)和插件(plugins)进行设置
 > 参考：https://www.cnblogs.com/tugenhua0707/p/9452471.html
 
-```
+``` js
   {
     "sourceMaps": true,
     "presets": ["env"],
@@ -151,11 +151,11 @@ title: 'webpack'
 
 - 使用
 
-```
+``` js
   npm install html-webpack-plugin --save-dev
 ```
 
-```
+``` js
   const HtmlWebpackPlugin = require('html-webpack-plugin');
   module.exports = {
     plugins: [
@@ -203,7 +203,7 @@ title: 'webpack'
   
      > 替代`CommonsChunkPlugin`插件提取第三方插件和公共代码
   
-     ```
+     ``` js
      optimization: {
          splitChunks: {
            cacheGroups: {
@@ -235,7 +235,7 @@ title: 'webpack'
      >
      > `DllReferencePlugin`是在 `webpack` 主配置文件中设置的，这个插件把只有`dll`的`bundle`引用到需要的预编译的依赖
   
-     ```
+     ``` js
      //webpack.vendor.config.js
      new webpack.DllPlugin({
        context: __dirname,
@@ -258,7 +258,7 @@ title: 'webpack'
   
      > 多线程打包(不支持`vue`)
   
-     ```
+     ``` js
        module: {
          rules: [
            {
@@ -291,7 +291,7 @@ title: 'webpack'
   
      > 删除之前打包的目录
   
-     ```
+     ``` js
      new CleanWebpackPlugin()
      ```
   
@@ -304,12 +304,10 @@ title: 'webpack'
   > 告诉`webpack`使用相应模式的内置优化
 - 使用
 
-```
-
+``` js
     module.exports = {
       mode: 'production'
     }
-
 ```
 
 - 两种模式区别
@@ -321,7 +319,7 @@ title: 'webpack'
 
 ## devserver
 
-```
+``` js
 npm i -D webapck-dev-server
 // package.json 中添加"dev : webpack-dev-server"
 devServer{
@@ -354,7 +352,7 @@ devServer{
 
   > 实现跨域
 
-  ```
+  ``` js
     proxy: {
       '/api': {
         target: 'http://news.baidu.com', // 目标接口的域名
@@ -378,7 +376,7 @@ devServer{
 - `cssnext` 使用新的 `css` 特性
 - `precss` 变量、`mixin`、循环（类似预处理器 sass）
 
-```
+``` js
   {
   test: /\.styl/,
     use: ['style-loader',
@@ -401,7 +399,7 @@ devServer{
   
   > 配置项通过别名来把原导入路径映射成一个新的导入路径
 
-```
+``` js
   resolve:{
     alias:{
       '@components': './src/components/'
@@ -413,13 +411,13 @@ devServer{
   
   > 在导入语句没带文件后缀时，`webpack`会自动带上后缀后去尝试访问文件是否存在。
 
-```
+``` js
   extensions: ['.js', '.json']
 ```
 
 ## devtool
 
-```
+``` js
   devtool: 'eval',
 ```
 
