@@ -52,7 +52,8 @@ module.exports = {
             ["/web/javaScript/DOM", "DOM"]
           ]
         },
-        ["/web/ES6", "ES6"]
+        ["/web/ES6", "ES6"],
+        ["/web/http", "HTTP"]
       ],
       "/more/": [
         {

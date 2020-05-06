@@ -12,7 +12,7 @@ title: 'Web基础-HTML'
 | Safari  |          Webkit           |
 |  Opera  | Presto -> Webkit -> Blink |
 
-## `DOCTYPE`声明
+## DOCTYPE声明
 
 - 声明位于HTML文档的第一行，处于标签之前，用来告知浏览器用什么文档标准解析这个文档，不存在或格式不正确会导致文档以兼容模式呈现
 
@@ -22,20 +22,20 @@ title: 'Web基础-HTML'
 
 - `HTML4`是基于`SGML`这个标记语言的集合，`DTD`是指出当前`HTML`文件使用哪个`SGML`规则，`HTML5`则不需要
 
-  ```
-  // html5
+  ``` html
+  <!-- html5 -->
   <!DOCTYPE HTML>
-  // html4
+  <!-- html4 -->
   <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
   ```
 
-## `meta`标签
+## meta标签
 
 > 共有两个属性，分别是`http-equiv`属性和`name`属性
 
 1. `http-equiv`属性
 
-   ```
+   ``` html
    <meta http-equiv="参数" content="具体的描述">
    ```
 
@@ -43,24 +43,27 @@ title: 'Web基础-HTML'
 
      用于设定网页字符集，便于浏览器解析与渲染页面
 
-     ```
-     <meta http-equiv="content-Type" content="text/html; charset=utf-8"> // 旧HTML
-     <meta charset="utf-8"/>  //HTML5
+     ``` html
+     <!-- 旧html -->
+     <meta http-equiv="content-type" content="text/html; charset=utf-8">
+     <!-- html5 -->
+     <meta charset="utf-8"/>
      ```
 
    - `X-UA-Compatible`
 
      告知浏览器以何种版本来渲染页面
 
-     ```
-     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/> //指定IE和Chrome使用最新版本渲染当前页面
+     ``` html
+     <!-- 指定IE和Chrome使用最新版本渲染当前页面 -->
+     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
      ```
 
    - `cache-control`
 
      指定请求和响应遵循的缓存机制
 
-     ```
+     ``` html
      <meta http-equiv="cache-control" content="no-cache">
      ```
 
@@ -69,7 +72,7 @@ title: 'Web基础-HTML'
 
 2. `name`属性
 
-   ```
+   ``` html
    <meta name="参数" content="具体的描述">
    ```
 
@@ -77,7 +80,7 @@ title: 'Web基础-HTML'
 
      告诉搜索引擎，网页的关键字
 
-     ```
+     ``` html
      <meta name="keywords" content="前端">
      ```
 
@@ -85,7 +88,7 @@ title: 'Web基础-HTML'
 
      告诉搜索引擎，网站的主要内容
 
-     ```
+     ``` html
      <meta name="description" content="前端编程">
      ```
 
@@ -93,22 +96,24 @@ title: 'Web基础-HTML'
 
      控制页面缩放，常用于移动端网页
 
-     ```
+     ``` html
      <meta name="viewport" content="width=device-width, initial-scale=1">
      ```
 
-## `link`标签
+## link标签
 
 - link
 
-  ```
+  ``` html
    <link rel="stylesheet" href="x.css">
   ```
 
 - import
 
-  ```
-  @import url(x.css)
+  ``` html
+  <style>
+    @import url(x.css)
+  </style>
   ```
 
 - 区别
@@ -118,13 +123,13 @@ title: 'Web基础-HTML'
   3. import是`CSS2.1` 提出的，只在`IE5`以上才能被识别，而`link`是`XHTML`标签，无兼容问题
   4. `link`方式的样式权重高于`@import`的权重
 
-## `async` / `defer`
+## async / defer
 
 - 普通的`script`标签
 
   浏览器会停止解析`dom`，加载和执行`js`文件后，再继续解析
 
-  ```
+  ``` html
   <script src="a.js"></script>
   ```
 
@@ -132,7 +137,7 @@ title: 'Web基础-HTML'
 
   `HTML5`中定义，不阻塞`dom`的解析，`js`一旦加载好立马执行，执行顺序未知
 
-  ```
+  ``` html
   <script src="b.js" async></script>
   <script src="c.js" async></script>
   ```
@@ -141,24 +146,26 @@ title: 'Web基础-HTML'
 
   `HTML4`中定义，不阻塞`dom`的解析，加载好之后不会立马执行，等页面解析完，依次执行 
 
-  ```
+  ``` html
   <script src="d.js" defer></script>
   <script src="e.js" defer></script>
   ```
 
 - 如果`script`标签无`src`属性，则`defer`和`async`都被忽略，动态添加的`script`标签隐含`async`属性
 
-## `Canvas` / `SVG`
+## Canvas / SVG
 
 - Canvas
 
-  ```
+  ``` html
   <canvas id="myCanvas" width="200" height="100"></canvas>
-  // canvas元素本身是没有绘图能力的，所有的绘制工作必须在JavaScript内部完成
-  var c = document.getElementById('myCanvas')
-  var ctx = c.getContext("2d")
-  ctx.fillStyle('#FF0000')
-  ctx.fillRect(0, 0, 150, 75)
+  <!-- canvas元素本身是没有绘图能力的，所有的绘制工作必须在JavaScript内部完成 -->
+  <script>
+    var c = document.getElementById('myCanvas')
+    var ctx = c.getContext("2d")
+    ctx.fillStyle('#FF0000')
+    ctx.fillRect(0, 0, 150, 75)
+  </script>
   ```
 
 - SVG
@@ -187,13 +194,13 @@ title: 'Web基础-HTML'
 
 - `Cookie`
 
-  ```
+  ``` js
   document.cookie // 通常由服务端生成
   ```
 
 - `localStorage`
 
-  ```
+  ``` js
   localStorage.setItem("key", "value")
   localStorage.getItem("key")
   localStorage.removeItem("key")
@@ -202,8 +209,11 @@ title: 'Web基础-HTML'
 
 - `sessionStorage`
 
-  ```
-  // api和localStorage一样
+  ``` js
+  sessionStorage.setItem("key", "value")
+  sessionStorage.getItem("key")
+  sessionStorage.removeItem("key")
+  sessionStorage.clear() //清空所有信息
   ```
 
 ## 回流重绘
@@ -235,7 +245,7 @@ title: 'Web基础-HTML'
 
   8. 查询某些属性或调用某些方法
 
-     ```
+     ``` js
      clientWidth、clientHeight、clientTop、clientLeft
      offsetWidth、offsetHeight、offsetTop、offsetLeft
      scrollWidth、scrollHeight、scrollTop、scrollLeft
@@ -257,7 +267,7 @@ title: 'Web基础-HTML'
 
   浏览器会维护一个队列，把所有引起回流和重绘的操作放到队列中，如果队列中的任务数量或者时间达到一个阈值，（至少一个浏览器刷新帧16ms，60赫兹刷新率的屏幕，1000ms/60）浏览器就会将队列清空，但是在获取布局尺寸等信息时，为保证准确性，当访问一下属性或方法时，浏览器也会立即清空队列
 
-  ```
+  ``` js
   clientWidth、clientHeight、clientTop、clientLeft
   offsetWidth、offsetHeight、offsetTop、offsetLeft
   scrollWidth、scrollHeight、scrollTop、scrollLeft
@@ -281,6 +291,36 @@ title: 'Web基础-HTML'
   避免频繁操作`DOM` 
 
   也可以先为元素设置`display: none`，操作结束后再把它显示出来。因为在`display`属性为`none`的元素上进行的`DOM`操作不会引发回流和重绘 
+
+## 图片懒加载和预加载
+
+- 懒加载
+
+  - 也叫延迟加载，指的是在长网页中延迟加载图片，用户滚动到它们之前，可视区域外的图像不会加载
+
+  - 当访问一个页面的时候，先把img标签的src属性设为空字符串，而图片的真正路径则设置在data-original属性中，当页面滚动的时候需要去监听scroll事件，在scroll事件的回调中，判断懒加载的图片是否进入可视区域，如果在就将图片的src属性设置为data-original的值
+
+    ``` html
+    <img src="" class="image-item" lazyload="true"  data-original="images/1.png"/>
+    ```
+
+- 预加载
+
+  -  预加载简单来说就是将所有所需的资源提前请求加载到本地，这样后面在需要用到时就直接从缓存取资源
+  - 实现方式
+    1.  用CSS和JavaScript实现预加载 
+    2.  仅使用JavaScript实现预加载 
+    3.  使用Ajax实现预加载
+
+## data-* 属性
+
+> data-* 属性用于存储页面或应用程序的私有自定义数据
+>
+> data-* 属性赋予我们在所有 HTML 元素上嵌入自定义 data 属性的能力
+
+``` html
+<element data-*="somevalue">
+```
 
 ## 浏览器工作原理
 
@@ -324,23 +364,3 @@ title: 'Web基础-HTML'
      借助了cookie的特性，劫持操作者的权限来完成某个操作，而不是拿到用户的信息
 
      预防： 加入各个层级的权限验证
-
-## 图片懒加载和预加载
-
-- 懒加载
-
-  - 也叫延迟加载，指的是在长网页中延迟加载图片，用户滚动到它们之前，可视区域外的图像不会加载
-
-  - 当访问一个页面的时候，先把img标签的src属性设为空字符串，而图片的真正路径则设置在data-original属性中，当页面滚动的时候需要去监听scroll事件，在scroll事件的回调中，判断懒加载的图片是否进入可视区域，如果在就将图片的src属性设置为data-original的值
-
-    ```
-    <img src="" class="image-item" lazyload="true"  data-original="images/1.png"/>
-    ```
-
-- 预加载
-
-  -  预加载简单来说就是将所有所需的资源提前请求加载到本地，这样后面在需要用到时就直接从缓存取资源
-  - 实现方式
-    1.  用CSS和JavaScript实现预加载 
-    2.  仅使用JavaScript实现预加载 
-    3.  使用Ajax实现预加载 

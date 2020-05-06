@@ -14,7 +14,15 @@ title: 'Web基础-CSS'
 
 ## 选择器
 
-- 属性选择器   
+- 通配符选择器
+
+- 元素选择器
+
+- 类选择器
+
+- ID选择器
+
+- 属性选择器
 
   ```
   [att=val]
@@ -23,17 +31,70 @@ title: 'Web基础-CSS'
   [att$=val]  以val结尾
   ```
 
-- 
+- 派生选择器
 
-- 父子选择器    div span (浏览器遍历父子选择器时自右向左顺序)
-
-- 直接子选择器 div > span
+  1. 后代选择器： div span (浏览器遍历父子选择器时自右向左顺序)
+  2. 子元素选择器：div > span
+  3. 相邻兄弟选择器：h1 + p
 
 - 并列选择器 div.class
 
 - 分组选择器 div, span
 
-- 
+- 伪元素选择器
+
+  1. link 表示元素未被点击时的状态
+  2. hover 表示鼠标悬停时的状态
+  3. active 表示元素被点击时的状态
+  4. visited 表示元素被点击后的状态
+
+- 序选择器
+
+  1. `:first-child` 选中同级别中的第一个标签
+
+     ``` html
+     <style type="text/css">
+     	ul li:first-child{
+     		color:red;
+     	}
+     </style>
+     ```
+
+  2. `:last-child` 选中同级别中的最后一个标签
+  
+  3. `:nth-child(n)` 选中同级别中第n个标签
+  
+  4. `:nth-last-child(n)` 选中同级别中倒数第n个标签
+  
+  5. `:only-child` 选中父元素中唯一的元素
+  
+  6. `:nth-child(odd)` 选中同级别中所有奇数
+  
+  7. `:nth-child(even)` 选中同级别中所有偶数
+  
+  8. `:nth-child(xn+y)`：x和y自定义，n从0开始递增
+  
+  9. `:first-of-type` 选中同级别中同类型的第一个标签
+  
+     ``` html
+     <style type="text/css">
+     	p:first-of-type{
+     		background:#ff0000;
+     	}
+     </style>
+     ```
+  
+  10. `:last-of-type` 选中同级别中同类型的最后一个标签
+  
+  11. `:nth-of-type(n)` 选中同级别中同类型的第n个标签
+  
+  12. `:nth-last-of-type(n)` 选中同级别中同类型倒数第n个标签
+  
+  13. `:only-of-type` 选中父元素某一类型的标签
+  
+  14. `:nth-of-type(odd)`选中同级别中同类型所有奇数
+  
+  15. `:nth-of-type(even)`选中同级别中同类型所有偶数
 
 ## 盒模型
 
@@ -62,6 +123,7 @@ float： left / right
 overflow: hidden / auto / scroll
 display: inline-block / flex / table
 position: absolute / fiexd
+父元素与正常文件流的子元素（非浮动子元素）自动形成一个BFC（垂直方向margin重叠问题）
 ```
 
 ## Flex布局
@@ -241,8 +303,49 @@ position: absolute / fiexd
 
 - margin塌陷
 
-  > 垂直方向
+  > 以下代码中子元素并没有出现在父元素的左下方，看起来像子元素设置的margin-top无效，但是渐渐增大子元素的margin-top，当子元素的margin-top大于父元素的margin-top值，会带着父元素一起移动，感觉是父元素的上方没有顶，这就是margin塌陷，解决方法是触发父元素的BFC
 
-  
+  ``` html
+  <div id="div1">
+  	<div id="div2"></div>
+  </div>
+  <style>
+      #div1{
+          width: 300px;
+          height: 300px;
+          background: pink;
+          margin-top: 300px;
+      }
+      #div2{
+          width: 150px;
+          height: 150px;
+          background: rebeccapurple;
+          margin-top: 150px;
+      }
+  </style>
+  ```
 
 - margin合并
+
+  > 标准文档流中，两个块级元素，在设置上下排版时发生元素间距取两者margin-top或margin-bottom最大值的现象，两个div之间的距离取的是div2的margin-top的值，这个就是margin合并现象
+
+  ``` html
+  <div id="div1"></div>
+  <div id="div2"></div>
+  <style>
+      #div1{
+          width: 50px;
+          height: 50px;
+          background-color: red;
+          margin-bottom: 40px;
+      }
+      #div2{
+          width: 50px;
+          height: 50px;
+          background-color: red;
+          margin-top: 60px;
+      }
+  </style>
+  ```
+
+  
