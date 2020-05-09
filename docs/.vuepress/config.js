@@ -4,6 +4,7 @@ moment.locale("zh-cn");
 module.exports = {
   title: "Asher's Blog",
   head: [["link", { rel: "icon", href: "/favicon.ico" }]],
+  dest: "./dist",
   plugins: {
     "@vuepress/last-updated": {
       transformer: timestamp => moment(timestamp).format("LL")
@@ -77,7 +78,12 @@ module.exports = {
         }
       ],
       "/webpack/": [["/webpack/", "Webpack"]],
-      "/node/": [["/node/", "Node"]]
+      "/node/": [["/node/", "Node"]],
+      "/react/": [
+        ["/react/", "React入门"],
+        ["/react/redux", "Redux"],
+        ["/react/hooks", "Hooks"]
+    ]
     }
   },
   markdown: {
