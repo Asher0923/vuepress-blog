@@ -205,7 +205,7 @@ const dv = (
 
 - 如果在JSX中给元素添加类，需要使用classname代替class
 - 在JSX中可以直接使用JS代码，直接在JSX中通过{}中间写JS代码即可
-- 在JSX中只能使用表达式，但是不能出现语句
+- 在JSX中只能使用表达式，不能出现语句
 - 在JSX中注释语法：{/* 注释内容 */}
 
 ## 组件
@@ -221,7 +221,7 @@ const dv = (
   3. 返回的JSX，必须有一个根元素
   4. 组件的返回值使用()包裹，避免换行问题
 
-  ``` js
+  ``` jsx
   function Welcome(props) {
     return (
       <div className="shopping-list">
@@ -242,12 +242,12 @@ const dv = (
   
 - class创建（有状态组件）
 
-  ``` js
+  ```jsx
   class ShoppingList extends React.Component {
     constructor(props) { 
       super(props)
     }
-    // class创建的组件中 必须有rander方法 且显示return一个react对象或者null
+    // class创建的组件中 必须有render方法 且显示return一个react对象或者null
     render() {
       return (
         <div className="shopping-list">
@@ -259,6 +259,39 @@ const dv = (
         </div>
       )
     }
+  }
+  ```
+  
+- 区别
+
+  |      区别       | 函数组件 | 类组件 |
+  | :-------------: | :------: | :----: |
+  |   是否有this    |   没有   |   有   |
+  | 是否有生命周期  |   没有   |   有   |
+  | 是否有状态state |   没有   |   有   |
+  
+- 事件绑定
+
+  采取驼峰命名法，比如onClick用来绑定单击事件
+
+  事件传递参数：1、箭头函数   2、bind绑定
+
+  ```jsx
+  handleClick(params) {
+      console.log(params)
+  }
+  
+  handleClick1(params) {
+      console.log(params)
+  }
+  
+  render() {
+      return (
+          <div>
+              <h1 className="colorStyle" onClick={() => { this.handleClick1('箭头函数') }}>箭头函数</h1>
+              <h1 className="colorStyle" onClick={this.handleClick.bind(this, "bind")}>bind</h1>
+          </div>
+      )
   }
   ```
 
@@ -423,3 +456,319 @@ render() {
 > 一个组件从开始到最后消亡所经历的各种状态，就是一个组件的生命周期
 >
 > 组件的生命周期包含三个阶段：创建阶段（Mounting）、运行和交互阶段（Updating）、卸载阶段（Unmounting）
+
+- Mounting
+
+  该阶段的函数只执行一次
+
+  1. contructor()
+
+     获取props，初始化state
+
+  2. componentWillMount() --> UNSAFE_componentWillMount(16.9版本重命名)
+
+     组件被挂载到页面之前调用，在render函数之前调用，因此在这方法中设置setState不会触发重新渲染；
+
+     无法获取页面中的DOM对象；可以发送ajax请求获取数据（通常会在componentDidMount阶段请求）
+
+     注：在此阶段请求数据不能保证会在render之前完成，但是在服务端渲染时，componentDidMount不会被执行，因此可以在componentWillMount中发送请求
+
+  3. render()
+
+     渲染组件到页面中，无法获取页面中的DOM对象，不要在render方法中调用setState方法，否则会递归渲染
+
+  4. componentDidMount()
+
+     组件已经挂载到页面中，可以进行DOM操作，可以发送请求获取数据，可以通过setState修改状态的值，修改完会重新渲染
+
+- Updating
+
+  该阶段的函数执行多次，每当组件的props或state改变的时候，都会触发运行阶段的函数
+
+  1. componentWillReceiveProps()
+
+     组件接受到新的props前触发这个方法，可以通过this.props获取上一次的值，若需要响应属性的改变，可以通过对比this.props和nextProps，并在该方法中使用this.setState()处理改变状态
+
+     注意：修改state不会触发该方法
+
+     ```jsx
+     componentWillReceiveProps(nextProps) {
+       console.log('componentWillReceiveProps', this.props, nextProps)
+     }
+     ```
+
+  2. shouleComponentUpdate()
+
+     根据这个方法的返回值决定是否重新渲染组件，返回true重新渲染，返回false后续render方法不会调用；
+
+     通过某个条件渲染组件，降低组件渲染频率，提升组件性能；
+
+     注意：这个方法必须返回布尔值
+
+     ```jsx
+     shouldComponentUpdate(nextProps, nextState) {
+       console.log('shouldComponentUpdate', nextProps, nextState)
+       return nextState.count % 2 === 0
+     }
+     ```
+
+  3. componentWillUpdate()
+
+     组件将要更新，不能修改状态，否则会循环渲染
+
+     ```jsx
+     componentWillUpdate(nextProps, nextState) {
+       console.log('componentWillUpdate', nextProps, nextState)
+     }
+     ```
+
+  4. render()
+
+     重新渲染组件，与Mounting阶段的render是同一个函数，只要组件的属性或状态改变了，这个方法就会重新执行
+
+  5. componentDidUpdate()
+
+     组件已经被更新，参数为旧的属性和状态对象
+
+     ```jsx
+     componentDidUpdate(prevProps, prevState) {
+       console.log('componentDidUpdate', prevProps, prevState)
+     }
+     ```
+
+- Unmounting
+
+  组件销毁阶段：只要组件不再被渲染到页面中，这个方法就会被调用，只能执行一次
+
+  1. componentWillUnmount()
+
+     卸载组件的时候，执行清理工作，比如清除定时器，清除componentDidMount创建的DOM对象
+
+## 受控组件和非受控组件
+
+- 受控组件
+
+  1. 设置value值，value由state控制
+
+  2. value值一般在onChange事件中通过setState进行修改
+
+     ```jsx
+     constructor(props) {
+         super(props)
+         this.state = {
+             name: "asher11"
+         }
+     }
+     
+     handleChange(e) {
+         this.setState({
+             name: e.target.value
+         })
+     }
+     
+     render() {
+         return (
+             <div>
+                 <input type="text" onChange={this.handleChange} value={this.state.name} />
+             </div>
+         )
+     }
+     ```
+
+- 非受控组件
+
+  1. 不设置value值
+
+  2. 通过ref获取dom节点然后再去value值
+
+     ```jsx
+     constructor(props) {
+         super(props)
+         this.handleSubmit = this.handleSubmit.bind(this);
+         this.input = React.createRef();
+     }
+     
+     handleSubmit(event) {
+         alert('A name was submitted: ' + this.input.current.value);
+         event.preventDefault();
+     }
+     
+     render() {
+         return (
+             <form onSubmit={this.handleSubmit}>
+                 <label>
+                     Name:
+                     <input defaultValue="Bob" type="text" ref={this.input} />
+                 </label>
+                 <input type="submit" value="Submit" />
+             </form>
+         )
+     }
+     ```
+
+## 单向数据流
+
+> React中采用自上而下的单向数据流，只能由父组件传递到子组件，若子组件想传递参数到父组件，需要通过父组件传递过来的回调函数，子组件调用回调函数将数据作为参数传递给父组件
+
+## 路由
+
+- 基本使用
+
+  1. 安装
+
+     ```
+     npm install react-router-dom --save-dev
+     ```
+
+  2. src目录下新建路由文件 Router.js
+
+     ```jsx
+     import React from 'react'
+     import { Route, Switch, withRouter, BrowserRouter as Router } from 'react-router-dom'
+     import Child1 from './components/child'
+     import Child2 from './components/child2'
+     import Parent from './components/parent'
+     
+     class Routers extends React.Component {
+     
+       render() {
+         return (
+           <Router>
+             <Switch>
+               <Route path="/" exact component={withRouter(Parent)}></Route>
+               <Route path="/child1" exact component={withRouter(Child1)}></Route>
+               <Route path="/child2" exact component={withRouter(Child2)}></Route>
+             </Switch>
+           </Router>
+         )
+       }
+     
+     }
+     
+     export default Routers
+     ```
+
+  3. 修改App.js
+
+     ```jsx
+     import React from 'react';
+     import './App.css';
+     import Router from './router'
+     
+     function App() {
+       return (
+         <div className="App">
+           <Router></Router>
+         </div>
+       );
+     }
+     
+     export default App;
+     ```
+
+  4. 组件中使用LInk跳转
+
+     ```jsx
+     import React from "react"
+     import { Link } from "react-router-dom"
+     
+     class Parent extends React.Component {
+       constructor(props) {
+         super(props)
+       }
+     
+       render() {
+         return (
+           <div>
+             <h1>parent</h1>
+             <Link to="/child1">组件1</Link>
+             <br />
+             <Link to="/child2">组件2</Link>
+           </div>
+         )
+       }
+     }
+     
+     export default Parent
+     ```
+
+  5. 代码解析
+
+     a.路由分为两种BrowserRouter 和 HashRouter
+
+     b.Switch标签代表只匹配一个路由
+
+     c.Link标签类似a标签，to属性即可理解为href属性
+
+     d.Route的path表示属性匹配路径，exact表示路径必须与path值完全一致，component表示匹配后渲染的组件
+
+- 路由传参
+
+  1. params
+
+     路由文件
+
+     ```jsx
+     <Route path="/child1/:id" exact component={withRouter(Child1)}></Route>
+     ```
+
+     Link处
+
+     ```jsx
+     {/* html方式 */}
+     <Link to={'/child1/' + 2}>组件1</Link>
+      {/* js方式 */}
+      this.props.history.push('/child1/' + 33)
+     ```
+
+     取参
+
+     ```js
+     this.props.match.params.id
+     ```
+
+  2. query
+
+     路由文件不用配置
+
+     Link处
+
+     ```jsx
+     {/* html方式 */}
+     <Link to = {{ pathname: "/child2", query: { name: "asher" } }}>组件2</Link>
+     {/* js方式 */}
+     <button type="button" onClick={() => { this.props.history.push({ pathname: '/child2', query: { name: "asher" } }) }}>跳转至组件2</button>
+     ```
+
+     取参
+
+     ```js
+     this.props.location.query.name
+     ```
+
+  3. state
+
+     路由文件不用配置
+
+     Link处
+
+     ```jsx
+     {/* html方式 */}
+     <Link to = {{ pathname: "/child2", state: { name: "asher" } }}>组件2</Link>
+     {/* js方式 */}
+     <button type="button" onClick={() => { this.props.history.push({ pathname: '/child2', state: { name: "asher" } }) }}>跳转至组件2</button>
+     ```
+
+     取参
+
+     ```
+     this.props.location.state.name
+     ```
+
+     注意：query在页面刷新后参数会消失，state不会。query和state都是隐式传递，不会在地址栏展示
+  
+## 高阶组件
+
+  
+
+  
