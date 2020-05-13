@@ -71,31 +71,15 @@ title: 'Redux'
     switch (action.type) {
       case 'send_type':
         return Object.assign({}, state, action)
-        break;
   
       default:
         return state
-        break;
     }
   }
   
   export default reducer
   ```
-
-- combineReducers将多个不同reducer合并成一个，给createStore调用
-
-  ```js
-  import { combineReducers } from 'redux'
-  import reducer1 from './reducer1'
-  import reducer2 from './reducer2'
-  import reducer3 from './reducer3'
   
-  export default combineReducers({
-    reducer1,
-    reducer2,
-    reducer3
-  })
-  ```
 
 ## Store
 
@@ -157,13 +141,6 @@ title: 'Redux'
   export default Child 
   ```
 
-- createStore
-
-  ```
-  // 可传递三个参数
-  ```
-
-  
 
 ## React-redux
 
@@ -291,14 +268,100 @@ title: 'Redux'
         return {
           count: state.count + 1
         }
-        break;
       default:
         return state
-        break;
     }
   }
   
   export default reducer
   ```
 
+## CombineReducers
+
+- combineReducers这个函数是为了拆分不同的reducer，然后各自的reducer可以独立去操作state中属于自己的部分
+
+- combineReducers里面传递一个参数，参数类型是Object
+
+- key可以自己定义，value就是单个的reducer
+
+- 最终combineReducers会把各自独立的reducer进行整合，然后生成最终的reducer，传递到createStore中
+
+  > 1. 通过combineReducers包裹之后的reducer会按照顺序依次调用
+  > 2. 每一次reducer调用传递过来的state，都是上一次的state，每个字render互不干扰
+
+  ```js
+  // reducerA.js
+  const initState = {}
+  
+  const sendData = {
+    name: 'asher'
+  }
+  
+  const reducer = (state = initState, action) => {
+    switch (action.type) {
+      case 'send_type':
+        return Object.assign({}, state, sendData)
+      default:
+        return state
+    }
+  }
+  
+  export default reducer
+  ```
+
+  ```js
+  // reducerB.js
+  const initState = {}
+  
+  const addData = {
+    name: 'ASHER'
+  }
+  
+  const reducer = (state = initState, action) => {
+    switch (action.type) {
+      case 'add_type':
+        return Object.assign({}, state, addData)
+      default:
+        return state
+    }
+  }
+  
+  export default reducer
+  ```
+
+  ```js
+  // reducers/index.js
+  import reducerA from './reducerA'
+  import reducerB from './reducerB'
+  import { combineReducers } from 'redux'
+  
+  const reducers = combineReducers({
+    reducerA,
+    reducerB
+  })
+  
+  export default reducers
+  ```
+
+  ```jsx
+  // 组件中mapStateToProps
+  const mapStateToProps = (state) => {  
+    return state.reducerA
+  }
+  ```
+
+## 中间件
+
+> 简单理解就是一种独立运行于各个框架之间的代码，本质是一个函数，可访问请求对象和响应对象，可对请求进行拦截处理，处理后再将控制权向下传递，也可以终止请求，向客户端做出响应
+>
+> 在Redux中，中间件就是运行在action发送出去，到达reducer之间的一段代码，就可以把代码调用流程变为action->middlewares->reducer，这种机制可以让我们改变数据流，实现例如异步action，action过滤，日志输入，异常报告等功能
+>
+> redux提供了applyMiddleware的方法，可以应用多个中间件
+
 ## Rudux-thunk
+
+## Redux-Saga
+
+> redux-saga是一个用于管理应用程序Side Effect副作用（例如：异步操作等）的library，它的目的是让副作用管理更加的简单，执行更高效
+>
+> redux-saga就是redux的一个中间件，可以通过正常的redux action从主应用程序启动，暂停和取消，可以访问完整的redux state，也能够dispatch redux action
