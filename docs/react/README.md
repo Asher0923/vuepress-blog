@@ -666,7 +666,7 @@ render() {
      export default App;
      ```
 
-  4. 组件中使用LInk跳转
+  4. 组件中使用Link跳转
 
      ```jsx
      import React from "react"
@@ -767,6 +767,112 @@ render() {
 
      注意：query在页面刷新后参数会消失，state不会。query和state都是隐式传递，不会在地址栏展示
   
+## 路由懒加载
+
+- react-loadable
+
+  ```js
+  // src/util/loadable.js
+  import React from 'react';
+  import Loadable from 'react-loadable';
+  
+  //通用的过场组件
+  const loadingComponent =()=>{
+      return (
+          <div>loading</div>
+      ) 
+  }
+  
+  //过场组件默认采用通用的，若传入了loading，则采用传入的过场组件
+  export default (loader,loading = loadingComponent)=>{
+      return Loadable({
+          loader,
+          loading
+      });
+  }
+  ```
+
+  ```js
+  import React, { Fragment } from 'react'
+  import { BrowserRouter as Router, Route } from 'react-router-dom'
+  import loadable from '../util/loadable'
+  
+  const Home = loadable(()=>import('@pages/home'))
+  
+  const Routes = () => (
+      <Router>
+          <Route path="/home" component={Home}/>
+      </Router>
+  );
+  
+  export default Routes
+  ```
+
+- React.lazy  React.Suspense 
+
+  ```js
+  import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+  import React, { Suspense, lazy } from 'react';
+  
+  const Home = lazy(() => import('./routes/Home'));
+  const UserManage = lazy(() => import('./routes/UserManage'));
+  const AssetManage = lazy(() => import('./routes/AssetManage'));
+  const AttendanceManage = lazy(() => import('./routes/AttendanceManage'));
+  
+  const App = () => (
+    <Router>
+      <Suspense fallback={<div>Loading...</div>}>
+        <Switch>
+          <Route exact path="/" component={Home}/>
+          <Route path="/userManage" component={UserManage}/>
+          <Route path="/assetManage" component={AssetManage}/>
+          <Route path="/attendanceManage" component={AttendanceManage}/>
+        </Switch>
+      </Suspense>
+    </Router>
+  )
+  ```
+
+## Context
+
+- 通过组件树提供了一个传递数据的方法，从而避免了在每一个层级手动传递props属性
+
+- React.createContext：创建一个上下文的容器（组件），defaultValue可以设置共享的默认数据
+
+  ```js
+  const {Provider, Consumer} = React.createContext(defaultValue)
+  ```
+
+- Provider(生产者)
+
+  每个 Context 对象都会返回一个 Provider React 组件，它允许消费组件订阅 context 的变化
+
+  ```jsx
+  <Provider value={/*共享的数据*/}>
+      /*里面可以渲染对应的内容*/
+  </Provider>
+  ```
+
+- Consumer(消费者)
+
+  ```jsx
+  <Consumer>
+    {value => /*根据上下文进行渲染相应内容*/}
+  </Consumer>
+  ```
+
+- ```
+  // context.js
+  import { createContext } from 'react'
+  export const { Provider, Consumer } = createContext()
+  ```
+
+  ```
+  
+  ```
+
+  
+
 ## 高阶组件
 
   

@@ -190,7 +190,9 @@ title: 'Redux'
   2. mapDispatchToProps(dispatch, ownProps)
 
      将action作为props绑定到我们自己的函数中（需要发送action的组件传递这个参数）
-
+   
+  3. 不传参数，可以通过this.props.dispatch来分发action
+  
   ```jsx
   // 接收组件
   import React from 'react'
@@ -216,9 +218,9 @@ title: 'Redux'
     return state
   }
   
-  export default connect(mapStateToProps)(Child2)
+export default connect(mapStateToProps)(Child2)
   ```
-
+  
   ```jsx
   //发送组件
   import React from 'react'
@@ -253,9 +255,9 @@ title: 'Redux'
     }
   }
   // 此组件为发送方，需要实现connect的第二个参数，第一个参数传null
-  export default connect(null, mapDispatchToProps)(Child)
+export default connect(null, mapDispatchToProps)(Child)
   ```
-
+  
   ```jsx
   // reducer
   const initState = {
@@ -350,6 +352,24 @@ title: 'Redux'
   }
   ```
 
+## Redux-Dev-Tool
+
+> 安装完redux-dev-tool之后，需要在createStore函数中配置，由于createStore中会配置其他中间件，所以需要利用compose增强函数来实现
+
+```js
+import { createStore, applyMiddleware, compose } from 'redux'
+import thunk from 'redux-thunk'
+import reducers from './reducers/index'
+
+const middleware = [thunk]
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({}) : compose
+
+// createStore接收三个参数  reducer   初始时的state  中间件
+const store = createStore(reducers, {}, composeEnhancers(applyMiddleware(...middleware)))
+
+export default store
+```
+
 ## 中间件
 
 > 简单理解就是一种独立运行于各个框架之间的代码，本质是一个函数，可访问请求对象和响应对象，可对请求进行拦截处理，处理后再将控制权向下传递，也可以终止请求，向客户端做出响应
@@ -360,8 +380,203 @@ title: 'Redux'
 
 ## Rudux-thunk
 
+> Redux Store仅支持同步数据流，使用thunk等中间件可以帮助redux实现异步性，可以使用thunk 让actionCreator 派遣函数或Promise，而不是返回action对象，在没有thunk的时候，我们通常都是利用componentDidMount等生命周期调取接口后再dispatch，按照thunk之后，可以在action中直接调用接口，增加可复用性
+
+- 不添加redux-thunk
+
+  ```js
+  // 组件
+  import { get } from '../store/actions/sendAction'
+  
+  componentDidMount() {
+      fetch('http://jsonplaceholder.typicode.com/posts').then(res => res.json()).then(data => {
+          this.props.getAction(data)
+      })
+  }
+  
+  const mapDispatchToProps = (dispatch) => {
+      return {
+          getAction: (data) => dispatch(get(data))
+      }
+  }
+  
+  // action 
+  export const get = (data) => {
+      return {
+          type: 'get_type',
+          val: {
+              data
+          }
+      }
+  }
+  ```
+
+- 添加redux-thunk
+
+  ```js
+  // 组件
+  import { get } from '../store/actions/sendAction'
+  
+  componentDidMount() {
+      this.props.getAction()
+  }
+  
+  const mapDispatchToProps = (dispatch) => {
+      return {
+          getAction: () => dispatch(get())
+      }
+  }
+  
+  // action
+  export const get = () => {
+      return (dispatch) => {
+          fetch('http://jsonplaceholder.typicode.com/posts').then(res => res.json()).then(data => {
+              dispatch({
+                  type: "get_type",
+                  val: {
+                      data
+                  }
+              })
+          })
+      }
+  } 
+  
+  // store
+  import { createStore, applyMiddleware, compose } from 'redux'
+  import thunk from 'redux-thunk'
+  import reducers from './reducers/index'
+  
+  const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({}) : compose
+  
+  // createStore接收三个参数  reducer   初始时的state  中间件
+  const store = createStore(reducers, {}, composeEnhancers(applyMiddleware(thunk)))
+  
+  export default store
+  ```
+
 ## Redux-Saga
 
 > redux-saga是一个用于管理应用程序Side Effect副作用（例如：异步操作等）的library，它的目的是让副作用管理更加的简单，执行更高效
 >
 > redux-saga就是redux的一个中间件，可以通过正常的redux action从主应用程序启动，暂停和取消，可以访问完整的redux state，也能够dispatch redux action
+>
+> redux-saga使用了ES6的generator功能，让异步流程更加易于读取，写入和测试，通过这种方式让异步看起来更加像标准同步的js代码
+
+- createSagaMiddleware()
+
+  创建一个Redux middleware，并将Sagas连接到Redux Store，通过createStore第三个参数传入
+
+- middleware.run(saga,...args)
+
+  动态的运行saga，只能用于applyMiddleware阶段之后执行Saga
+
+- saga辅助函数
+
+  - takeEvery
+
+    触发多少次就会执行多少次异步action
+
+  - takeLatest
+
+    自动取消之前所有启动但仍在执行的异步任务，保证最后一次的异步action执行
+
+  - throttle
+
+    第一个参数为毫秒值，在执行一个异步任务之后，但是同时还会接受一次action的异步任务，放在底层的buffer中，最多保留最近一个，但在设置的第一个参数毫秒时间内不会执行异步任务
+
+- Effect创建器
+
+  - select(selector,...args)
+
+    获取redux中的state，如果调用select的参数为空（即yield select()），那么effect会取得完整的state（与调用getState()的结果相同）
+
+  - call(fn,...args)
+
+    创建一个Effect描述信息，用来命令middleware以参数args调用函数fn
+
+  - take(pattern)
+
+    阻塞的方法，用来匹配发出的action
+
+  - put(action)
+
+    用来命令middleware向Store发起一个action，这个effect是非阻塞型的
+
+```js
+// store
+import { createStore, applyMiddleware, compose } from 'redux'
+import reducers from './reducers/index'
+// 引入redux-saga中的createSagaMiddleware函数
+import createSagaMiddleware from 'redux-saga'
+//导入saga.js
+import rootSaga from './saga'
+// 执行
+const sagaMiddleware = createSagaMiddleware()
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({}) : compose
+
+// createStore接收三个参数  reducer   初始时的state  中间件
+const store = createStore(reducers, {}, composeEnhancers(applyMiddleware(sagaMiddleware)))
+// 执行rootSaga
+sagaMiddleware.run(rootSaga)
+
+export default store
+```
+
+```js
+// saga.js
+import { takeEvery, takeLatest, throttle, put, call } from 'redux-saga/effects'
+
+function* rootSaga() {
+  yield takeEvery('get_type', getData) // dispatch 对应type的action时，触发函数
+  yield takeLatest('get_type', getData)
+  yield throttle(0, 'get_type', getData)
+}
+
+function* getData() {
+  const res = () => {
+    return fetch('http://jsonplaceholder.typicode.com/posts').then(res => res.json()).then((res) => {
+      return res
+    })
+  }
+  const data = yield call(res)
+  // 获取数据后触发此action，经reducer传给store
+  yield put({
+    type: 'update_type',
+    val: {
+      data
+    }
+  })
+}
+
+export default rootSaga
+```
+
+```js
+// action
+// 获取
+export const get = {
+  type: 'get_type',
+}
+// 更新
+export const update = (data) => {
+  return {
+    type: 'update_type',
+    val: {
+      data
+    }
+  } 
+}
+```
+
+- all
+
+  ```js
+  import { all } from 'redux-saga'
+  import sagaOne from './sagaOne'
+  import sagaTwo from './sagaTwo'
+  
+  export function* rootSaga() {
+    yield all([sagaOne(), sagaTwo()])
+  }
+  ```
