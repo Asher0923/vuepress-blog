@@ -33,85 +33,85 @@ React起源于Facebook的内部项目，13年5月开源，是用来构建UI的Ja
 
 - 如果两棵树的根元素类型不同，React会销毁旧树，创建新树
 
-  ``` html
-  <!-- 旧树 -->
+  ``` jsx
+  {/* 旧树 */}
   <div>
     <Counter />
   </div>
-  <!-- 新树 -->
+  {/* 新树 */}
   <span>
   	<Counter />
   </span>
-  <!-- 执行过程：destory Counter -> insert Counter -->
+  {/* 执行过程：destory Counter -> insert Counter */}
   ```
   
 - 对于类型相同的React DOM元素，React会对比两者的属性是否相同，只更新不同的属性，当处理完这个DOM节点，React会递归处理子节点
 
-  ``` html
-  <!-- 旧 -->
+  ``` jsx
+  {/* 旧 */}
   <div className="before" title="stuff" />
-  <!-- 新 -->
+  {/* 新 */}
   <div className="after" title="stuff" />
-  <!-- 只更新：className 属性 -->
+  {/* 只更新：className 属性 */}
   
-  <!-- 旧 -->
+  {/* 旧 */}
   <div style={{color: 'red', fontWeight: 'bold'}} />
-  <!-- 新 -->
+  {/* 新 */}
   <div style={{color: 'green', fontWeight: 'bold'}} />
-  <!-- 只更新：color属性 -->
+  {/* 只更新：color属性 */}
   ```
 
 - 在子节点的后面添加一个节点，这时候两棵树的转化工作执行的很好
 
-  ``` html
-  <!-- 旧 -->
+  ``` jsx
+  {/* 旧 */}
   <ul>
       <li>first</li>
       <li>second</li>
   </ul>
-  <!-- 新 -->
+  {/* 新 */}
   <ul>
       <li>first</li>
       <li>second</li>
       <li>third</li>
   </ul>
-  <!-- 执行过程：React会匹配新旧两个<li>first</li>，匹配两个<li>second</li>，然后添加 <li>third</li> -->
+  {/* 执行过程：React会匹配新旧两个<li>first</li>，匹配两个<li>second</li>，然后添加 <li>third</li> */}
   ```
 
 - 但是如果在开始位置插入一个元素
 
-  ``` html
-  <!-- 旧 -->
+  ``` jsx
+  {/* 旧 */}
   <ul>
       <li>second</li>
       <li>third</li>
   </ul>
-  <!-- 新 -->
+  {/* 新 */}
   <ul>
       <li>first</li>
       <li>second</li>
       <li>third</li>
   </ul>
-  <!-- 在没有key属性时执行过程：React将改变每一个子节点删除重新创建，而非保持<li>second</li>，<li>third</li>不变 -->
+  {/* 在没有key属性时执行过程：React将改变每一个子节点删除重新创建，而非保持<li>second</li>，<li>third</li>不变 */}
   ```
 
 - key属性
 
   为了解决以上问题，React提供了一个key属性，当子节点带有key属性，React会通过key来匹配原始树和后来的树
 
-  ``` html
-  <!-- 旧 -->
+  ``` jsx
+  {/* 旧 */}
   <ul>
       <li key="1">second</li>
       <li key="2">third</li>
   </ul>
-  <!-- 新 -->
+  {/* 新 */}
   <ul>
       <li key="0">first</li>
       <li key="1">second</li>
       <li key="2">third</li>
   </ul>
-  <!-- 执行过程：React知道带有key'0'的元素时新的，对于'1'和'2'仅仅移动位置即可 -->
+  {/* 执行过程：React知道带有key'0'的元素时新的，对于'1'和'2'仅仅移动位置即可 */}
   ```
   
 
@@ -269,12 +269,12 @@ const dv = (
   |   是否有this    |   没有   |   有   |
   | 是否有生命周期  |   没有   |   有   |
   | 是否有状态state |   没有   |   有   |
-  
-- 事件绑定
 
-  采取驼峰命名法，比如onClick用来绑定单击事件
+## 事件
 
-  事件传递参数：1、箭头函数   2、bind绑定
+- 采取驼峰命名法，比如onClick用来绑定单击事件
+
+- 事件传递参数：1、箭头函数   2、bind绑定
 
   ```jsx
   handleClick(params) {
@@ -871,7 +871,6 @@ render() {
   
   ```
 
-  
 
 ## 高阶组件
 
