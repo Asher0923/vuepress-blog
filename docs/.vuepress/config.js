@@ -54,7 +54,8 @@ module.exports = {
           ]
         },
         ["/web/ES6", "ES6"],
-        ["/web/http", "HTTP"]
+        ["/web/http", "HTTP"],
+        ["/web/路由", "路由"]
       ],
       "/more/": [
         {
@@ -83,7 +84,12 @@ module.exports = {
         ["/react/", "React入门"],
         ["/react/redux", "Redux"],
         ["/react/hooks", "Hooks"]
-    ]
+      ],
+      "/vue/": [
+        ["/vue/", "Vue入门"],
+        ["/vue/vueRouter", "Vue Router"],
+        ["/vue/vuex", "Vuex"]
+      ]
     }
   },
   markdown: {

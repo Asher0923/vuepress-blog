@@ -6,7 +6,7 @@ title: 'Hooks'
 
 > Hooks的单词意思是钩子，React Hooks意思就是尽量使用纯函数组件，如果需要外部功能或副作用，就是用Hooks把外部代码“钩”进来
 
-## useState()
+## useState
 
 - 纯函数组件没有状态，userState()用于为函数组件引入状态
 

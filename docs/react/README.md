@@ -861,19 +861,133 @@ render() {
   </Consumer>
   ```
 
-- ```
+- ```js
   // context.js
   import { createContext } from 'react'
   export const { Provider, Consumer } = createContext()
   ```
 
+  ```jsx
+  // Parent.jsx
+  import React, { Component } from 'react'
+  import { Provider } from './context'
+  import Son from './Son'
+  
+  export default class Parent extends Component {
+    render() {
+      let name = "asher"
+      return (
+        <Provider value={name}>
+          <div>
+            <span>父组件定义的值： {name}</span>
+            <Son />
+          </div>
+        </Provider>
+      )
+    }
+  }
   ```
   
+  ```jsx
+  // Son.jsx
+  import React, { Component } from 'react'
+  import { Consumer } from './context'
+  import Grandson from './Grandson'
+  
+  export default class Son extends Component {
+    render() {
+      return (
+        <Consumer>
+          {(name) =>
+            <div>
+              <span>子组件获取父组件的值：{name}</span>
+              <Grandson />
+            </div>
+          }
+        </Consumer>
+      )
+    }
+  }
   ```
-
+  
+  ```jsx
+  // Grandson.jsx
+  import React, { Component } from 'react'
+  import { Consumer } from './context'
+  
+  export default class Grandson extends Component {
+    render() {
+      return (
+        <Consumer>
+          {
+            (name) =>
+              <div>
+                <span>孙子组件获取父组件的值：{name}</span>
+              </div>
+          }
+        </Consumer>
+      )
+    }
+  }
+  ```
 
 ## 高阶组件
 
-  
+> 高阶组件(HOC)是React中用于复用组件逻辑的一种高级技巧，HOC自身不是React API的一部分，是一种基于React的组合特性而形成的设计模式
+>
+> 高阶组件是参数为组件，返回值为新组件的函数
 
-  
+```jsx
+// 实现一个高阶组件 hocFactroy.js
+import React, { Component } from 'react'
+const HOCFactory = (WrappedComponent) => {
+  class HOC extends Component {
+    constructor(props) {
+      super(props)
+      this.state = {
+        x: 0,
+        y: 0
+      }
+    }
+
+    getMouse = (event) => {
+      this.setState({
+        x: event.clientX,
+        y: event.clientY
+      })
+    }
+    render() {
+      return (
+        <>
+          <div onMouseMove={this.getMouse}>
+            {/* 1透传所有props  2增加属性 */}
+            <WrappedComponent {...this.props} mouseValue={this.state}></WrappedComponent>
+          </div>
+        </>)
+    }
+  }
+  return HOC
+}
+
+export default HOCFactory
+```
+
+```jsx
+// 使用高阶组件
+import React, { Component } from 'react'
+import HOCFactory from './hocFactroy'
+
+class ComA extends Component {
+  render() {
+    const { x, y } = this.props.mouseValue
+    return (
+      <div>
+        组件A 鼠标位置({x},{y})
+      </div>
+    )
+  }
+}
+
+export default HOCFactory(ComA)
+```
+

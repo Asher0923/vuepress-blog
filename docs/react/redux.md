@@ -190,7 +190,7 @@ title: 'Redux'
   2. mapDispatchToProps(dispatch, ownProps)
 
      将action作为props绑定到我们自己的函数中（需要发送action的组件传递这个参数）
-   
+  
   3. 不传参数，可以通过this.props.dispatch来分发action
   
   ```jsx
@@ -218,6 +218,8 @@ title: 'Redux'
     return state
   }
   
+  ```
+
 export default connect(mapStateToProps)(Child2)
   ```
   
@@ -257,7 +259,7 @@ export default connect(mapStateToProps)(Child2)
   // 此组件为发送方，需要实现connect的第二个参数，第一个参数传null
 export default connect(null, mapDispatchToProps)(Child)
   ```
-  
+
   ```jsx
   // reducer
   const initState = {
