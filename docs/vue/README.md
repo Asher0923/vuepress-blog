@@ -883,10 +883,255 @@ title: 'Vue入门'
   </script>
   ```
 
-## mixin
+## mixins
+
+- 局部混入
+
+  对于两个功能差不多，但是又有一些区别的组件时可以使用局部混入
+
+  ```js
+  // mixin.js
+  export default {
+    data() {
+      return {
+        name: "m-mixin-asher"
+      };
+    },
+    created() {
+      console.log("m-mixin-created");
+    }
+  };
+  ```
+
+  ```vue
+  // 组件中使用
+  <script>
+  import myMixin from "./mixin";
+  export default {
+    mixins: [myMixin],
+    created() {
+      console.log("my-created");
+    }
+  };
+  </script>
+  ```
+
+- 全局混入
+
+  一旦使用全局混入，将影响每一个之后创建的Vue实例
+  
+  ```js
+  // 新建mixin.js
+  export default {
+    data() {
+      return {
+        name: "mixin-asher"
+      };
+    },
+    created() {
+      console.log("mixin-created");
+    },
+    methods: {
+      show() {
+        console.log("mixin-show");
+      }
+    }
+  };
+  ```
+  
+  ```js
+  // main.js
+  import mixins from './components/mixins/index'
+  Vue.mixin(mixins)
+  ```
+  
+- 全局混入中的钩子函数会在局部混入之前执行，最后才是组件自身的钩子函数
 
 ## nextTick
 
+- Vue在更新DOM时是异步执行的，只要侦听到数据变化，Vue将开启一个队列，并缓冲在同一事件循环中发生的所有数据变更。如果同一个watcher被多次触发，只会被推入到队列中一次。
+
+- 当修改组件的某一个属性时，组件不会立即重新渲染，当刷新队列时，组件会在下一个事件循环"tick"中更新，如果需要在数据变化之后立即调用就要使用Vue.nextTick(callback)
+
+- 组件中使用vm.$nextTick()实例方法非常方便，不需要全局Vue，并且回调函数中的this将自动绑定到当前的Vue实例
+
+  ```js
+  Vue.component('example', {
+    template: '<span>{{ message }}</span>',
+    data: function () {
+      return {
+        message: '未更新'
+      }
+    },
+    methods: {
+      updateMessage: function () {
+        this.message = '已更新'
+        console.log(this.$el.textContent) // => '未更新'
+        this.$nextTick(function () {
+          console.log(this.$el.textContent) // => '已更新'
+        })
+      }
+    }
+  })
+  ```
+
+  因为$nextTick()返回一个Promise对象，所以可以用async/await语法完成相同的事
+
+  ```js
+  methods: {
+    updateMessage: async function () {
+      this.message = '已更新'
+      console.log(this.$el.textContent) // => '未更新'
+      await this.$nextTick()
+      console.log(this.$el.textContent) // => '已更新'
+    }
+  }
+  ```
+
+## 动态组件
+
+> 通过使用保留的component标签，动态的绑定is属性，可以让多个组件使用同一个挂载点，并动态切换，根据v-bind:is="组件名"中的组件名去自动匹配组件，匹配不到则不显示
+
+```vue
+<template>
+  <p id="app">
+   <component :is="currentView"></component>
+   <button @click="changeView('A')">切换到A</button>
+   <button @click="changeView('B')">切换到B</button>
+   <button @click="changeView('C')">切换到C</button>
+  </p>
+</template>
+
+<script>
+var app = new Vue({
+ el: '#app',
+ data: {
+  currentView: 'comA'
+ },
+ methods: {
+  changeView: function(data){
+   this.currentView = 'com'+ data　　//动态地改变currentView的值就可以动态挂载组件了。
+  }
+ },
+ components: {
+  comA: {
+   template: '<p>组件A</p>'
+  },
+  comB: {
+   template: '<p>组件B</p>'
+  },
+  comC: {
+   template: '<p>组件C</p>'
+  }
+ }
+});
+</script>
+```
+
 ## keep-alive
 
+- keep-alive是一个抽象组件，自身不会渲染一个DOM元素，也不会出现在父组件链中，使用keep-alive包裹动态组件时，会缓存不活动的组件实例，而不是销毁它们
+
+- 属性
+
+  1. include  - 字符串或正则表达式。只有名称匹配的组件会被缓存
+  2. exclude  - 字符串或正则表达式。任何名称匹配的组件都不会被缓存
+  3. max   - 数字。最多可以缓存多少组件实例
+
+- 钩子函数
+
+  1. activated  keep-alive组件激活时调用
+  2. deactivated keep-alive组件停用时调用
+
+- 使用
+
+  1. 动态组件中使用
+
+     ```vue
+     <!-- 基本 -->
+     <keep-alive>
+       <component :is="view"></component>
+     </keep-alive>
+     <!-- 多个条件判断的子组件 -->
+     <keep-alive>
+       <comp-a v-if="a > 1"></comp-a>
+       <comp-b v-else></comp-b>
+     </keep-alive>
+     <!-- 逗号分隔字符串 -->
+     <keep-alive include="a,b">
+       <component :is="view"></component>
+     </keep-alive>
+     <!-- 正则表达式 (使用 `v-bind`) -->
+     <keep-alive :include="/a|b/">
+       <component :is="view"></component>
+     </keep-alive>
+     <!-- 数组 (使用 `v-bind`) -->
+     <keep-alive :include="['a', 'b']">
+       <component :is="view"></component>
+     </keep-alive>
+     ```
+
+     匹配首先检查组件自身的 `name` 选项，如果 `name` 选项不可用，则匹配它的局部注册名称 (父组件 `components` 选项的键值)。匿名组件不能被匹配。
+
+  2. vue-router中使用
+
+     ```vue
+     <template>
+       <div id="app">
+         <!--缓存想要缓存的页面，实现后退不刷新-->
+         <!--加上v-if的判断，可以自定义想要缓存的组件，自定义在router里面-->
+         <keep-alive>
+           <router-view v-if="$route.meta.keepAlive"></router-view>
+         </keep-alive>
+         <router-view v-if="!$route.meta.keepAlive"></router-view>
+         
+         <!--这里是其他的代码-->
+       </div>
+     </template>
+     ```
+
 ## 自定义指令
+
+- 全局注册
+
+  ```js
+  Vue.directive('xxx',{
+  	inserted: function(el){
+          //指令属性
+      }
+  })
+  ```
+
+- 局部注册
+
+  ```js
+  var app = new Vue({
+      el: "#app",
+      directives: {
+          xxx: {
+              //指令属性
+          }
+      }
+  })
+  ```
+
+- 钩子函数
+
+  - bind：只调用一次，指令第一次绑定到元素时调用，在这里可以进行一次性的初始化设置
+  - inserted：被绑定元素插入父节点时调用(仅保证父节点存在，但不一定已被插入到文档中)
+  - update：所在组件的VNode更新时调用，但是可能发生在其子VNode更新之前，指令的值可能发生了改变，也可能没有
+  - componentUpdated：指令所在组件的VNode及其子VNode全部更新后调用
+  - unbind：只调用一次，指令与元素解绑时调用
+
+- 钩子函数参数
+
+  - el：指令所绑定的元素，可以用啦直接操作DOM
+  - binding：一个对象，包括以下属性
+    1. name：指令名，不包括v-
+    2. value：指令的绑定值
+    3. oldValue：指令绑定的前一个值，仅在update和componentUpdated钩子中可用。无论值是否改变都可用
+    4. expression：字符串形式的指令表达式
+    5. arg：传给指令的参数
+    6. modifiers：一个包含修饰符的对象
+  - vnode：Vue编译生成的虚拟节点
+  - oldVnode：上一个虚拟节点，仅在update和componentUpdated钩子中可用
