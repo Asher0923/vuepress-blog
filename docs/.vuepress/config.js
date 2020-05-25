@@ -7,7 +7,7 @@ module.exports = {
   dest: "./dist",
   plugins: {
     "@vuepress/last-updated": {
-      transformer: timestamp => moment(timestamp).format("LL")
+      transformer: timestamp => moment(timestamp).format("L")
     }
   },
   themeConfig: {

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>JS基础-模块化 | Asher&#39;s Blog</title>
+    <meta name="generator" content="VuePress 1.4.1">
+    <link rel="icon" href="/favicon.ico">
+    <meta name="description" content="">
+    <link rel="preload" href="/assets/css/0.styles.6f3fa435.css" as="style"><link rel="preload" href="/assets/js/app.60367870.js" as="script"><link rel="preload" href="/assets/js/2.4a418fba.js" as="script"><link rel="preload" href="/assets/js/36.7fe28701.js" as="script"><link rel="prefetch" href="/assets/js/10.82adb33b.js"><link rel="prefetch" href="/assets/js/11.c4ce7bd8.js"><link rel="prefetch" href="/assets/js/12.4354df42.js"><link rel="prefetch" href="/assets/js/13.0e3162b3.js"><link rel="prefetch" href="/assets/js/14.008bcc59.js"><link rel="prefetch" href="/assets/js/15.6f9c0681.js"><link rel="prefetch" href="/assets/js/16.5e75010f.js"><link rel="prefetch" href="/assets/js/17.fd677a0f.js"><link rel="prefetch" href="/assets/js/18.a0d9df21.js"><link rel="prefetch" href="/assets/js/19.8abe1ea0.js"><link rel="prefetch" href="/assets/js/20.e0ed7836.js"><link rel="prefetch" href="/assets/js/21.31147909.js"><link rel="prefetch" href="/assets/js/22.53c2f5b9.js"><link rel="prefetch" href="/assets/js/23.f4429052.js"><link rel="prefetch" href="/assets/js/24.50fb4600.js"><link rel="prefetch" href="/assets/js/25.9714f52c.js"><link rel="prefetch" href="/assets/js/26.4ed6ccf6.js"><link rel="prefetch" href="/assets/js/27.0538e114.js"><link rel="prefetch" href="/assets/js/28.a5993453.js"><link rel="prefetch" href="/assets/js/29.96d8e23a.js"><link rel="prefetch" href="/assets/js/3.5658908e.js"><link rel="prefetch" href="/assets/js/30.08424540.js"><link rel="prefetch" href="/assets/js/31.31c81e5f.js"><link rel="prefetch" href="/assets/js/32.87818017.js"><link rel="prefetch" href="/assets/js/33.31d1c6a8.js"><link rel="prefetch" href="/assets/js/34.4ca0b77f.js"><link rel="prefetch" href="/assets/js/35.76864c1d.js"><link rel="prefetch" href="/assets/js/37.e77be5c4.js"><link rel="prefetch" href="/assets/js/38.6bd93f1a.js"><link rel="prefetch" href="/assets/js/39.4cb1994b.js"><link rel="prefetch" href="/assets/js/4.2d8c4604.js"><link rel="prefetch" href="/assets/js/40.06f01b82.js"><link rel="prefetch" href="/assets/js/41.8b30e944.js"><link rel="prefetch" href="/assets/js/42.05739ad7.js"><link rel="prefetch" href="/assets/js/43.85cb05c9.js"><link rel="prefetch" href="/assets/js/44.8739acdc.js"><link rel="prefetch" href="/assets/js/5.539b2434.js"><link rel="prefetch" href="/assets/js/6.ea617959.js"><link rel="prefetch" href="/assets/js/7.ea337d08.js"><link rel="prefetch" href="/assets/js/8.f0cac15c.js"><link rel="prefetch" href="/assets/js/9.b3609cde.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.6f3fa435.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><img src="/logo.jpg" alt="Asher's Blog" class="logo"> <span class="site-name can-hide">Asher's Blog</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/" class="nav-link">
+  首页
+</a></div><div class="nav-item"><a href="/web/" class="nav-link router-link-active">
+  Web基础
+</a></div><div class="nav-item"><a href="/vue/" class="nav-link">
+  Vue
+</a></div><div class="nav-item"><a href="/react/" class="nav-link">
+  React
+</a></div><div class="nav-item"><a href="/webpack/" class="nav-link">
+  Webpack
+</a></div><div class="nav-item"><a href="/node/" class="nav-link">
+  Node
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="其他" class="dropdown-title"><span class="title">其他</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/more/数据结构/" class="nav-link">
+  数据结构
+</a></li><li class="dropdown-item"><!----> <a href="/more/算法/" class="nav-link">
+  算法
+</a></li></ul></div></div><div class="nav-item"><a href="https://github.com/Asher0923/vuepress-blog" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  GitHub
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/" class="nav-link">
+  首页
+</a></div><div class="nav-item"><a href="/web/" class="nav-link router-link-active">
+  Web基础
+</a></div><div class="nav-item"><a href="/vue/" class="nav-link">
+  Vue
+</a></div><div class="nav-item"><a href="/react/" class="nav-link">
+  React
+</a></div><div class="nav-item"><a href="/webpack/" class="nav-link">
+  Webpack
+</a></div><div class="nav-item"><a href="/node/" class="nav-link">
+  Node
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="其他" class="dropdown-title"><span class="title">其他</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/more/数据结构/" class="nav-link">
+  数据结构
+</a></li><li class="dropdown-item"><!----> <a href="/more/算法/" class="nav-link">
+  算法
+</a></li></ul></div></div><div class="nav-item"><a href="https://github.com/Asher0923/vuepress-blog" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  GitHub
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div> <!----></nav>  <ul class="sidebar-links"><li><a href="/web/" class="sidebar-link">概览</a></li><li><a href="/web/html.html" class="sidebar-link">HTML</a></li><li><a href="/web/css.html" class="sidebar-link">CSS</a></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading open"><span>JavaScript</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/web/javaScript/类型转换.html" class="sidebar-link">类型转换</a></li><li><a href="/web/javaScript/闭包.html" class="sidebar-link">闭包</a></li><li><a href="/web/javaScript/原型链.html" class="sidebar-link">原型链</a></li><li><a href="/web/javaScript/拷贝.html" class="sidebar-link">拷贝</a></li><li><a href="/web/javaScript/继承.html" class="sidebar-link">继承</a></li><li><a href="/web/javaScript/this.html" class="sidebar-link">this</a></li><li><a href="/web/javaScript/防抖节流.html" class="sidebar-link">防抖节流</a></li><li><a href="/web/javaScript/模块化.html" class="active sidebar-link">模块化</a></li><li><a href="/web/javaScript/设计模式.html" class="sidebar-link">设计模式</a></li><li><a href="/web/javaScript/EventLoop.html" class="sidebar-link">Event Loop</a></li><li><a href="/web/javaScript/DOM.html" class="sidebar-link">DOM</a></li></ul></section></li><li><a href="/web/ES6.html" class="sidebar-link">ES6</a></li><li><a href="/web/http.html" class="sidebar-link">HTTP</a></li><li><a href="/web/路由.html" class="sidebar-link">路由</a></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><p>1、引入与导出
+require : node 和 es6都支持的引入
+export / import :只有es6支持的导出导入
+module.exports / exports : 只有node支持的导出</p> <div class="language- extra-class"><pre><code>module.exports 与 exports : require导入的为module.exports指向的内容，exports是与module.exports 指向同一地址的，但是只是module.exports的引用，辅助后者添加内容用的。
+export / export default 与 import : {
+    a.均可导出常量、函数、文件、模块等
+    b.同一文件或模块中，export 与 import 可以有多个，export default只能有一个
+    c.通过export方式导出，在导入时需要加{},export default不需要
+    d.export能直接导出变量表达式，export default不可以
+    e.export * from '' //重新导出其他模块的接口 
+    f.import x from '' //导入了export default的内容
+    g.import * as x from '' //集合成对象导入
+    h.import { x } from '' // 导入了export内容
+}
+</code></pre></div><p>​</p> <ul><li><p>CommonJS模块的循环加载</p> <p>CommonJS模块的特性是加载时执行，即脚本代码在require的时候，就会全部执行。CommonJS的做法是，一旦出现某个模块被循环加载吗，就只输出已经执行的部分，还未执行的部分不会输出</p> <div class="language-js line-numbers-mode"><pre class="language-js"><code><span class="token comment">//a.js</span>
+exports<span class="token punctuation">.</span>done <span class="token operator">=</span> <span class="token boolean">false</span>
+<span class="token keyword">const</span> b <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'./b.js'</span><span class="token punctuation">)</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'a.js中，b.done '</span> <span class="token operator">+</span> b<span class="token punctuation">.</span>done<span class="token punctuation">)</span>
+exports<span class="token punctuation">.</span>done <span class="token operator">=</span> <span class="token boolean">true</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'a.js执行完毕'</span><span class="token punctuation">)</span>
+
+<span class="token comment">//b.js</span>
+exports<span class="token punctuation">.</span>done <span class="token operator">=</span> <span class="token boolean">false</span>
+<span class="token keyword">const</span> a <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'./a.js'</span><span class="token punctuation">)</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'b.js中，a.done '</span> <span class="token operator">+</span> a<span class="token punctuation">.</span>done<span class="token punctuation">)</span>
+exports<span class="token punctuation">.</span>done <span class="token operator">=</span> <span class="token boolean">true</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'b.js执行完毕'</span><span class="token punctuation">)</span>
+
+<span class="token comment">//main.js</span>
+<span class="token keyword">const</span> a <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'./a.js'</span><span class="token punctuation">)</span>
+<span class="token keyword">const</span> b <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'./b.js'</span><span class="token punctuation">)</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">.</span>done<span class="token punctuation">,</span> b<span class="token punctuation">.</span>done<span class="token punctuation">)</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br></div></div></li> <li><p>ES6模块的循环加载</p> <p>ES6模块的运行机制与CommonJS不一样，它遇到模块加载命令import时，会生成一个引用，等到真的需要用到时，再到模块里面去取值。</p> <div class="language-js line-numbers-mode"><pre class="language-js"><code><span class="token comment">//a.mjs</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> bar <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./b.mjs'</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'a.mjs'</span><span class="token punctuation">)</span>
+<span class="token comment">// console.log(bar)</span>
+<span class="token keyword">function</span> <span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token string">'foo'</span>
+<span class="token punctuation">}</span> <span class="token comment">//函数声明提升</span>
+<span class="token keyword">export</span> <span class="token punctuation">{</span> foo <span class="token punctuation">}</span>
+
+<span class="token comment">//b.mjs</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> foo <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./a.mjs'</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'b.mjs'</span><span class="token punctuation">)</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>foo<span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">let</span> bar <span class="token operator">=</span> <span class="token string">'bar'</span>
+
+<span class="token comment">// 执行命令 node --experimental-modules a.mjs</span>
+<span class="token comment">// b.mjs</span>
+<span class="token comment">// [Function: foo]</span>
+<span class="token comment">// a.mjs</span>
+
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br></div></div></li></ul></div> <footer class="page-edit"><!----> <div class="last-updated"><span class="prefix">更新时间:</span> <span class="time">2020/05/05</span></div></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/web/javaScript/防抖节流.html" class="prev">
+        防抖节流
+      </a></span> <span class="next"><a href="/web/javaScript/设计模式.html">
+        设计模式
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.60367870.js" defer></script><script src="/assets/js/2.4a418fba.js" defer></script><script src="/assets/js/36.7fe28701.js" defer></script>
+  </body>
+</html>
