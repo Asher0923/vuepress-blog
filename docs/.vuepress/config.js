@@ -54,7 +54,7 @@ module.exports = {
           ]
         },
         ["/web/ES6", "ES6"],
-        ["/web/http", "HTTP"],
+        ["/web/网络协议", "网络协议"],
         ["/web/路由", "路由"]
       ],
       "/more/": [
