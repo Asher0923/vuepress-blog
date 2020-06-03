@@ -16,7 +16,7 @@ title: 'Web基础-CSS'
 
 - 通配符选择器
 
-- 元素选择器
+- 标签选择器
 
 - 类选择器
 
@@ -24,7 +24,7 @@ title: 'Web基础-CSS'
 
 - 属性选择器
 
-  ```
+  ```css
   [att=val]
   [att*=val]  如果元素用att表示的属性的属性值中包含用val指定的字符，则使用该样式
   [att^=val]  以val开头
@@ -72,7 +72,7 @@ title: 'Web基础-CSS'
   
   7. `:nth-child(even)` 选中同级别中所有偶数
   
-  8. `:nth-child(xn+y)`：x和y自定义，n从0开始递增
+  8. `:nth-child(xn+y)` x和y自定义，n从0开始递增
   
   9. `:first-of-type` 选中同级别中同类型的第一个标签
   
@@ -92,9 +92,9 @@ title: 'Web基础-CSS'
   
   13. `:only-of-type` 选中父元素某一类型的标签
   
-  14. `:nth-of-type(odd)`选中同级别中同类型所有奇数
+  14. `:nth-of-type(odd)` 选中同级别中同类型所有奇数
   
-  15. `:nth-of-type(even)`选中同级别中同类型所有偶数
+  15. `:nth-of-type(even)` 选中同级别中同类型所有偶数
 
 ## 盒模型
 

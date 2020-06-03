@@ -175,7 +175,7 @@ title: "Web基础-HTML"
 | Canvas                                             | SVG                                                     |
 | -------------------------------------------------- | ------------------------------------------------------- |
 | 依赖分辨率                                         | 不依赖分辨率                                            |
-| 不支持事件处理器                                   | 支持事件处理器                                          |
+| 一整副画布，不支持事件处理器                       | 每一个图形都是独立的DOM节点，支持事件处理器             |
 | 弱的文本渲染能力                                   | 最适合带有大型渲染区域的应用程序（比如谷歌地图）        |
 | 能够以 .png 或 .jpg 格式保存结果图像               | 复杂度高会减慢渲染速度（任何过度使用 DOM 的应用都不快） |
 | 最适合图像密集型的游戏，其中的许多对象会被频繁重绘 | 不适合游戏应用                                          |
@@ -279,7 +279,7 @@ title: "Web基础-HTML"
 
   避免使用 table 布局
 
-  尽可能在 DOM 数的最末端改变 class： 减小回流的范围
+  尽可能在 DOM 树的最末端改变 class： 减小回流的范围
 
   将动画效果应用到`position`属性为`absolute`或`fixed`的元素上 ，避免影响其他元素的布局，这样只是一个重绘，而不是回流；
 
@@ -400,7 +400,7 @@ title: "Web基础-HTML"
 
   - Disk Cache
 
-    磁盘缓存，容量和时效性比Memory Cache强，也是所有浏览器缓存中覆盖面最大的，可以根据HTTP头信息设置网页是否缓存，并且及时在跨站点的情况下，相同地址的资源一旦被硬盘缓存下来，就不会再次去请求数据
+    磁盘缓存，容量和时效性比Memory Cache强，也是所有浏览器缓存中覆盖面最大的，可以根据HTTP头信息设置网页是否缓存，并且即使在跨站点的情况下，相同地址的资源一旦被硬盘缓存下来，就不会再次去请求数据
 
   - Push Cache
 
@@ -408,7 +408,7 @@ title: "Web基础-HTML"
 
 - 强缓存
 
-  不会向服务器发送请求，直接从缓存中读取资源，在Chrome控制台的newwork中可以看到该请求返回200的状态码，并且size显示from disk cache或from memory cache，强缓存可以通过设置两种HTTP Header实现：Expires和Cache-Control
+  不会向服务器发送请求，直接从缓存中读取资源，在Chrome控制台的network中可以看到该请求返回200的状态码，并且size显示from disk cache或from memory cache，强缓存可以通过设置两种HTTP Header实现：Expires和Cache-Control
 
   - Expires
 
@@ -418,7 +418,7 @@ title: "Web基础-HTML"
     Expires: Wed, 27 May 2020 06:37:06 GMT
     ```
 
-    这个表示资源在这个时间过期，过期之后就得向服务器发请求，Expires是HTTP/1的产物，受限于本地时间，如果修改了本地时间，就会造成缓存失效
+    这个表示资源在这个时间过期，过期之后就得向服务器发请求，Expires是HTTP/1.0的产物，受限于本地时间，如果修改了本地时间，就会造成缓存失效
 
   - Cache-Control
 
@@ -465,6 +465,8 @@ title: "Web基础-HTML"
     - 精确度上，Etag要优于Last-Modified，Last-Modified的时间单位是秒，如果某个文件在1秒内改变了多次，那么他们的Last-Modified其实并没有体现出来修改，但是Etag每次都会改变确保了精度；如果是负载均衡的服务器，各个服务器生成的Last-Modified也有可能不一致。
     - 性能上，Etag要逊于Last-Modified，Last-Modified只需要记录时间，而Etag需要服务器通过算法来计算出一个hash值。
     - 优先级上，服务器校验优先考虑Etag
+
+- [HTTP header 探索](http://feg.netease.com/archives/680.html)
 
 - 缓存机制
 
