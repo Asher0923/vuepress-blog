@@ -299,6 +299,8 @@ position: absolute / fiexd
   }
   ```
 
+## 媒体查询
+
 ## margin问题
 
 - margin塌陷
@@ -348,4 +350,41 @@ position: absolute / fiexd
   </style>
   ```
 
-  
+
+## 面试题
+
+1. 可继承的属性
+
+   font-size、font-family、color
+
+2. 实现三角形
+
+   ```html
+   <style>
+       #div1 {
+           width: 0;
+           height: 0;
+           border-left: 50px solid transparent;
+           border-right: 50px solid transparent;
+           border-top: 50px solid transparent;
+           border-bottom: 50px solid salmon;
+       }
+   </style>
+   ```
+
+3. overflow属性定义溢出元素内容区的内容会如何处理
+
+   scroll：必会出现滚动条
+
+   auto：子元素内容大于父元素时出现滚动条
+
+   visible：溢出的内容出现在父元素之外
+
+   hidden：溢出隐藏
+
+4. 阐述一下CSS Spites
+
+   将一个页面涉及到的所有图片都包含到一张大图中去，然后利用css的background-image、background-repeat、background-position的组合进行背景定位。利用CSS Spites能很好的减少网页的http请求，从而大大提高页面的性能
+
+5. em/rem/vw/vh
+
