@@ -50,7 +50,8 @@ module.exports = {
             ["/web/javaScript/模块化", "模块化"],
             ["/web/javaScript/设计模式", "设计模式"],
             ["/web/javaScript/EventLoop", "Event Loop"],
-            ["/web/javaScript/DOM", "DOM"]
+            ["/web/javaScript/DOM", "DOM"],
+            ["/web/javaScript/Date", "Date"]
           ]
         },
         ["/web/ES6", "ES6"],
