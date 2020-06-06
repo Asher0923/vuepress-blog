@@ -1,5 +1,3 @@
 ---
 title: 'Babel'
 ---
-
-## test

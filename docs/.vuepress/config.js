@@ -81,7 +81,7 @@ module.exports = {
       ],
       "/webpack/": [
         ["/webpack/", "Webpack"],
-        ["/webpack/babel", "Babel"]],
+        ["/webpack/Babel", "Babel"]],
       "/node/": [["/node/", "Node"]],
       "/react/": [
         ["/react/", "React入门"],
