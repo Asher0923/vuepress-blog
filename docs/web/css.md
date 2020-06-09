@@ -264,7 +264,7 @@ position: absolute / fiexd
   > 1. 指定要添加效果的CSS属性
   > 2. 指定效果的持续时间 
 
-  ```
+  ```css
   div {
       transition: width 2s, height 2s, transform 2s;
   }
@@ -281,7 +281,7 @@ position: absolute / fiexd
   >
   >  animation ： 将动画捆绑到元素，并设置时间 
 
-  ```
+  ```css
   @keyframes myfirst {
       from {background: red;}
       to {background: yellow;}
@@ -387,4 +387,412 @@ position: absolute / fiexd
    将一个页面涉及到的所有图片都包含到一张大图中去，然后利用css的background-image、background-repeat、background-position的组合进行背景定位。利用CSS Spites能很好的减少网页的http请求，从而大大提高页面的性能
 
 5. em/rem/vw/vh
+
+6. 清除浮动的方式
+
+7. div垂直居中，左右10px，高度始终为宽度一半
+
+   ```html
+   <!DOCTYPE html>
+   <html lang="en">
+   
+   <head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Document</title>
+   
+     <style>
+       * {
+         padding: 0;
+         margin: 0;
+       }
+   
+       html,
+       body {
+         width: 100%;
+         height: 100%;
+       }
+   
+       #wrap {
+         width: 100%;
+         height: 100%;
+         position: relative;
+       }
+   
+       #box {
+         margin-left: 10px;
+         width: calc(100vw - 20px);
+         height: calc(50vw - 10px);
+         background-color: powderblue;
+         position: absolute;
+         top: 50%;
+         transform: translateY(-50%);
+         display: flex;
+         justify-content: center;
+         align-items: center;
+       }
+     </style>
+   </head>
+   
+   <body>
+     <div id="wrap">
+       <div id="box">A</div>
+     </div>
+   </body>
+   
+   </html>
+   ```
+
+8. CSS品字布局
+
+   ```html
+   <!DOCTYPE html>
+   <html lang="en">
+   
+   <head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Document</title>
+   
+     <style>
+       * {
+         padding: 0;
+         margin: 0;
+       }
+   
+       html,
+       body {
+         width: 100%;
+         height: 100%;
+       }
+   
+       div {
+         width: 100px;
+         height: 100px;
+         margin: auto 0;
+       }
+   
+       #div1 {
+         background-color: powderblue;
+         margin: 100px auto 0;
+       }
+   
+       #div2 {
+         background-color: sandybrown;
+         float: left;
+         margin-left: 50%;
+         transform: translateX(-100%);
+       }
+   
+       #div3 {
+         background-color: seagreen;
+         float: left;
+         transform: translateX(-100%);
+       }
+     </style>
+   </head>
+   
+   <body>
+     <div id="div1">
+     </div>
+     <div id="div2">
+     </div>
+     <div id="div3">
+     </div>
+   </body>
+   
+   </html>
+   ```
+
+9. 三栏布局
+
+   ```html
+   <!DOCTYPE html>
+   <html lang="en">
+   
+   <head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Document</title>
+   
+     <style>
+       * {
+         padding: 0;
+         margin: 0;
+       }
+   
+       html,
+       body {
+         width: 100%;
+         height: 100%;
+       }
+   
+       #div1 {
+         background-color: powderblue;
+         float: left;
+         width: 200px;
+         height: 100%;
+       }
+   
+       #div2 {
+         background-color: sandybrown;
+         float: right;
+         width: 200px;
+         height: 100%;
+       }
+   
+       #div3 {
+         background-color: seagreen; 
+         height: 100%;
+       }
+     </style>
+   </head>
+   
+   <body>
+     <div id="div1">
+     </div>
+     <div id="div2">
+     </div>
+     <div id="div3">
+     </div>
+   </body>
+   
+   </html>
+   ```
+
+   ```html
+   <!DOCTYPE html>
+   <html lang="en">
+   
+   <head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Document</title>
+   
+     <style>
+       * {
+         padding: 0;
+         margin: 0;
+       }
+   
+       html,
+       body {
+         width: 100%;
+         height: 100%;
+         display: flex;
+       }
+   
+       #div1 {
+         background-color: powderblue;
+         width: 200px;
+         height: 100%;
+       }
+   
+       #div2 {
+         background-color: seagreen;
+         width: 100%;
+         height: 100%;
+       }
+   
+       #div3 {
+         background-color: sandybrown;
+         width: 200px;
+         height: 100%;
+       }
+     </style>
+   </head>
+   
+   <body>
+     <div id="div1">
+     </div>
+     <div id="div2">
+     </div>
+     <div id="div3">
+     </div>
+   </body>
+   
+   </html>
+   ```
+
+10. 圣杯布局
+
+    ```html
+    <!DOCTYPE html>
+    <html lang="en">
+    
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Document</title>
+    
+      <style>
+        * {
+          padding: 0;
+          margin: 0;
+        }
+    
+        html,
+        body {
+          width: 100%;
+          height: 100%
+        }
+    
+        #header,
+        #footer {
+          width: 100%;
+          height: 200px;
+          background-color: peru;
+        }
+    
+        #footer{
+          clear: both;
+        }
+    
+        #container {
+          padding-left: 200px;
+          padding-right: 200px;
+        }
+    
+        #left {
+          float: left;
+          width: 200px;
+          background-color: powderblue;
+          position: relative;
+          right: 200px;
+          margin-left: -100%;
+        }
+    
+        #right {
+          float: left;
+          width: 200px;
+          background-color: rosybrown;
+          margin-right: -200px;
+        }
+    
+        #center{
+          width: 100%;
+          float: left;
+          background-color: saddlebrown;
+        }
+      </style>
+    </head>
+    
+    <body>
+      <div id="header">
+        header
+      </div>
+      <div id="container">
+        <div id="center">center</div>
+        <div id="left">left</div>
+        <div id="right">right</div>
+      </div>
+      <div id="footer">
+        footer
+      </div>
+    </body>
+    
+    </html>
+    ```
+
+11. 双飞翼布局
+
+    ```html
+    <!DOCTYPE html>
+    <html lang="en">
+    
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Document</title>
+    
+      <style>
+        * {
+          padding: 0;
+          margin: 0;
+        }
+    
+        html,
+        body {
+          width: 100%;
+          height: 100%
+        }
+    
+        #header,
+        #footer {
+          width: 100%;
+          height: 200px;
+          background-color: peru;
+        }
+    
+        #footer {
+          clear: both;
+        }
+    
+        #container {
+          float: left;
+          width: 100%;
+        }
+    
+        #left {
+          background-color: powderblue;
+          float: left;
+          width: 200px;
+          margin-left: -100%;
+        }
+    
+        #right {
+          background-color: rosybrown;
+          float: left;
+          width: 200px;
+          margin-left: -200px
+        }
+    
+        #center {
+          background-color: saddlebrown;
+          margin-right: 200px;
+          margin-left: 200px;
+        }
+      </style>
+    </head>
+    
+    <body>
+      <div id="header">
+        header
+      </div>
+      <div id="container">
+        <div id="center">center</div>
+      </div>
+      <div id="left">left</div>
+      <div id="right">right</div>
+      <div id="footer">
+        footer
+      </div>
+    </body>
+    
+    </html>
+    ```
+
+12. 文本单行和三行显示
+
+    ```css
+    单行
+    .textOVerFlow {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+    
+    三行
+    .textOVerThree {
+        display: -webkit-box;
+        overflow: hidden;
+        white-space: normal !important;
+        text-overflow: ellipsis;
+        word-wrap: break-word;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+    }
+    ```
+
+    
 

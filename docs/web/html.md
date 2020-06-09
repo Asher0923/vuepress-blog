@@ -50,6 +50,14 @@ title: "Web基础-HTML"
      <meta charset="utf-8" />
      ```
 
+   - `set-cookie`
+
+     设置cookie的一种方式，也可以指定过期时间
+
+     ```html
+     <meta http-equiv="set-cookie" content="name=value expires=Fri, 12 Jan 2001 18:18:18 GMT,path=/"/>
+     ```
+
    - `X-UA-Compatible`
 
      告知浏览器以何种版本来渲染页面
@@ -98,6 +106,15 @@ title: "Web基础-HTML"
 
      ```html
      <meta name="viewport" content="width=device-width, initial-scale=1" />
+     <!-- 
+       viewport参数详解：
+       width：宽度（数值 / device-width）（默认为980 像素）
+       height：高度（数值 / device-height）
+       initial-scale：初始的缩放比例 （范围从>0 到10）
+       minimum-scale：允许用户缩放到的最小比例
+       maximum-scale：允许用户缩放到的最大比例
+       user-scalable：用户是否可以手动缩 (no,yes)
+      -->
      ```
 
 ## link 标签
@@ -357,11 +374,11 @@ title: "Web基础-HTML"
      3、合理利用数据库框架提供的机制
      ```
 
-  2. XSS：
+  2. XSS(跨站脚本攻击)：
 
      通过某种方式（发布文章、评论）等将一段特定的 JS 代码隐蔽的输入进去，JS 代码一旦执行，就可以获取服务端数据、cookie 等
 
-     预防：用正则替换
+     预防：用正则替换，cookie设置HttpOnly属性
 
      ```
      < 替换为：&lt;
@@ -371,7 +388,7 @@ title: "Web基础-HTML"
      ” 替换为：&quot;
      ```
 
-  3. CSRF：
+  3. CSRF(跨站请求伪造)：
 
      借助了 cookie 的特性，劫持操作者的权限来完成某个操作，而不是拿到用户的信息
 
@@ -516,7 +533,7 @@ title: "Web基础-HTML"
 
    POST是将请求信息放在请求数据中的，（并没有比GET安全，可以通过抓包获取），请求信息是没有长度限制的，POST会产生两个TCP数据包，浏览器会先将请求头发送给服务器，待服务器响应100 continue，浏览器再发送请求数据，服务器响应200 ok（返回数据）
 
-   本质上GET和POST是一样的，都是TCP连接，但是由于HTTP的规定以及浏览器/服务器的限制，导致它们在应用过程中可能会有所不同
+   本质上GET和POST是一样的，都是TCP连接，但是由于HTTP的规定以及浏览器/服务器的限制，导致它们在应用过程中可能会有所不同，
 
 4. HTTP和HTTPS的区别
 
