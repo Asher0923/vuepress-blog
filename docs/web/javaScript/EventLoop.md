@@ -39,7 +39,7 @@ title: 'JS基础-Event Loop'
 2. 宏任务队列头部取出一个任务执行
 3. 执行过程中遇到微任务则将其添加到微任务的队列，宏任务则添加到宏任务队列
 4. 执行完当前宏任务，将微任务队列中所有任务依次执行
-5. 微任务执行过程中产生了新的微任务，则继续执行完微任务，直到微任务队列为空
+5. **微任务执行过程中产生了新的微任务，则继续执行完微任务，直到微任务队列为空**
 
 ## Node中Event Loop
 
@@ -54,7 +54,7 @@ title: 'JS基础-Event Loop'
   1. process.nextTick
   2. Promise.then
 
-![](C:\Users\18061225\Desktop\摸鱼\node_eventloop.png)
+![tHibJs.png](https://s1.ax1x.com/2020/06/11/tHibJs.png)
 
 ##### 六个阶段
 
@@ -71,6 +71,7 @@ Node的事件循环分成了六个阶段，每个阶段对应一个宏任务队�
 
 - 每个阶段都要等对应的宏任务队列执行完毕才会进入到下一阶段的宏任务队列
 - 每个阶段执行完执行微任务队列中所有的任务
+- **process.nextTick()优先于promise.then()**
 
 ``` js
 console.log('node  start')

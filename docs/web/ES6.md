@@ -2,65 +2,67 @@
 title: 'ES6'
 ---
 
-## `let/const`
+## let/const
 
-> 用于声明变量，替代`var`，与`var`不同的是，`let/const` 会创建一个块级作用域
+- 用于声明变量，替代`var`，与`var`不同的是，`let/const` 会创建一个块级作用域
 
 - 暂时性死区(`TDZ`)
+
   使用 `let/const` 声明的变量，从一开始就形成了封闭作用域，在声明变量之前是无法使用这个变量的，这个特点也是为了弥补 `var`的缺陷（`var` 声明的变量有变量提升）
 
-- `const`
-  `const` 声明变量的时候必须赋值，否则会报错，同时不能修改，如果声明的是引用类型，则不能改变它的内存地址。
-  
-  > 注：`let/const` 声明的变量在`script`作用域下，不会污染`window`下面的变量
+- const
+
+  `const` 声明变量的时候必须赋值，否则会报错，同时不能修改，如果声明的是引用类型，则不能改变它的内存地址
 
 ## 函数
 
 - 基本用法
 
-  > 允许为函数的参数设置默认值，即直接写在参数定义的后面。
+  允许为函数的参数设置默认值，即直接写在参数定义的后面。
 
   ``` js
-    function log(x, y = 'World') {
+  function log(x, y = 'World') {
       console.log(x, y);
-    }
+  }
 
-    log('Hello') // Hello World
-    log('Hello', 'China') // Hello China
-    log('Hello', '') // Hello
+  log('Hello') // Hello World
+  log('Hello', 'China') // Hello China
+  log('Hello', '') // Hello
   ```
 
 - rest 参数
 
-  > `ES6` 引入 rest 参数（形式为`...变量名`），用于获取函数的多余参数，这样就不需要使用`arguments`对象了。rest 参数搭配的变量是一个数组，该变量将多余的参数放入数组中。
-  > `arguments`对象不是数组，而是一个类似数组的对象。所以为了使用数组的方法，必须使用`Array.prototype.slice.call`先将其转为数组。`rest` 参数就不存在这个问题，它就是一个真正的数组，数组特有的方法都可以使用。
+  `ES6` 引入 rest 参数（形式为`...变量名`），用于获取函数的多余参数，这样就不需要使用`arguments`对象了。rest 参数搭配的变量是一个数组，该变量将多余的参数放入数组中。
+  `arguments`对象不是数组，而是一个类似数组的对象。所以为了使用数组的方法，必须使用`Array.prototype.slice.call`先将其转为数组。`rest` 参数就不存在这个问题，它就是一个真正的数组，数组特有的方法都可以使用。
 
   ``` js
-    // arguments变量的写法
-    function sortNumbers() {
+  // arguments变量的写法
+  function sortNumbers() {
       return Array.prototype.slice.call(arguments).sort();
-    }
+  }
 
-    // rest参数的写法
-    const sortNumbers = (...numbers) => numbers.sort();
+  // rest参数的写法
+  const sortNumbers = (...numbers) => numbers.sort();
   ```
 
 - 箭头函数
 
-  > 1.函数体内的`this`对象，就是定义时所在的对象，而不是使用时所在的对象 2.不可以当做构造函数，无`prototype`属性 3.无 arguments 对象，如果要用，可以用 rest 参数代替 4.不可以使用`yield`命令，因此箭头函数不能用作`Generator`函数
+  1. 函数体内的`this`对象，就是定义时所在的对象，而不是使用时所在的对象
+2. 不可以当做构造函数，无`prototype`属性
+  3. 无 arguments 对象，如果要用，可以用 rest 参数代替 
+  4. 不可以使用`yield`命令，因此箭头函数不能用作`Generator`函数
 
   ``` js
     // ES6
     function foo() {
       setTimeout(() => {
-        console.log('id:', this.id);
+      console.log('id:', this.id);
       }, 100);
     }
-
-    // ES5
+  
+  // ES5
     function foo() {
       var _this = this;
-
       setTimeout(function () {
         console.log('id:', _this.id);
       }, 100);
@@ -69,7 +71,7 @@ title: 'ES6'
 
 ## iterator 迭代器
 
-> 默认部署`iterator`接口的数据结构有 `Array`、`Map`、`Set`、`String`、`TypedArray`（类数组）、函数的 arguments 对象、`NodeList` 对象，注意普通对象默认是没有 `iterator` 接口的（可以自己创建 `iterator` 接口让普通对象也可以迭代）
+默认部署`iterator`接口的数据结构有 `Array`、`Map`、`Set`、`String`、`TypedArray`（类数组）、函数的 arguments 对象、`NodeList` 对象，注意**普通对象默认是没有 `iterator` 接口的**（可以自己创建 `iterator` 接口让普通对象也可以迭代）
 
 ``` js
   let arr = [1,2,3]
@@ -88,7 +90,7 @@ title: 'ES6'
 
 ## 解构赋值
 
-> `ES6` 允许按照一定模式，从数组和对象中提取值，对变量进行赋值，这被称为解构，允许设置默认值 (严格等于 undefined 时生效)
+`ES6` 允许按照一定模式，从数组和对象中提取值，对变量进行赋值，这被称为解构，允许设置默认值 (严格等于 undefined 时生效)
 
 - 数组的解构
   ``` js
@@ -104,7 +106,7 @@ title: 'ES6'
     console.log(f)  //'aaa'
   ```
 
-  > 对象的解构与数组有一个重要的不同。数组的元素是按次序排列的，变量的取值由它的位置决定；而对象的属性没有次序，变量必须与属性同名，才能取到正确的值。
+  对象的解构与数组有一个重要的不同。数组的元素是按次序排列的，变量的取值由它的位置决定；而对象的属性没有次序，变量必须与属性同名，才能取到正确的值
 
 ## 剩余/扩展运算符
 
@@ -126,6 +128,13 @@ title: 'ES6'
     }
     fun(1,2,3)
   ```
+
+## for...of循环
+
+- 允许遍历一个含有iterator接口的数据结构并返回各项的值，和for...in区别如下
+  1. for ... of只能用在可迭代对象上,获取的是迭代器返回的value值,for ... in 可以获取所有对象的键名
+  2. for ... in会遍历对象的整个原型链,性能非常差不推荐使用,而for ... of只遍历当前对象不会遍历它的原型链
+  3. 对于数组的遍历,for ... in会返回数组中所有可枚举的属性(包括原型链上可枚举的属性),for ... of只返回数组的下标对应的属性值
 
 ## Set / Map
 
@@ -175,7 +184,72 @@ const p2 = promise.then((res) => {
 // 1 ; 2 3 ; 2 4;Promise构造函数只执行一次，promise.then可以调用多次，但是每次拿的值都是一样，且Promise状态一旦改变，无法再次变更，所以reject(5)不会执行
 ```
 
+- promise.then
+
+  用于注册当状态变为fulfilled或rejected时的回调函数，异步执行
+
 - promise.all
+
+  当作为参数的几个promise对象一旦有一个状态为rejected，则 all的返回值就是rejected，当状态都为fulfilled时，最后一个函数执行完，all结束
+
+  ```js
+  let p1 = new Promise((resolve)=>{
+    setTimeout(()=>{
+      console.log('1s') //1s后输出
+      resolve(1)
+    },1000)
+  })
+  let p10 = new Promise((resolve)=>{
+    setTimeout(()=>{
+      console.log('10s') //10s后输出
+      resolve(10)
+    },10000)
+  })
+  let p5 = new Promise((resolve)=>{
+    setTimeout(()=>{
+      console.log('5s') //5s后输出
+      resolve(5)
+    },5000)
+  })
+  Promise.all([p1, p10, p5]).then((res)=>{
+      console.log(res); // 最后输出
+  })
+  
+  //在10s之后输出[1,10,5]
+  ```
+
+- promise.race
+
+  也是处理一个promise对象数组，但是是哪个对象率先改变状态，就向下传递谁的状态和异步结果，其余的promise对象还继续执行
+
+  ```js
+  let p1 = new Promise((resolve)=>{
+    setTimeout(()=>{
+      console.log('1s') //1s后输出
+      resolve(1)
+    },1000)
+  })
+  let p10 = new Promise((resolve)=>{
+    setTimeout(()=>{
+      console.log('10s') //10s后输出
+      resolve(10) //不传递
+    },10000)
+  })
+  let p5 = new Promise((resolve)=>{
+    setTimeout(()=>{
+      console.log('5s') //5s后输出
+      resolve(5) //不传递
+    },5000)
+  })
+  Promise.race([p1, p10, p5]).then((res)=>{
+      console.log(res); // 最后输出
+  })
+  
+  // 1s
+  // 1
+  // 5s
+  // 10s
+  ```
 
 ## Generator
 
@@ -227,3 +301,18 @@ const a = test(1).next()
   - 更好的语义化
   - 更广的适用性。yield命令后面只能是Thunk函数或Promise对象，async函数的await后面可以是Promise也可以是原始类型的值
   - 返回值是Promise。async函数返回的是Promise对象，比Generator函数返回的Iterator对象方便，可以直接使用then()方法进行调用
+
+## Proxy
+
+- Proxy作为一个拦截器，可以在目标对象前架设一个拦截器，他人访问对象，必须先经过这层拦截器，Proxy同样是一个构造函数，使用new关键字生成一个拦截对象的实例，ES6提供了非常多对象拦截的操作,几乎覆盖了所有可能修改目标对象的情况(Proxy一般和Reflect配套使用,前者拦截对象,后者返回拦截的结果,Proxy上有的的拦截方法Reflect都有)
+
+  ```js
+  let obj = {}
+  obj = new Proxy(obj, {
+    set(target, key, val) {
+      console.log('oops');
+      return Reflect.set(target, key, val)
+    }
+  })
+  obj.foo = 'bar'
+  ```

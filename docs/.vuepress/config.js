@@ -47,10 +47,12 @@ module.exports = {
             ["/web/javaScript/继承", "继承"],
             ["/web/javaScript/this", "this"],
             ["/web/javaScript/防抖节流", "防抖节流"],
-            ["/web/javaScript/模块化", "模块化"],
+            // ["/web/javaScript/模块化", "模块化"],
             ["/web/javaScript/设计模式", "设计模式"],
             ["/web/javaScript/EventLoop", "Event Loop"],
+            ["/web/javaScript/数组", "数组"],
             ["/web/javaScript/DOM", "DOM"],
+            ["/web/javaScript/正则", "正则表达式"],
             ["/web/javaScript/Date", "Date"]
           ]
         },
