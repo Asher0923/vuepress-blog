@@ -20,7 +20,7 @@ title: 'webpack'
 
 - runtime
 
-  - runtime 以及伴随的 manifest 数据，主要指：在浏览器运行时，`webpack` 用来连接模块化应用程序的所有代码；runtime 包含：在模块交互时，连接模块所需的加载和解析逻辑；包括浏览器中的已加载模块的链接，以及懒加载模块的执行逻辑；
+  - runtime 以及伴随的 manifest 数据，主要指：在浏览器运行时，`webpack` 用来连接模块化应用程序的所有代码；runtime 包含：在模块交互时，连接模块所需的加载和解析逻辑；包括浏览器中的已加载模块的链接，以及懒加载模块的执行逻辑； 
 
 - manifest
 
@@ -98,26 +98,25 @@ title: 'webpack'
     npm install --save-dev style-loader css-loader url-loader
   ```
   
-``` js
-    module.exports = {
-      module: {
-        rules: [
-          {
-            test: /\.css$/,
-            use: ['style-loader','css-loader'] //从右至左执行
-          },
-          {
-            test: /\.(png|svg|jpg|jpeg|gif)$/,
-            loader: 'url-loader',
-            options: {
-              limit: 10000
+  ```js
+      module.exports = {
+        module: {
+          rules: [
+            {
+              test: /\.css$/,
+              use: ['style-loader','css-loader'] //从右至左执行
+            },
+            {
+              test: /\.(png|svg|jpg|jpeg|gif)$/,
+              loader: 'url-loader',
+              options: {
+                limit: 10000
+              }
             }
-          }
-        ]
+          ]
+        }
       }
-    }
-```
-
+  ```
 - 常用 loader
   - style-loader // 将 css 代码通过`<style>`标签插入 html 文档中
   - css-loader //解析 css 源文件并获取其引用的资源
@@ -143,11 +142,11 @@ title: 'webpack'
 
 - 作用
   
-  > 可以处理各种任务，从打包优化和压缩，一直到重新定义环境中的变量
+  可以处理各种任务，从打包优化和压缩，一直到重新定义环境中的变量
   
 - 剖析
 
-  > 具有`apply`方法的`js`对象，apply方法会被`webpack compiler`调用，并且`compiler`对象可在整个编译生命周期访问。
+  具有`apply`方法的`js`对象，apply方法会被`webpack compiler`调用，并且`compiler`对象可在整个编译生命周期访问
 
 - 使用
 
@@ -169,18 +168,18 @@ title: 'webpack'
 - 常用插件 ( https://www.jianshu.com/p/3d9bc817f1db )
   1. `ExtractTextWebpackPlugin`
   
-     > 它会将所有的入口 chunk(entry chunks)中引用的 `*.css`，移动到独立分离的 `CSS` 文件。因此，你的样式将不再内嵌到 `JS` bundle 中，而是会放到一个单独的 `CSS` 文件（即 `styles.css`）当中。 如果你的样式文件大小较大，这会做更快提前加载，因为 `CSS` bundle 会跟 `JS` bundle 并行加载。
+     它会将所有的入口 chunk(entry chunks)中引用的 `*.css`，移动到独立分离的 `CSS` 文件。因此，你的样式将不再内嵌到 `JS` bundle 中，而是会放到一个单独的 `CSS` 文件（即 `styles.css`）当中。 如果你的样式文件大小较大，这会做更快提前加载，因为 `CSS` bundle 会跟 `JS` bundle 并行加载
   
-     ```
+     ```js
      //webpack4以上的版本安装时注意版本 npm install extract-text-webpack-plugin@next --save-dev
      new ExtractTextPlugin("styles.css")
      ```
   
   2. `MiniCssExtractPlugin`
   
-     > 为每个包含`css`的`js`文件创键一个`css`文件
+     为每个包含`css`的`js`文件创键一个`css`文件
   
-     ```
+     ```js
      new MiniCssExtractPlugin({
            filename: "[name].css",
            chunkFilename: "[id].css"
@@ -191,9 +190,9 @@ title: 'webpack'
   
   3. `HtmlWebpackPlugin`
   
-     > 重构入口 `html`
+     重构入口 `html`
   
-     ```
+     ```js
        new HtmlWebpackPlugin({
          template: './src/index.html'
        })
@@ -201,7 +200,7 @@ title: 'webpack'
   
   4. `optimization.splitChunks`
   
-     > 替代`CommonsChunkPlugin`插件提取第三方插件和公共代码
+     替代`CommonsChunkPlugin`插件提取第三方插件和公共代码
   
      ``` js
      optimization: {
@@ -229,11 +228,11 @@ title: 'webpack'
   
   5. `DllPlugin`和`DllReferencePlugin`
   
-     > 减少构建时间，进行分离打包（用某种方法实现了拆分 bundles）
-     >
-     > `DllPlugin`是在一个额外的独立的 `webpack` 设置中创建一个只有`dll`的bundle，会生成一个名为`manifest.json`的文件，这个文件是用来让`DllReferencePlugin`映射到相关的依赖上去的
-     >
-     > `DllReferencePlugin`是在 `webpack` 主配置文件中设置的，这个插件把只有`dll`的`bundle`引用到需要的预编译的依赖
+     减少构建时间，进行分离打包（用某种方法实现了拆分 bundles）
+  
+     `DllPlugin`是在一个额外的独立的 `webpack` 设置中创建一个只有`dll`的bundle，会生成一个名为`manifest.json`的文件，这个文件是用来让`DllReferencePlugin`映射到相关的依赖上去的
+  
+     `DllReferencePlugin`是在 `webpack` 主配置文件中设置的，这个插件把只有`dll`的`bundle`引用到需要的预编译的依赖
   
      ``` js
      //webpack.vendor.config.js
@@ -252,11 +251,9 @@ title: 'webpack'
      });
      ```
   
-     
-  
   6. `HappyPack`
   
-     > 多线程打包(不支持`vue`)
+     多线程打包(不支持`vue`)
   
      ``` js
        module: {
@@ -285,30 +282,38 @@ title: 'webpack'
        ]
      ```
   
-     
-  
   7. `CleanWebpackPlugin`
   
-     > 删除之前打包的目录
+     删除之前打包的目录
   
      ``` js
      new CleanWebpackPlugin()
      ```
-  
      
+  8. `UglifyJsPlugin`
+  
+     压缩js
+  
+     ```js
+     const uglifyjs = require('uglifyjs-webpack-plugin');
+     
+     new uglifyjs(), //压缩js
+     ```
+  
 
 ## mode
 
 - 作用
   
-  > 告诉`webpack`使用相应模式的内置优化
+  告诉`webpack`使用相应模式的内置优化
+  
 - 使用
 
-``` js
-    module.exports = {
-      mode: 'production'
-    }
-```
+  ```js
+  module.exports = {
+  	mode: 'production'
+  }
+  ```
 
 - 两种模式区别
   选项|描述
@@ -330,29 +335,29 @@ devServer{
 
 - `contentBase`
 
-> 该配置项指定了服务器资源的根目录，如果不配置 `contentBase` 的话，那么 `contentBase` 默认是当前执行的目录,一般是项目的根目录。（通常不配置）
+  该配置项指定了服务器资源的根目录，如果不配置 `contentBase` 的话，那么 `contentBase` 默认是当前执行的目录,一般是项目的根目录。（通常不配置）
 
 - port
 
-  > 指定开启服务器的端口号
+  指定开启服务器的端口号
 
 - host
 
-  > 配置 `devServer` 的服务器的监听地址，默认值为 127.0.0.1，可以在本地 host 文件中替换展示的域名
+  配置 `devServer` 的服务器的监听地址，默认值为 127.0.0.1，可以在本地 host 文件中替换展示的域名
 
 - hot
 
-  > 模块热替换功能，不刷新整个页面实现实时刷新
+  模块热替换功能，不刷新整个页面实现实时刷新
 
 - open
 
-  > 第一次构建完之后自动打开网页
+  第一次构建完之后自动打开网页
 
 - proxy
 
-  > 实现跨域
+  实现跨域
 
-  ``` js
+  ```js
     proxy: {
       '/api': {
         target: 'http://news.baidu.com', // 目标接口的域名
@@ -397,23 +402,23 @@ devServer{
 
 - alias
   
-  > 配置项通过别名来把原导入路径映射成一个新的导入路径
-
-``` js
-  resolve:{
-    alias:{
-      '@components': './src/components/'
+  配置项通过别名来把原导入路径映射成一个新的导入路径
+  
+  ```js
+    resolve:{
+      alias:{
+        '@components': './src/components/'
+      }
     }
-  }
-```
+  ```
 
 - extensions
   
-  > 在导入语句没带文件后缀时，`webpack`会自动带上后缀后去尝试访问文件是否存在。
-
-``` js
-  extensions: ['.js', '.json']
-```
+  在导入语句没带文件后缀时，`webpack`会自动带上后缀后去尝试访问文件是否存在。
+  
+  ```js
+    extensions: ['.js', '.json']
+  ```
 
 ## devtool
 
@@ -423,16 +428,58 @@ devServer{
 
 ## devDependencies 与 dependencies
 
-> `webpack`打包时只看`node_modules`中是否有依赖，和这两个没有直接关系，只在特定环境下这两个目录才有区别，比如node端打包 `npm install --productio`n就只会打`dependencies`下面的依赖
+> `webpack`打包时只看`node_modules`中是否有依赖，和这两个没有直接关系，只在特定环境下这两个目录才有区别，比如node端打包 `npm install --production就只会打`dependencies`下面的依赖
 
 ## 构建过程
 
-> https://segmentfault.com/a/1190000015088834
+[参考]: https://segmentfault.com/a/1190000015088834
 
-1. 读取与合并配置参数，加载`Plugin`，实例化Compiler
-2. 从Entry发出，调用配置的Loader对模块进行编译，再找到该模块依赖的模块，递归编译
-3. 对编译后的Module组合成Chunk，把Chunk转换成文件，输出到文件系统
+1. 初始化参数：从配置文件和shell语句中读取与合并配置参数，得到最终的参数
+2. 开始编译：用上一步得到的参数初始化Compiler对象，加载所有配置的插件，执行对象的run方法开始执行编译
+3. 确定入口：根据配置中的entry找出所有的入口文件
+4. 编译模块：从入口文件出发，调用所有配置的Loader对模块进行翻译，再找出该模块依赖的模块，再递归本步骤直到所有入口依赖的文件都经过了本步骤的处理
+5. 完成模板编译：在经过上一步使用Loader翻译完所有模块后，得到了每个模块被翻译后的最终内容以及它们之间的依赖关系
+6. 输出资源：根据入口和模块之间的依赖关系，组装成一个个包含很多个模块的chunk，再把每个chunk转换成一个单独的文件加入到输出列表，这步是可以修改输出内容的最后机会
+7. 输出完成：在确定好输出内容后，根据配置确定输出的路径和文件名，把文件内容写入到文件系统
 
 ## import()
 
 > 动态加载模块，调用import()之处，作为分离的模块起点，意思是被请求的模块和它引用的所有子模块，会分离到一个单独的chunk中
+
+## 热更新实现原理
+
+1. 在 webpack 的 watch 模式下，文件系统中某一个文件发生修改，webpack 监听到文件变化，根据配置文件对模块重新编译打包，并将打包后的代码通过简单的 JavaScript 对象保存在内存中
+2. webpack-dev-server 和 webpack 之间的接口交互，而在这一步，主要是 dev-server 的中间件 webpack-dev-middleware 和 webpack 之间的交互，webpack-dev-middleware 调用 webpack 暴露的 API对代码变化进行监控，并且告诉 webpack，将代码打包到内存中
+3. webpack-dev-server 对文件变化的一个监控，这一步不同于第一步，并不是监控代码变化重新打包。当我们在配置文件中配置了devServer.watchContentBase 为 true 的时候，Server 会监听这些配置文件夹中静态文件的变化，变化后会通知浏览器端对应用进行 live reload。注意，这儿是浏览器刷新，和 HMR 是两个概念
+4. 是 webpack-dev-server 代码的工作，该步骤主要是通过 sockjs（webpack-dev-server 的依赖）在浏览器端和服务端之间建立一个 websocket 长连接，将 webpack 编译打包的各个阶段的状态信息告知浏览器端，同时也包括第三步中 Server 监听静态文件变化的信息。浏览器端根据这些 socket 消息进行不同的操作。当然服务端传递的最主要信息还是新模块的 hash 值，后面的步骤根据这一 hash 值来进行模块热替换
+5. webpack-dev-server/client 端并不能够请求更新的代码，也不会执行热更模块操作，而把这些工作又交回给了 webpack，webpack/hot/dev-server 的工作就是根据 webpack-dev-server/client 传给它的信息以及 dev-server 的配置决定是刷新浏览器呢还是进行模块热更新。当然如果仅仅是刷新浏览器，也就没有后面那些步骤了
+6. HotModuleReplacement.runtime 是客户端 HMR 的中枢，它接收到上一步传递给他的新模块的 hash 值，它通过 JsonpMainTemplate.runtime 向 server 端发送 Ajax 请求，服务端返回一个 json，该 json 包含了所有要更新的模块的 hash 值，获取到更新列表后，该模块再次通过 jsonp 请求，获取到最新的模块代码
+7. HotModulePlugin 将会对新旧模块进行对比，决定是否更新模块，在决定更新模块后，检查模块之间的依赖关系，更新模块的同时更新模块间的依赖引用
+8. 当 HMR 失败后，回退到 live reload 操作，也就是进行浏览器刷新来获取最新打包代码
+
+## 面试题
+
+- hash/chunkhash/contenthash
+
+  [参考]: https://juejin.im/post/5d70aee4f265da03f12e7ab2
+
+  hash是跟整个项目的构建有关，只要项目里有文件修改，整个项目的hash值都会更改，并且全部文件都共用相同的hash值
+
+  chunkhash根据不同的入口文件进行依赖文件分析，构建对应的chunk，生成对应的hash值，我们在生产环境里把一些公共库和程序入口文件区分开，单独打包构建，接着采用chunkhash的方式生成哈希值，那么只要不动公共库的代码，就可以保证哈希值不受影响
+
+  contenthash如果js文件中引入了css，使用chunkhash时改变了js，css的hash值也会改变，使用contenthash时，修改js文件，css的hash值不会跟着改变
+
+- 与rollup不同
+
+  rollup相对webpack而言，打包文件体积更小，但不具备热更新、代码分割、公共依赖提取等功能，tree-shaking更容易(webpack2之后已支持)
+
+- 如何优化前端性能
+
+  - 压缩代码：利用webpack的UglifyJsPlugin
+  - CDN加速：在构建过程中，将引用的静态资源路径修改为CDN上对应的路径。可以利用webpack对于output参数和各loader的publicPath参数来修改资源路径
+  - 删除无用代码（Tree Shakling）：将代码中永远不会走到的片段删除掉。可以通过在启动webpack时追加参数--optimize-minimize来实现
+  - 提取公共代码
+
+- 什么是bundle，什么是chunk，什么是module
+
+  `bundle` 是由 `webpack` 打包出来的文件，`chunk` 是指 `webpack` 在进行模块的依赖分析的时候，代码分割出来的代码块。`module`是开发中的单个模块
