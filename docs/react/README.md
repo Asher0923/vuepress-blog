@@ -345,24 +345,95 @@ export default Child
 
 ## state
 
-> 组件内部使用的数据，只有通过class创建组件才具有状态，不要再state中添加render方法中不需要的数据，会影响渲染性能，可以将组件内部使用但是不渲染在视图中的内容直接添加给this，不要在render方法中调用setState方法来修改state的值
+- 组件内部使用的数据，只有通过class创建组件才具有状态，不要再state中添加render方法中不需要的数据，会影响渲染性能，可以将组件内部使用但是不渲染在视图中的内容直接添加给this，不要在render方法中调用setState方法来修改state的值
 
-```jsx
-constructor(props) {
-    super(props)
-    this.state = {
-        name: "asher11"
-    }
-}
-
-render() {
-    return (
-      <div>
-        <span>{this.state.name}</span>
-      </div>
-    )
+  ```jsx
+  constructor(props) {
+      super(props)
+      this.state = {
+          name: "asher11"
+      }
   }
-```
+  
+  render() {
+      return (
+        <div>
+          <span>{this.state.name}</span>
+        </div>
+      )
+    }
+  ```
+
+- setState
+
+  ```jsx
+  // 这个时候setState是异步的，拿到的不是最新值
+  this.setState({
+  	count: this.state.count + 1
+  })
+  console.log(this.state.count)
+  ```
+
+  ```jsx
+  // 在回调函数中取到的则是最新值
+  this.setState({
+  	count: this.state.count + 1
+  },()=>{
+  	console.log(this.state.count)
+  })
+  ```
+
+  ```jsx
+  // setTimeout中setState是同步的
+  setTimeout(()=>{
+  	this.setState({
+  		count: this.state.count + 1
+  	})
+  	console.log(this.state.count)
+  },0)
+  ```
+
+  ```jsx
+  // 自定义DOM事件中是同步
+  componentDidMount(){
+  	document.body.addEventListener('click',()=>{
+          this.setState({
+              count: this.state.count + 1
+          })
+          console.log(this.state.count)
+  	})
+  }
+  ```
+
+  setState异步更新的时候，传入对象，更新前会被合并，传入函数，不会被合并
+
+  ```jsx
+  this.setState({
+  	count: this.state.count + 1
+  })
+  this.setState({
+  	count: this.state.count + 1
+  })
+  this.setState({
+  	count: this.state.count + 1
+  })
+  // 上面的会被合并，结果只加一次，下面的会加三次
+  this.setState((prevState, props) => {
+      return{
+          count: prevState.count + 1
+      }
+  })
+  this.setState((prevState, props) => {
+      return{
+          count: prevState.count + 1
+      }
+  })
+  this.setState((prevState, props) => {
+      return{
+          count: prevState.count + 1
+      }
+  })
+  ```
 
 ## style
 
@@ -530,6 +601,8 @@ render() {
 
      组件已经被更新，参数为旧的属性和状态对象
 
+     注：react中父组件更新，子组件则无条件更新
+     
      ```jsx
      componentDidUpdate(prevProps, prevState) {
        console.log('componentDidUpdate', prevProps, prevState)
@@ -581,6 +654,8 @@ render() {
 
   2. 通过ref获取dom节点然后再去value值
 
+  3. 使用场景为必须手动操作DOM时，比如`<input type='file'>`
+  
      ```jsx
      constructor(props) {
          super(props)
@@ -605,6 +680,16 @@ render() {
          )
      }
      ```
+
+
+
+## portals( 插槽 )
+
+-  ReactDOM.createPortal(child, container) ，由ReactDom提供的接口。 可以实现将子节点渲染到父组件DOM层次结构之外的DOM节点 
+
+   第一个参数（`child`）是任何可渲染的 React 子元素，例如一个元素，字符串或 片段(fragment)。第二个参数（`container`）则是一个 DOM 元素
+
+-  虽然一个portal可以插入到任何一个存在dom树中，但是通过Portal节点插入到其他dom中的节点，跟其他的React普通的子节点表现相同。在父节点下，通过Portal插入的子节点也可以共享context 
 
 ## 单向数据流
 
@@ -992,3 +1077,7 @@ export default HOCFactory(ComA)
 ```
 
 ## 面试题
+
+- React事件和DOM事件区别
+
+  方法中获取到的event是React封装后的event，而event.nativeEvent是原生事件对象
