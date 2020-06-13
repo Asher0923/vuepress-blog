@@ -14,7 +14,7 @@ title: 'Vue入门'
 
 - MVC
 
-  是Model-View- Controller的简写，即模型-视图-控制器。C即Controller指的是页面业务逻辑，使用MVC的目的就是将M和V的代码分离，MVC是单向通信，也就是View和Model，必须通过Controller来承上启下，MVC和MVVM的区别并不是VM完全取代了C，ViewModel存在的目的在于抽离Controller中展示的业务逻辑，而不是替代Controller，其它视图操作业务等还是应该放在Controller中实现。也就是说MVVM实现的是业务逻辑组件的重用。由于mvc出现的时间比较早，前端并不那么成熟，很多业务逻辑也是在后端实现，所以前端并没有真正意义上的MVC模式。
+  是Model-View- Controller的简写，即模型-视图-控制器。C即Controller指的是页面业务逻辑，使用MVC的目的就是将M和V的代码分离，MVC是单向通信，也就是View和Model，必须通过Controller来承上启下，MVC和MVVM的区别并不是VM完全取代了C，ViewModel存在的目的在于抽离Controller中展示的业务逻辑，而不是替代Controller，(只是C的存在感降低了)其它视图操作业务等还是应该放在Controller中实现。也就是说MVVM实现的是业务逻辑组件的重用。由于mvc出现的时间比较早，前端并不那么成熟，很多业务逻辑也是在后端实现，所以前端并没有真正意义上的MVC模式。
 
 ## 安装
 
@@ -104,6 +104,13 @@ title: 'Vue入门'
       }
   }
   ```
+  
+- $event：vue的普通方法中默认带有event DOM事件，通过$event获取，如果需要传其他自定义参数，则将$event传入即可
+
+  ```vue
+  <button @click="click">++</button>
+  <button @click="click(2, @event)">++</button>
+  ```
 
 ## 指令
 
@@ -118,7 +125,7 @@ title: 'Vue入门'
 
 - v-html
 
-  更新元素的innerHTML，内容按照普通HTML插入，不会作为Vue模板进行编译
+  更新元素的innerHTML，内容按照普通HTML插入，不会作为Vue模板进行编译，会有XSS风险
 
   ```vue
   <p v-html="html"></p>
@@ -278,15 +285,12 @@ title: 'Vue入门'
 
   ```js
   watch: {
-      // value: function (val, oldVal) {
-      //   console.log(val, oldVal)
-      // },
       value(val, oldVal) {
           console.log(val, oldVal)
       }
   }
   ```
-
+  
 - 监听复杂数据类型
 
   ```js
@@ -742,6 +746,39 @@ title: 'Vue入门'
   parent-beforeDestroy -> child-beforeDestroy -> child-destroyed -> parent-destroyed
   ```
 
+## 自定义组件的v-model
+
+> 一个组件的v-model默认会利用名为value的prop和名为input的事件，但是像单选框、复选框这种输入控件可能会将value属性作为不同的目的，model选项可以避免这样的冲突
+
+- 定义
+
+  ```vue
+  Vue.component('base-checkbox', {
+    model: {
+      prop: 'checked',
+      event: 'change'
+    },
+    props: {
+      checked: Boolean
+    },
+    template: `
+      <input
+        type="checkbox"
+        v-bind:checked="checked"
+        v-on:change="$emit('change', $event.target.checked)"
+      >
+    `
+  })
+  ```
+
+- 使用
+
+  ```vue
+  <base-checkbox v-model="lovingVue"></base-checkbox>
+  ```
+
+  这里的lovingVue的值将会传入这个名为checked的prop，同时当`<base-checkbox>`触发一个change事件并附带一个新的值的时候，这个lovingVue的property将会被更新
+
 ## 插槽
 
 > 插槽就是子组件中的提供给父组件使用的占位符，用`<slot></slot>`表示，父组件可以在这个占位符中填充任何模板代码，填充的内容会替换子组件的`<slot></slot>`标签
@@ -1135,3 +1172,107 @@ var app = new Vue({
     6. modifiers：一个包含修饰符的对象
   - vnode：Vue编译生成的虚拟节点
   - oldVnode：上一个虚拟节点，仅在update和componentUpdated钩子中可用
+
+## 原理部分
+
+- v-for优先级比v-if高，意味着v-if将重复运行在每一个v-for循环中，所以不推荐一起使用
+
+- Vue响应式原理
+
+  Object.defineProperty劫持对象的属性，通过递归对象进行深度监听，但是如果是数组的话需要重写数组原型上的方法，在调用数组方法前添加视图更新的方法
+
+[参考](https://segmentfault.com/a/1190000021763211 "参考")
+  
+  Object.defineProperty缺点：深度监听需要递归到底，一次性计算量大；无法监听新增/删除属性，所以会需要(Vue.set/Vue.delete)；无法原生监听数组，需要特殊处理
+  
+  ```js
+  Object.defineProperty(obj, key, {
+      enumerable: true, // 可枚举
+      configurable: true, // 可写
+      get: function() {
+          console.log('get');
+          return obj[key];
+      },
+      set: function(newVal) {
+          // 设置时，可以添加相应的操作
+          console.log('set:', obj[key]);
+          obj[key] += newVal;
+      }
+  });
+  ```
+  
+- 虚拟DOM和diff算法
+
+  使用js对象来表示DOM结构
+
+  ```js
+  let element={
+      tagName:'ul',//节点标签名
+      props:{//dom的属性，用一个对象存储键值对
+          id:'list'
+      },
+      children:[//该节点的子节点
+          {tagName:'li',props:{class:'item'},children:['aa']}，
+          {tagName:'li',props:{class:'item'},children:['bb']},
+          {tagName:'li',props:{class:'item'},children:['cc']}
+      ]
+  }
+  ```
+
+  vue通过以下措施来提升diff的性能
+
+  - 只比较同一层级，不跨级比较
+  - tag不相同，则删除直接重建，不再深度比较 
+  - tag和key都相同，则认为是相同节点，不再深度比较
+
+  当数据发生改变时，set方法会调用Dep.notify通知所有订阅者Watcher，订阅者就会调用patch给真实的DOM打补丁，更新相应的视图
+
+  ![](https://s1.ax1x.com/2020/06/13/tvGPVP.png)
+
+  后面再执行updateChildren方法
+
+- 初次渲染过程
+
+  - 解析模板为render函数（vue-loader）
+  - 触发响应式，监听data属性
+  - 执行render函数，生成vnode，patch(elem, vnode)
+
+- 更新过程
+
+  - 修改data，触发setter
+  - 重新执行render函数，生成newVnode
+  - patch(vnode, newVnode)
+
+- 异步渲染
+
+  汇总data的修改，一次性更新视图，减少DOM操作次数，提高性能
+
+## 面试题
+
+- v-for为什么要用key，且不能用index
+
+  diff算法中会通过key来判断是否是sameNode 
+
+- watch和computed使用场景
+
+  watch：一个数据影响多个数据
+
+  computed：一个数据受多个数据影响
+
+- v-model实现原理
+
+  vue在遍历虚拟dom的每一个节点时，如果遇到v-model，会为这个节点绑定一个input事件，当监听从页面输入值的时候，来更新vue实例中的data相对应的属性值
+
+  其核心就是一方面model层通过defineProperty劫持每个属性，一旦监听到属性变化就更新页面元素，另一方面是通过编译模板文件，为控件的v-model绑定input事件，从而页面输入能实时更新相关data属性值
+
+- 常见性能优化方式
+
+  - 合理使用v-show和v-if
+  - 合理使用computed
+  - v-for时加key，以及避免和v-if同时使用
+  - 自定义事件、DOM事件及时销毁
+  - 合理使用异步组件
+  - 合理使用keep-alive
+  - data层级不要太深
+
+  

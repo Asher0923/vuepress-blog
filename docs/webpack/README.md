@@ -75,8 +75,9 @@ title: 'webpack'
   - 生产环境是在静态文件路径前面添加 `publicPath` 的值。比如图片引入的是相对路径，可以配置 `publicPath` 成为正确的路径。它是指定资源文件引用的目录(相对于服务器的根目录来讲)。
   - 开发环境是将打包的文件放到 `publicPath` 指定的目录下面，若没有配置，则放到根目录下。(打包到的地方是计算机的内存，在硬盘中看不到，无法感知)
   - 在使用 `html-webpack-plugin` 生成 `index.html` 时，`publicPath` 是可以不用配置的，因为生产环境下，`index.html` 会和其他静态资源打包到同一个文件下，开发环境默认打包到根目录下。
-    
-    > 参考资料: https://www.cnblogs.com/SamWeb/p/8353367.html
+  
+
+[参考](https://www.cnblogs.com/SamWeb/p/8353367.html "参考")
   ``` js
     ...
     output:{
@@ -128,8 +129,8 @@ title: 'webpack'
 ## babel
 
 > JavaScript 语法编译器，babel 执行编译的过程中，会从项目根目录下的.babelrc 文件中读取配置，.babelrc 文件中，主要对预设(presets)和插件(plugins)进行设置
-> 参考：https://www.cnblogs.com/tugenhua0707/p/9452471.html
 
+[参考](https://www.cnblogs.com/tugenhua0707/p/9452471.html "参考")
 ``` js
   {
     "sourceMaps": true,
@@ -165,7 +166,7 @@ title: 'webpack'
   }
 ```
 
-- 常用插件 ( https://www.jianshu.com/p/3d9bc817f1db )
+- 常用插件
   1. `ExtractTextWebpackPlugin`
   
      它会将所有的入口 chunk(entry chunks)中引用的 `*.css`，移动到独立分离的 `CSS` 文件。因此，你的样式将不再内嵌到 `JS` bundle 中，而是会放到一个单独的 `CSS` 文件（即 `styles.css`）当中。 如果你的样式文件大小较大，这会做更快提前加载，因为 `CSS` bundle 会跟 `JS` bundle 并行加载
@@ -432,8 +433,7 @@ devServer{
 
 ## 构建过程
 
-[参考]: https://segmentfault.com/a/1190000015088834
-
+[参考](https://segmentfault.com/a/1190000015088834 "参考")
 1. 初始化参数：从配置文件和shell语句中读取与合并配置参数，得到最终的参数
 2. 开始编译：用上一步得到的参数初始化Compiler对象，加载所有配置的插件，执行对象的run方法开始执行编译
 3. 确定入口：根据配置中的entry找出所有的入口文件
@@ -461,7 +461,7 @@ devServer{
 
 - hash/chunkhash/contenthash
 
-  [参考]: https://juejin.im/post/5d70aee4f265da03f12e7ab2
+  [参考](https://juejin.im/post/5d70aee4f265da03f12e7ab2 "参考")
 
   hash是跟整个项目的构建有关，只要项目里有文件修改，整个项目的hash值都会更改，并且全部文件都共用相同的hash值
 

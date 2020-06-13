@@ -195,7 +195,7 @@ React起源于Facebook的内部项目，13年5月开源，是用来构建UI的Ja
 
 ## JSX
 
-> JSX语法最终会被编译成createElement()方法
+> JSX就是模板，最终会被编译成createElement()方法
 
 ``` js
 const dv = (
@@ -991,3 +991,4 @@ class ComA extends Component {
 export default HOCFactory(ComA)
 ```
 
+## 面试题
