@@ -483,3 +483,33 @@ devServer{
 - 什么是bundle，什么是chunk，什么是module
 
   `bundle` 是由 `webpack` 打包出来的文件，`chunk` 是指 `webpack` 在进行模块的依赖分析的时候，代码分割出来的代码块。`module`是开发中的单个模块
+  
+- webpack优化构建速度
+
+  优化babel-loader(include, exclude)
+
+  happyPack
+
+  dllPlugin
+
+  parallelUglifyPlugin插件多进程压缩代码（根据项目实际大小是否使用）
+
+- webpack优化打包结果
+
+  CDN加速
+
+  base64处理图片
+
+  提取公共代码
+
+  bundle加hash
+
+  懒加载
+
+  使用production，自动开启代码压缩，vue/react等会自动删除调试代码(如开发环境的warning)，自动启动tree-shaking
+  
+- 前端为何要进行打包和构建
+
+  1. 体积更小（tree-shaking，压缩，合并），加载更快
+  2. 编译高级语言或语法（ES6，TS，LESS，模块化）
+  3. 兼容性和错误检查（postcss，eslint）

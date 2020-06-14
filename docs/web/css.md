@@ -126,6 +126,9 @@ position: absolute / fiexd
 父元素与正常文件流的子元素（非浮动子元素）自动形成一个BFC（垂直方向margin重叠问题）
 ```
 
+- 计算BFC的高度时，浮动元素也参与计算，所以可以解决margin塌陷
+- 同一个BFC的两个相邻BOX发生margin重叠，可以将其中一个元素单独再形成一个BFC
+
 ## Flex布局
 
 - 容器默认存在两根轴，水平的主轴(main axis) 垂直的交叉轴(cross axis)。主轴的开始位置叫做main start ，结束位置叫做main end；交叉轴的开始位置叫做cross start，结束位置叫做cross end
@@ -554,7 +557,9 @@ position: absolute / fiexd
        }
    
        #div3 {
-         background-color: seagreen; 
+         background-color: seagreen;
+         margin-left: 200px;
+         margin-right: 200px;
          height: 100%;
        }
      </style>
