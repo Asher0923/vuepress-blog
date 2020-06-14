@@ -217,67 +217,64 @@ title: 'Redux'
   const mapStateToProps = (state) => {
     return state
   }
-  
-  ```
-
-export default connect(mapStateToProps)(Child2)
+  export default connect(mapStateToProps)(Child2)
   ```
   
   ```jsx
-  //发送组件
-  import React from 'react'
-  import { connect } from 'react-redux'
-  
-  class Child extends React.Component {
-    constructor(props) {
-      super(props)
-    }
-  
-    handleClick = () => {
-      this.props.sendAction()
-    }
-  
-    render() {
-      return (
-        <div>
-          <h2>组件1</h2>
-          <button onClick={this.handleClick}>+</button>
-        </div>
-      )
-    }
-  }
-  
-  const mapDispatchToProps = (dispatch) => {
-    return {
-      sendAction : ()=>{
-        dispatch({
-          type: 'add_action'
-        })
+   //发送组件
+    import React from 'react'
+    import { connect } from 'react-redux'
+    
+    class Child extends React.Component {
+      constructor(props) {
+        super(props)
+      }
+    
+      handleClick = () => {
+        this.props.sendAction()
+      }
+    
+      render() {
+        return (
+          <div>
+            <h2>组件1</h2>
+            <button onClick={this.handleClick}>+</button>
+          </div>
+        )
       }
     }
-  }
-  // 此组件为发送方，需要实现connect的第二个参数，第一个参数传null
-export default connect(null, mapDispatchToProps)(Child)
-  ```
-
-  ```jsx
-  // reducer
-  const initState = {
-    count: 0
-  }
-  
-  const reducer = (state = initState, action) => {
-    switch (action.type) {
-      case 'add_action':
-        return {
-          count: state.count + 1
+    
+    const mapDispatchToProps = (dispatch) => {
+      return {
+        sendAction : ()=>{
+          dispatch({
+            type: 'add_action'
+          })
         }
-      default:
-        return state
+      }
     }
-  }
+    // 此组件为发送方，需要实现connect的第二个参数，第一个参数传null
+  export default connect(null, mapDispatchToProps)(Child)
+  ```
   
-  export default reducer
+  ```jsx
+    // reducer
+    const initState = {
+      count: 0
+    }
+    
+    const reducer = (state = initState, action) => {
+      switch (action.type) {
+        case 'add_action':
+          return {
+            count: state.count + 1
+          }
+        default:
+          return state
+      }
+    }
+    
+    export default reducer
   ```
 
 ## CombineReducers
