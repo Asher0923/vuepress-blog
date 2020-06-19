@@ -1172,6 +1172,37 @@ var app = new Vue({
     6. modifiers：一个包含修饰符的对象
   - vnode：Vue编译生成的虚拟节点
   - oldVnode：上一个虚拟节点，仅在update和componentUpdated钩子中可用
+  
+- 简单的按钮节流
+
+  ```js
+  export default {
+    asyncClick: {
+      inserted: function (el) {
+        let timer = null
+        el.addEventListener('click', () => {
+          if (!timer) {
+            el.disabled = true
+            timer = setTimeout(() => {
+              clearTimeout(timer)
+              timer = null
+              el.removeAttribute('disabled')
+            }, 1000)
+          }
+        })
+      }
+    }
+  }
+  ```
+
+  ```js
+  // main.js
+  import directive from "./components/directive"
+  
+  Object.keys(directive).forEach((fnName) => {
+    Vue.directive(fnName, directive[fnName])
+  })
+  ```
 
 ## 原理部分
 
@@ -1182,9 +1213,9 @@ var app = new Vue({
   Object.defineProperty劫持对象的属性，通过递归对象进行深度监听，但是如果是数组的话需要重写数组原型上的方法，在调用数组方法前添加视图更新的方法
 
 [参考](https://segmentfault.com/a/1190000021763211 "参考")
-  
+
   Object.defineProperty缺点：深度监听需要递归到底，一次性计算量大；无法监听新增/删除属性，所以会需要(Vue.set/Vue.delete)；无法原生监听数组，需要特殊处理
-  
+
   ```js
   Object.defineProperty(obj, key, {
       enumerable: true, // 可枚举
@@ -1200,7 +1231,7 @@ var app = new Vue({
       }
   });
   ```
-  
+
 - 虚拟DOM和diff算法
 
   使用js对象来表示DOM结构
