@@ -314,15 +314,62 @@ title: "Web基础-HTML"
 
   - 也叫延迟加载，指的是在长网页中延迟加载图片，用户滚动到它们之前，可视区域外的图像不会加载
 
-  - 当访问一个页面的时候，先把 img 标签的 src 属性设为空字符串，而图片的真正路径则设置在 data-original 属性中，当页面滚动的时候需要去监听 scroll 事件，在 scroll 事件的回调中，判断懒加载的图片是否进入可视区域，如果在就将图片的 src 属性设置为 data-original 的值
+  - 当访问一个页面的时候，先把 img 标签的 src 属性设为空字符串，而图片的真正路径则设置在 data-src属性中，当页面滚动的时候需要去监听 scroll 事件，在 scroll 事件的回调中，判断懒加载的图片是否进入可视区域，如果在就将图片的 src 属性设置为 data-src的值
 
     ```html
-    <img
-      src=""
-      class="image-item"
-      lazyload="true"
-      data-original="images/1.png"
-    />
+    <!DOCTYPE html>
+    <html lang="en">
+      <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Document</title>
+        <style>
+          img {
+            display: block;
+            /* width: 100%; */
+            height: 300px;
+          }
+        </style>
+      </head>
+      <body>
+        <img src="" data-src="./web.png" />
+        <img src="" data-src="./web1.png" />
+        <img src="" data-src="./web2.png" />
+        <img src="" data-src="./web3.png" />
+        <img src="" data-src="./web4.png" />
+        <img src="" data-src="./web5.png" />
+        <img src="" data-src="./web6.png" />
+        <img src="" data-src="./web7.png" />
+        <img src="" data-src="./web8.png" />
+        <img src="" data-src="./web9.png" />
+        <img src="" data-src="./web10.png" />
+        <img src="" data-src="./web11.png" />
+        <img src="" data-src="./web12.png" />
+        <img src="" data-src="./web13.png" />
+        <img src="" data-src="./web14.png" />
+      </body>
+      <script>
+        var imgs = document.querySelectorAll("img");
+        function getTop(e) {
+          return e.offsetTop
+        }
+    
+        function lazyLoad(imgs) {
+          var h = window.innerHeight
+          var s = document.documentElement.scrollTop;
+          for (let i = 0; i < imgs.length; i++) {
+            if (h + s > getTop(imgs[i])) {
+              imgs[i].src = imgs[i].getAttribute("data-src");
+            }
+          }
+        }
+    
+        window.onload = window.onscroll = function() {
+          lazyLoad(imgs);
+        };
+      </script>
+    </html>
     ```
 
 - 预加载
@@ -378,7 +425,7 @@ title: "Web基础-HTML"
 
      通过某种方式（发布文章、评论）等将一段特定的 JS 代码隐蔽的输入进去，JS 代码一旦执行，就可以获取服务端数据、cookie 等
 
-     预防：用正则替换，cookie设置HttpOnly属性
+     预防：用正则替换，cookie设置HttpOnly属性(禁止页面的Javascript 访问带有 HttpOnly 属性的Cookie )
 
      ```
      < 替换为：&lt;

@@ -52,7 +52,7 @@
         <el-divider></el-divider>
       </div>
     </div>
-    <div class="footer">MIT Licensed | Copyright © 2020 Asher</div>
+    <div class="footer">MIT Licensed | Copyright © 2020 Asher <a href="http://www.beian.miit.gov.cn">苏ICP备20018799号-1</a></div>
   </div>
 </template>
 
@@ -165,5 +165,9 @@ export default {
 .footer {
   text-align: center;
   margin-bottom: 20px;
+}
+
+.footer a{
+
 }
 </style>

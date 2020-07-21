@@ -648,6 +648,11 @@ title: 'Vue入门'
   </script>
   ```
 
+- $parent / $children
+
+  - $parent当前组件的父实例，如果没有，此实例将会是其自己。只读属性，子组件可以调用this.$parent来调用父组件的属性或方法来进行操作
+  -  $children当前实例的直接子组件集合，$children不保证顺序，也不是响应式的。只读属性。
+
 - 兄弟组件
 
   可通过EventBus或Vuex实现，以下只描述如何使用Event Bus实现
@@ -714,6 +719,33 @@ title: 'Vue入门'
      // beforeDestroy钩子函数中
      EventBus.$off('aMsg')
      ```
+  
+- 祖先->后代
+
+  provide / inject：主要在开发高阶插件/组件库时使用
+
+  - provide应返回一个对象或返回一个对象的函数
+
+  - inject一个字符串数组或一个对象
+
+    ```js
+    // 父级组件提供 'foo'
+    var Provider = {
+      provide: {
+        foo: 'bar'
+      },
+      // ...
+    }
+    
+    // 子组件注入 'foo'
+    var Child = {
+      inject: ['foo'],
+      created () {
+        console.log(this.foo) // => "bar"
+      }
+      // ...
+    }
+    ```
 
 ## 生命周期
 

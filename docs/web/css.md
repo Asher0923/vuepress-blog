@@ -118,12 +118,12 @@ title: 'Web基础-CSS'
 
 > 块级格式化上下文，脱离文档流
 
-```
+```css
 float： left / right
 overflow: hidden / auto / scroll
 display: inline-block / flex / table
 position: absolute / fiexd
-父元素与正常文件流的子元素（非浮动子元素）自动形成一个BFC（垂直方向margin重叠问题）
+/*父元素与正常文件流的子元素（非浮动子元素）自动形成一个BFC（垂直方向margin重叠问题）*/
 ```
 
 - 计算BFC的高度时，浮动元素也参与计算，所以可以解决margin塌陷
@@ -137,7 +137,7 @@ position: absolute / fiexd
 
   1. flex-direction：决定主轴的方向
 
-     ```
+     ```css
      row（默认值）：主轴为水平方向，起点在左端。
      row-reverse：主轴为水平方向，起点在右端。
      column：主轴为垂直方向，起点在上沿。
@@ -146,7 +146,7 @@ position: absolute / fiexd
 
   2. flex-wrap：如果一条轴线排不下，如何换行
 
-     ```
+     ```css
      nowrap（默认）：不换行
      wrap：换行，第一行在上方
      wrap-reverse：换行，第一行在下方
@@ -156,7 +156,7 @@ position: absolute / fiexd
   
   4. justify-content：项目在主轴上的对齐方式
   
-     ```
+     ```css
      flex-start（默认值）：左对齐
      flex-end：右对齐
      center： 居中
@@ -166,7 +166,7 @@ position: absolute / fiexd
   
   5. align-items：项目在交叉轴上的对齐方式
   
-     ```
+     ```css
      flex-start：交叉轴的起点对齐
      flex-end：交叉轴的终点对齐
      center：交叉轴的中点对齐
@@ -176,7 +176,7 @@ position: absolute / fiexd
   
   6. align-content：定义多根轴线的对齐方式，若项目只有一根轴线，该属性不起作用
   
-     ```
+     ```css
      flex-start：与交叉轴的起点对齐
      flex-end：与交叉轴的终点对齐
      center：与交叉轴的中点对齐
@@ -198,38 +198,67 @@ position: absolute / fiexd
 
 - 线性渐变
 
-  ```
+  ```css
   background-image: linear-gradient(direction, color-stop1, color-stop2, ...);
-  // 从上到下
+  /* 从上到下*/
   #grad {
     background-image: linear-gradient(red, yellow, green);
   }
-  // 标准的语法
+  /* 标准的语法*/
   #grad {
     background-image: linear-gradient(to right, red,orange,yellow,green,blue,indigo,violet);
   }
-  // 重复的线性渐变
+  /* 重复的线性渐变*/
   #grad {
     background-image: repeating-linear-gradient(red, yellow 10%, green 20%);
   }
   ```
 
+  ```html
+  <style>
+      #grad1 {
+          height: 200px;
+          background-color: red;
+          background-image: linear-gradient(to right, #e66465, #9198e5);
+      }
+  </style>
+  ...
+  <body>
+      <div id="grad1"></div>
+  </body>
+  ```
+
 - 径向渐变
 
-  ```
+  ```css
   background-image: radial-gradient(shape size at position, start-color, ..., last-color);
-  // 颜色结点均匀分布的径向渐变
+  /* 颜色结点均匀分布的径向渐变*/
   #grad {
     background-image: radial-gradient(red, yellow, green);
   }
-  // 颜色结点不均匀分布的径向渐变
+  /* 颜色结点不均匀分布的径向渐变*/
   #grad {
     background-image: radial-gradient(red 5%, yellow 15%, green 60%);
   }
-  // 设置形状,shape 参数定义了形状。它可以是值 circle 或 ellipse。其中，circle 表示圆形，ellipse 表示椭圆形。默认值是 ellipse。
+  /* 设置形状,shape 参数定义了形状。它可以是值 circle 或 ellipse。其中，circle 表示圆形，ellipse 表示椭圆形。默认值是 ellipse。*/
   #grad {
     background-image: radial-gradient(circle, red, yellow, green);
   }
+  ```
+  
+  ```html
+  <style>
+      #grad1 {
+          height: 200px;
+          width: 200px;
+          background-color: red;
+          background-image: radial-gradient(red, green, blue);
+      }
+  </style>
+  ...
+  <body>
+      <div id="grad1"></div>
+  </body>
   ```
 
 ## 动画
@@ -238,25 +267,25 @@ position: absolute / fiexd
 
   1. 2D转换
 
-     ```
-     // translate()：根据左(X轴)和顶部(Y轴)位置给定的参数，从当前元素位置移动
+     ```css
+     /*  translate()：根据左(X轴)和顶部(Y轴)位置给定的参数，从当前元素位置移动*/
      transform: translate(50px,100px);
-     // rotate()：在一个给定度数顺时针旋转的元素。负值是允许的，这样是元素逆时针旋转
+     /*  rotate()：在一个给定度数顺时针旋转的元素。负值是允许的，这样是元素逆时针旋转*/
      transform: rotate(30deg);
-     // scale()：该元素增加或减少的大小，取决于宽度（X轴）和高度（Y轴）的参数
+     /*  scale()：该元素增加或减少的大小，取决于宽度（X轴）和高度（Y轴）的参数*/
      transform: scale(2,3)
-     // skew()：包含两个参数值，分别表示X轴和Y轴倾斜的角度，如果第二个参数为空，则默认为0，参数为负表示向相反方向倾斜
+     /*  skew()：包含两个参数值，分别表示X轴和Y轴倾斜的角度，如果第二个参数为空，则默认为0，参数为负表示向相反方向倾斜*/
      transform: skew(30deg,20deg)
-     // matrix()：matrix 方法有六个参数，包含旋转，缩放，移动（平移）和倾斜功能
+     /*  matrix()：matrix 方法有六个参数，包含旋转，缩放，移动（平移）和倾斜功能*/
      transform:matrix(0.866,0.5,-0.5,0.866,0,0);
      ```
 
   2. 3D转换
 
-     ```
-     // rotateX()：围绕其在一个给定度数X轴旋转的元素
+     ```css
+     /* rotateX()：围绕其在一个给定度数X轴旋转的元素*/
      transform: rotateX(120deg)
-     // rotateY()：围绕其在一个给定度数Y轴旋转的元素
+     /* rotateY()：围绕其在一个给定度数Y轴旋转的元素*/
      transform: rotateY(130deg)
      ```
 
