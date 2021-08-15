@@ -52,10 +52,13 @@ title: "Web基础-HTML"
 
    - `set-cookie`
 
-     设置cookie的一种方式，也可以指定过期时间
+     设置 cookie 的一种方式，也可以指定过期时间
 
      ```html
-     <meta http-equiv="set-cookie" content="name=value expires=Fri, 12 Jan 2001 18:18:18 GMT,path=/"/>
+     <meta
+       http-equiv="set-cookie"
+       content="name=value expires=Fri, 12 Jan 2001 18:18:18 GMT,path=/"
+     />
      ```
 
    - `X-UA-Compatible`
@@ -192,7 +195,7 @@ title: "Web基础-HTML"
 | Canvas                                             | SVG                                                     |
 | -------------------------------------------------- | ------------------------------------------------------- |
 | 依赖分辨率                                         | 不依赖分辨率                                            |
-| 一整副画布，不支持事件处理器                       | 每一个图形都是独立的DOM节点，支持事件处理器             |
+| 一整副画布，不支持事件处理器                       | 每一个图形都是独立的 DOM 节点，支持事件处理器           |
 | 弱的文本渲染能力                                   | 最适合带有大型渲染区域的应用程序（比如谷歌地图）        |
 | 能够以 .png 或 .jpg 格式保存结果图像               | 复杂度高会减慢渲染速度（任何过度使用 DOM 的应用都不快） |
 | 最适合图像密集型的游戏，其中的许多对象会被频繁重绘 | 不适合游戏应用                                          |
@@ -314,7 +317,7 @@ title: "Web基础-HTML"
 
   - 也叫延迟加载，指的是在长网页中延迟加载图片，用户滚动到它们之前，可视区域外的图像不会加载
 
-  - 当访问一个页面的时候，先把 img 标签的 src 属性设为空字符串，而图片的真正路径则设置在 data-src属性中，当页面滚动的时候需要去监听 scroll 事件，在 scroll 事件的回调中，判断懒加载的图片是否进入可视区域，如果在就将图片的 src 属性设置为 data-src的值
+  - 当访问一个页面的时候，先把 img 标签的 src 属性设为空字符串，而图片的真正路径则设置在 data-src 属性中，当页面滚动的时候需要去监听 scroll 事件，在 scroll 事件的回调中，判断懒加载的图片是否进入可视区域，如果在就将图片的 src 属性设置为 data-src 的值
 
     ```html
     <!DOCTYPE html>
@@ -352,11 +355,11 @@ title: "Web基础-HTML"
       <script>
         var imgs = document.querySelectorAll("img");
         function getTop(e) {
-          return e.offsetTop
+          return e.offsetTop;
         }
-    
+
         function lazyLoad(imgs) {
-          var h = window.innerHeight
+          var h = window.innerHeight;
           var s = document.documentElement.scrollTop;
           for (let i = 0; i < imgs.length; i++) {
             if (h + s > getTop(imgs[i])) {
@@ -364,7 +367,7 @@ title: "Web基础-HTML"
             }
           }
         }
-    
+
         window.onload = window.onscroll = function() {
           lazyLoad(imgs);
         };
@@ -425,7 +428,7 @@ title: "Web基础-HTML"
 
      通过某种方式（发布文章、评论）等将一段特定的 JS 代码隐蔽的输入进去，JS 代码一旦执行，就可以获取服务端数据、cookie 等
 
-     预防：用正则替换，cookie设置HttpOnly属性(禁止页面的Javascript 访问带有 HttpOnly 属性的Cookie )
+     预防：用正则替换，cookie 设置 HttpOnly 属性(禁止页面的 Javascript 访问带有 HttpOnly 属性的 Cookie )
 
      ```
      < 替换为：&lt;
@@ -453,26 +456,26 @@ title: "Web基础-HTML"
   - Service Worker
 
     - 运行在浏览器背后的独立线程，一般可以用来实现缓存功能
-    - 传输协议必须为HTTPS，因为Service Worker中涉及到请求拦截，用HTTPS保障安全
-    - Service Worker的缓存与浏览器其他内建的缓存机制不同，它可以让我们自由控制缓存哪些文件、如何匹配缓存、如何读取缓存，并且缓存是持续性的
-    - Service Worker实现缓存功能一般分为三个步骤：首先需要先注册Service Worker，然后监听到install事件以后就可以缓存需要的文件，那么在下次用户访问的时候就可以通过拦截请求的方式查询是否存在缓存，存在缓存的话就直接读取缓存文件，否则就去请求数据
-    - 当Service Worker没有命中缓存的时候，会根据缓存查找优先级去查找数据
+    - 传输协议必须为 HTTPS，因为 Service Worker 中涉及到请求拦截，用 HTTPS 保障安全
+    - Service Worker 的缓存与浏览器其他内建的缓存机制不同，它可以让我们自由控制缓存哪些文件、如何匹配缓存、如何读取缓存，并且缓存是持续性的
+    - Service Worker 实现缓存功能一般分为三个步骤：首先需要先注册 Service Worker，然后监听到 install 事件以后就可以缓存需要的文件，那么在下次用户访问的时候就可以通过拦截请求的方式查询是否存在缓存，存在缓存的话就直接读取缓存文件，否则就去请求数据
+    - 当 Service Worker 没有命中缓存的时候，会根据缓存查找优先级去查找数据
 
   - Memory Cache
 
-    内存中的缓存，主要包含的是当前页面中已经抓取到的资源，例如页面上已经下载的样式、脚本、图片等，读取内存中的数据肯定比磁盘快，内存缓存虽然读取高效，但是缓存持续性很短，会随着进程的释放而释放，一旦关闭tab页，内存中的缓存也就被释放了
+    内存中的缓存，主要包含的是当前页面中已经抓取到的资源，例如页面上已经下载的样式、脚本、图片等，读取内存中的数据肯定比磁盘快，内存缓存虽然读取高效，但是缓存持续性很短，会随着进程的释放而释放，一旦关闭 tab 页，内存中的缓存也就被释放了
 
   - Disk Cache
 
-    磁盘缓存，容量和时效性比Memory Cache强，也是所有浏览器缓存中覆盖面最大的，可以根据HTTP头信息设置网页是否缓存，并且即使在跨站点的情况下，相同地址的资源一旦被硬盘缓存下来，就不会再次去请求数据
+    磁盘缓存，容量和时效性比 Memory Cache 强，也是所有浏览器缓存中覆盖面最大的，可以根据 HTTP 头信息设置网页是否缓存，并且即使在跨站点的情况下，相同地址的资源一旦被硬盘缓存下来，就不会再次去请求数据
 
   - Push Cache
 
-    推送缓存，是HTTP/2中的内容，当以上三种缓存都没有命中时才会使用，它只在会话(session)中存在，一旦会话结束就被释放，并且缓存时间也很短暂，Chrome中只有五分钟左右，同时也并非严格执行HTTP头部中缓存指令
+    推送缓存，是 HTTP/2 中的内容，当以上三种缓存都没有命中时才会使用，它只在会话(session)中存在，一旦会话结束就被释放，并且缓存时间也很短暂，Chrome 中只有五分钟左右，同时也并非严格执行 HTTP 头部中缓存指令
 
 - 强缓存
 
-  不会向服务器发送请求，直接从缓存中读取资源，在Chrome控制台的network中可以看到该请求返回200的状态码，并且size显示from disk cache或from memory cache，强缓存可以通过设置两种HTTP Header实现：Expires和Cache-Control
+  不会向服务器发送请求，直接从缓存中读取资源，在 Chrome 控制台的 network 中可以看到该请求返回 200 的状态码，并且 size 显示 from disk cache 或 from memory cache，强缓存可以通过设置两种 HTTP Header 实现：Expires 和 Cache-Control
 
   - Expires
 
@@ -482,28 +485,28 @@ title: "Web基础-HTML"
     Expires: Wed, 27 May 2020 06:37:06 GMT
     ```
 
-    这个表示资源在这个时间过期，过期之后就得向服务器发请求，Expires是HTTP/1.0的产物，受限于本地时间，如果修改了本地时间，就会造成缓存失效
+    这个表示资源在这个时间过期，过期之后就得向服务器发请求，Expires 是 HTTP/1.0 的产物，受限于本地时间，如果修改了本地时间，就会造成缓存失效
 
   - Cache-Control
 
-    在HTTP/1.1中，采用了Cache-Control，和Expires不同的是没有采用过期时间这种方式，而是采用过期时长来控制缓存，对应的字段是max-age
+    在 HTTP/1.1 中，采用了 Cache-Control，和 Expires 不同的是没有采用过期时间这种方式，而是采用过期时长来控制缓存，对应的字段是 max-age
 
     ```js
     Cache-Control:max-age=3600
     ```
 
-    | 指令         | 作用                                                         |
-    | ------------ | ------------------------------------------------------------ |
-    | public       | 表示响应可以被客户端和代理服务器缓存                         |
-    | private      | 表示响应只可以被客户端缓存                                   |
-    | max-age=30   | 缓存30秒后就过期，需要重新请求                               |
-    | s-maxage=30  | 覆盖max-age，作用一样，只在代理服务器中生效，优先级高于max-age |
-    | no-store     | 不缓存任何响应                                               |
-    | no-cache     | 跳过当前的强缓存，发送HTTP请求，即直接进入协商缓存阶段       |
-    | max-stale=30 | 30秒内，即使缓存过期，也使用该缓存                           |
-    | min-fresh=30 | 希望在30秒内获取最新的响应                                   |
+    | 指令         | 作用                                                             |
+    | ------------ | ---------------------------------------------------------------- |
+    | public       | 表示响应可以被客户端和代理服务器缓存                             |
+    | private      | 表示响应只可以被客户端缓存                                       |
+    | max-age=30   | 缓存 30 秒后就过期，需要重新请求                                 |
+    | s-maxage=30  | 覆盖 max-age，作用一样，只在代理服务器中生效，优先级高于 max-age |
+    | no-store     | 不缓存任何响应                                                   |
+    | no-cache     | 跳过当前的强缓存，发送 HTTP 请求，即直接进入协商缓存阶段         |
+    | max-stale=30 | 30 秒内，即使缓存过期，也使用该缓存                              |
+    | min-fresh=30 | 希望在 30 秒内获取最新的响应                                     |
 
-  - 其实这两者差别不大，区别就在于 Expires 是http1.0的产物，Cache-Control是http1.1的产物，当**Expires**和**Cache-Control**同时存在的时候，**Cache-Control**会优先考虑
+  - 其实这两者差别不大，区别就在于 Expires 是 http1.0 的产物，Cache-Control 是 http1.1 的产物，当**Expires**和**Cache-Control**同时存在的时候，**Cache-Control**会优先考虑
 
 - 协商缓存
 
@@ -511,82 +514,81 @@ title: "Web基础-HTML"
 
   - Last-Modified
 
-    即最后修改时间，浏览器在第一次访问资源时，服务器返回资源的同时，在response header中添加Last-Modified的header，值是这个资源在服务器上的最后修改时间，浏览器接收缓存文件和header；
+    即最后修改时间，浏览器在第一次访问资源时，服务器返回资源的同时，在 response header 中添加 Last-Modified 的 header，值是这个资源在服务器上的最后修改时间，浏览器接收缓存文件和 header；
 
-    浏览器下一次请求这个资源，浏览器检测到有Last-Modified这个header，于是添加If-Modified-Since这个header，值就是Last-Modified的值，服务器再次收到这个资源请求，会根据If-Modified-Since中的值与服务器中这个资源的最后修改时间对比，如果没有变化，返回304和空的响应体，直接从缓存读取，如果If-Modified-Since的时间小于服务器中这个资源的最后修改时间，说明文件有更新，于是返回新的资源文件和200
+    浏览器下一次请求这个资源，浏览器检测到有 Last-Modified 这个 header，于是添加 If-Modified-Since 这个 header，值就是 Last-Modified 的值，服务器再次收到这个资源请求，会根据 If-Modified-Since 中的值与服务器中这个资源的最后修改时间对比，如果没有变化，返回 304 和空的响应体，直接从缓存读取，如果 If-Modified-Since 的时间小于服务器中这个资源的最后修改时间，说明文件有更新，于是返回新的资源文件和 200
 
     弊端：
 
-    - 如果本地打开缓存文件，即使没有对文件进行修改，但还是会造成Last-Modified被修改，服务端不能命中缓存导致发送相同的资源
-    - 因为Last-Modified只能以秒计时，如果在不可感知的时间内修改完成文件，那么服务端会认为资源还是命中了，不会返回正确的资源
+    - 如果本地打开缓存文件，即使没有对文件进行修改，但还是会造成 Last-Modified 被修改，服务端不能命中缓存导致发送相同的资源
+    - 因为 Last-Modified 只能以秒计时，如果在不可感知的时间内修改完成文件，那么服务端会认为资源还是命中了，不会返回正确的资源
 
   - ETag
 
-    Etag是服务器响应请求时，返回当前资源文件的一个唯一标识（服务器生成），只要资源有变化，Etag就会重新生成。浏览器在下一次加载资源向服务器发送请求时，会将上一次返回的Etag值放到request header里的If-None-Match里，服务器只需要比较客户端传来的If-None-Match和自己服务器上该资源的Etag是否一致，就能判断资源相对客户端而言是否被修改过了，如果服务器发现Etag匹配不上，那么就会返回新的资源，和常规的HTTP请求响应流程一样，如果Etag是一致的，则直接返回304使用本地缓存
+    Etag 是服务器响应请求时，返回当前资源文件的一个唯一标识（服务器生成），只要资源有变化，Etag 就会重新生成。浏览器在下一次加载资源向服务器发送请求时，会将上一次返回的 Etag 值放到 request header 里的 If-None-Match 里，服务器只需要比较客户端传来的 If-None-Match 和自己服务器上该资源的 Etag 是否一致，就能判断资源相对客户端而言是否被修改过了，如果服务器发现 Etag 匹配不上，那么就会返回新的资源，和常规的 HTTP 请求响应流程一样，如果 Etag 是一致的，则直接返回 304 使用本地缓存
 
   - 两者对比
 
-    - 精确度上，Etag要优于Last-Modified，Last-Modified的时间单位是秒，如果某个文件在1秒内改变了多次，那么他们的Last-Modified其实并没有体现出来修改，但是Etag每次都会改变确保了精度；如果是负载均衡的服务器，各个服务器生成的Last-Modified也有可能不一致。
-    - 性能上，Etag要逊于Last-Modified，Last-Modified只需要记录时间，而Etag需要服务器通过算法来计算出一个hash值。
-    - 优先级上，服务器校验优先考虑Etag
+    - 精确度上，Etag 要优于 Last-Modified，Last-Modified 的时间单位是秒，如果某个文件在 1 秒内改变了多次，那么他们的 Last-Modified 其实并没有体现出来修改，但是 Etag 每次都会改变确保了精度；如果是负载均衡的服务器，各个服务器生成的 Last-Modified 也有可能不一致。
+    - 性能上，Etag 要逊于 Last-Modified，Last-Modified 只需要记录时间，而 Etag 需要服务器通过算法来计算出一个 hash 值。
+    - 优先级上，服务器校验优先考虑 Etag
 
 - [HTTP header 探索](http://feg.netease.com/archives/680.html)
 
 - 缓存机制
 
-  强制缓存优先于协商缓存，若强制缓存(Expires和Cache-Control)生效则直接使用缓存，若不生效则进行协商缓存(Last-Modified / If-Modified-Since和Etag / If-None-Match)，协商缓存由服务器决定是否使用缓存，若协商缓存失效，那么代表该请求的缓存失效，返回200，重新返回资源和缓存标识，再存入浏览器缓存中，生效则返回304，继续使用缓存
+  强制缓存优先于协商缓存，若强制缓存(Expires 和 Cache-Control)生效则直接使用缓存，若不生效则进行协商缓存(Last-Modified / If-Modified-Since 和 Etag / If-None-Match)，协商缓存由服务器决定是否使用缓存，若协商缓存失效，那么代表该请求的缓存失效，返回 200，重新返回资源和缓存标识，再存入浏览器缓存中，生效则返回 304，继续使用缓存
 
-- 用户行为对浏览器缓存的影响 
+- 用户行为对浏览器缓存的影响
 
-  - 打开网页，地址栏输入地址：查找disk cache中是否有匹配，有则使用，没有则发送请求
-  - 普通刷新(F5)：因为tab页没有关闭，可以使用memory cache，如果匹配的话被优先使用，其次才是disk cache
-  - 强制刷新(Ctrl  + F5)：浏览器不使用缓存，因此发送的请求头均带有Cache-Control:no-cache，服务器直接返回200和最新内容
+  - 打开网页，地址栏输入地址：查找 disk cache 中是否有匹配，有则使用，没有则发送请求
+  - 普通刷新(F5)：因为 tab 页没有关闭，可以使用 memory cache，如果匹配的话被优先使用，其次才是 disk cache
+  - 强制刷新(Ctrl + F5)：浏览器不使用缓存，因此发送的请求头均带有 Cache-Control:no-cache，服务器直接返回 200 和最新内容
 
-## DNS缓存
+## DNS 缓存
 
 - DNS：Domain Name System ,即域名系统
-- DNS解析：通过域名最终得到该域名对应的IP地址，也叫域名解析
-- DNS缓存：有DNS的地方就有缓存，浏览器、操作系统、Local DNS、根域名服务器
-  1. 首先搜索浏览器自身的DNS缓存，如果存在，则域名解析到此完成
-  2. 如果浏览器自身的缓存中没有找到对应的条目，那么会尝试读取操作系统的hosts文件，看是否存在对应映射关系
-  3. 如果本地hosts文件不存在对应映射关系，则查找本地DNS服务器
-  4. 如果本地DNS服务器还没找到的话,它就会向根服务器发出请求,进行递归查询
+- DNS 解析：通过域名最终得到该域名对应的 IP 地址，也叫域名解析
+- DNS 缓存：有 DNS 的地方就有缓存，浏览器、操作系统、Local DNS、根域名服务器
+  1. 首先搜索浏览器自身的 DNS 缓存，如果存在，则域名解析到此完成
+  2. 如果浏览器自身的缓存中没有找到对应的条目，那么会尝试读取操作系统的 hosts 文件，看是否存在对应映射关系
+  3. 如果本地 hosts 文件不存在对应映射关系，则查找本地 DNS 服务器
+  4. 如果本地 DNS 服务器还没找到的话,它就会向根服务器发出请求,进行递归查询
 
-## CDN缓存
+## CDN 缓存
 
 - CDN：Content Delivery Network,即内容分发网络
 
-  简单的理解就是CDN会选择一个离用户最近的CDN边缘节点来响应用户的请求
+  简单的理解就是 CDN 会选择一个离用户最近的 CDN 边缘节点来响应用户的请求
 
-- CDN缓存：即在浏览器本地缓存失效后，浏览器会向CDN边缘节点发送请求，类似浏览器缓存，CDN边缘节点也存在一套缓存机制，CDN边缘节点缓存策略因服务商不同而不同，但一般都会遵循http标准协议，通过http响应头中的Cache-control字段来设置CDN边缘节点数据缓存时间
+- CDN 缓存：即在浏览器本地缓存失效后，浏览器会向 CDN 边缘节点发送请求，类似浏览器缓存，CDN 边缘节点也存在一套缓存机制，CDN 边缘节点缓存策略因服务商不同而不同，但一般都会遵循 http 标准协议，通过 http 响应头中的 Cache-control 字段来设置 CDN 边缘节点数据缓存时间
 
-  当浏览器向CDN节点请求数据时，CDN节点会判断缓存数据是否过期，若缓存数据并没有过期，则直接将缓存数据返回给客户端，否则，CDN节点就会向服务器发出回源请求，从服务器拉取最新数据，更新本地缓存，并将最新数据返回给客户端
+  当浏览器向 CDN 节点请求数据时，CDN 节点会判断缓存数据是否过期，若缓存数据并没有过期，则直接将缓存数据返回给客户端，否则，CDN 节点就会向服务器发出回源请求，从服务器拉取最新数据，更新本地缓存，并将最新数据返回给客户端
 
 ## 面试题
 
-1. 在css/js代码上线之后开发人员经常会优化性能，从用户刷新网页开始，一次js请求一般情况下有哪些地方会有缓存处理
+1. 在 css/js 代码上线之后开发人员经常会优化性能，从用户刷新网页开始，一次 js 请求一般情况下有哪些地方会有缓存处理
 
-   答案：dns缓存，cdn缓存，浏览器缓存，服务器缓存
-   
-2. 二级域名如何共享cookie
+   答案：dns 缓存，cdn 缓存，浏览器缓存，服务器缓存
 
-   Cookie实际上是一小段文本(上限为4k)，客户端请求服务器，服务器需要记录该用户状态，就使用response向客户端浏览器颁发一个cookie，客户端浏览器将cookie保存起来，当浏览器再请求该网站时，浏览器将请求的网址连同cookie一同提交给服务器
+2. 二级域名如何共享 cookie
 
-   cookie的domain属性：可以访问该Cookie的域名。如果设置为“.google.com”，则所有以“google.com”结尾的域名都可以访问该Cookie。注意第一个字符必须为“.”
+   Cookie 实际上是一小段文本(上限为 4k)，客户端请求服务器，服务器需要记录该用户状态，就使用 response 向客户端浏览器颁发一个 cookie，客户端浏览器将 cookie 保存起来，当浏览器再请求该网站时，浏览器将请求的网址连同 cookie 一同提交给服务器
 
-3. GET和POST的区别
+   cookie 的 domain 属性：可以访问该 Cookie 的域名。如果设置为“.google.com”，则所有以“google.com”结尾的域名都可以访问该 Cookie。注意第一个字符必须为“.”
 
-   GET的url一般都具有长度限制，但是这个限制并非是http协议中规定的，而是浏览器和web服务器决定的，GET只会产生一个TCP数据包，浏览器会把请求头和请求数据一并发送出去
+3. GET 和 POST 的区别
 
-   POST是将请求信息放在请求数据中的，（并没有比GET安全，可以通过抓包获取），请求信息是没有长度限制的，POST会产生两个TCP数据包，浏览器会先将请求头发送给服务器，待服务器响应100 continue，浏览器再发送请求数据，服务器响应200 ok（返回数据）
+   GET 的 url 一般都具有长度限制，但是这个限制并非是 http 协议中规定的，而是浏览器和 web 服务器决定的，GET 只会产生一个 TCP 数据包，浏览器会把请求头和请求数据一并发送出去
 
-   本质上GET和POST是一样的，都是TCP连接，但是由于HTTP的规定以及浏览器/服务器的限制，导致它们在应用过程中可能会有所不同，
+   POST 是将请求信息放在请求数据中的，（并没有比 GET 安全，可以通过抓包获取），请求信息是没有长度限制的，POST 会产生两个 TCP 数据包，浏览器会先将请求头发送给服务器，待服务器响应 100 continue，浏览器再发送请求数据，服务器响应 200 ok（返回数据）
 
-4. HTTP和HTTPS的区别
+   本质上 GET 和 POST 是一样的，都是 TCP 连接，但是由于 HTTP 的规定以及浏览器/服务器的限制，导致它们在应用过程中可能会有所不同，
 
-   HTTP是超文本传输协议，信息是明文传输，HTTPS是更具安全性的SSL加密传输协议
+4. HTTP 和 HTTPS 的区别
 
-   HTTP默认端口是80，HTTPS默认端口是443
+   HTTP 是超文本传输协议，信息是明文传输，HTTPS 是更具安全性的 SSL 加密传输协议
 
-   HTTPS有CA证书，HTTP一般没有（SSL证书是CA证书的一种）
+   HTTP 默认端口是 80，HTTPS 默认端口是 443
 
+   HTTPS 有 CA 证书，HTTP 一般没有（SSL 证书是 CA 证书的一种）
