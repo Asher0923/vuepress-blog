@@ -1,23 +1,23 @@
 ---
-title: 'Babel基础'
+title: "Babel入门"
 ---
 
 ## 概念
 
-> Babel是一个工具链，主要将ES2015+版本的代码转换为向后兼容的js代码，以便能够运行在当前和旧版本浏览器或其他环境中
+> Babel 是一个工具链，主要将 ES2015+版本的代码转换为向后兼容的 js 代码，以便能够运行在当前和旧版本浏览器或其他环境中
 
 - 工作流程
-  1. 解析：将代码解析成抽象语法树(AST)，每个js引擎都有自己的AST解析器，而Babel是通过Babylon实现的，在解析过程中有两个阶段：词法分析和语法分析，词法分析阶段把字符串形式的代码转换成令牌流，令牌类似于AST中节点；而语法分析阶段则会把一个令牌流转换成AST的形式，同时这个阶段会把令牌中的信息转换成AST的表述结构
-  2. 转换：Babel接受得到的AST并通过babel-traverse对其进行深度优先遍历，在此过程中对节点进行添加、更新及移除操作
-  3. 生成：将经过转换的AST通过babel-generator再转换成js代码，过程就是深度优先遍历整个AST，然后构建可以表示转换后代码的字符串
+  1. 解析：将代码解析成抽象语法树(AST)，每个 js 引擎都有自己的 AST 解析器，而 Babel 是通过 Babylon 实现的，在解析过程中有两个阶段：词法分析和语法分析，词法分析阶段把字符串形式的代码转换成令牌流，令牌类似于 AST 中节点；而语法分析阶段则会把一个令牌流转换成 AST 的形式，同时这个阶段会把令牌中的信息转换成 AST 的表述结构
+  2. 转换：Babel 接受得到的 AST 并通过 babel-traverse 对其进行深度优先遍历，在此过程中对节点进行添加、更新及移除操作
+  3. 生成：将经过转换的 AST 通过 babel-generator 再转换成 js 代码，过程就是深度优先遍历整个 AST，然后构建可以表示转换后代码的字符串
 
 ## 核心库@babel/core
 
-> Babel的核心功能包含在@babel/core模块中，不安装@babel/core，无法使用babel进行编译
+> Babel 的核心功能包含在@babel/core 模块中，不安装@babel/core，无法使用 babel 进行编译
 
-## CLI命令行工具@babel/cli
+## CLI 命令行工具@babel/cli
 
-> babel提供的命令行工具，主要是提供babel这个命令，适合安装在项目里
+> babel 提供的命令行工具，主要是提供 babel 这个命令，适合安装在项目里
 
 - 安装
 
@@ -36,19 +36,19 @@ title: 'Babel基础'
 
 ## 插件
 
-> Babel构建在插件之上，使用现有的或者自己编写的插件可以组成一个转换通道，babel的插件分为两种：语法插件和转换插件
+> Babel 构建在插件之上，使用现有的或者自己编写的插件可以组成一个转换通道，babel 的插件分为两种：语法插件和转换插件
 
 - 语法插件
 
-  这些插件只允许babel解析(parse)特性类型的语法（不是转换），可以在AST转换时使用，以支持解析新语法
+  这些插件只允许 babel 解析(parse)特性类型的语法（不是转换），可以在 AST 转换时使用，以支持解析新语法
 
   ```js
-  import * as babel from "@babel/core";
-  const code = babel.transformFromAstSync(ast, {
-      //支持可选链    
-      plugins: ["@babel/plugin-proposal-optional-chaining"], 
-      babelrc: false
-  }).code
+  import * as babel from "@babel/core";
+  const code = babel.transformFromAstSync(ast, {
+    //支持可选链
+    plugins: ["@babel/plugin-proposal-optional-chaining"],
+    babelrc: false,
+  }).code;
   ```
 
 - 转换插件
@@ -57,7 +57,7 @@ title: 'Babel基础'
 
 - 插件的使用
 
-  如果插件插件发布在npm上，可以直接填写插件的名称
+  如果插件插件发布在 npm 上，可以直接填写插件的名称
 
   ```js
   //.babelrc
@@ -75,13 +75,13 @@ title: 'Babel基础'
   }
   ```
 
-## 预设preset
+## 预设 preset
 
-> 如果每一种js特性都一个个配置plugin会非常麻烦，可以通过使用或创建一个preset就可以使用一组插件
+> 如果每一种 js 特性都一个个配置 plugin 会非常麻烦，可以通过使用或创建一个 preset 就可以使用一组插件
 
 - **@babel/preset-env**
 
-  主要作用是对我们所使用的并且目标浏览器中缺失的功能进行代码转换和加载polyfill，在不进行任何配置的情况下，@babel/preset-env所包含的插件将支持所有最新的js特性，将其转换成ES5代码
+  主要作用是对我们所使用的并且目标浏览器中缺失的功能进行代码转换和加载 polyfill，在不进行任何配置的情况下，@babel/preset-env 所包含的插件将支持所有最新的 js 特性，将其转换成 ES5 代码
 
   ```js
   //.babelrc
@@ -92,42 +92,39 @@ title: 'Babel基础'
 
 ## Polyfill
 
-> 语法转换只是将高版本的语法转换成低版本的，但是新的内置函数、实例方法无法转换，比如Promise等；这时就需要使用polyfill了，polyfill中文意思是垫片，就是垫平不同浏览器或者不同环境下的差异，让新的内置函数、实例方法等在低版本浏览器中也可以使用
+> 语法转换只是将高版本的语法转换成低版本的，但是新的内置函数、实例方法无法转换，比如 Promise 等；这时就需要使用 polyfill 了，polyfill 中文意思是垫片，就是垫平不同浏览器或者不同环境下的差异，让新的内置函数、实例方法等在低版本浏览器中也可以使用
 
 - @babel/polyfill
 
-  @babel/polyfill模块包含core-js和一个自定义的regenerate runtime模块，可以模拟完整的ES2015+环境(不包含第4阶段)，为了实现新的内置函数等功能，需要将polyfill添加到全局范围中
+  @babel/polyfill 模块包含 core-js 和一个自定义的 regenerate runtime 模块，可以模拟完整的 ES2015+环境(不包含第 4 阶段)，为了实现新的内置函数等功能，需要将 polyfill 添加到全局范围中
 
   ```js
   npm install --save @babel/polyfill
   ```
 
-  需要将完整的polyfill在代码之前加载
+  需要将完整的 polyfill 在代码之前加载
 
   ```js
-  import '@babel/polyfill';
-  
-  const isHas = [1,2,3].includes(2);
+  import "@babel/polyfill";
+
+  const isHas = [1, 2, 3].includes(2);
   const p = new Promise((resolve, reject) => {
-      resolve(100);
+    resolve(100);
   });
   ```
 
-  也可以在webpack中进行配置
+  也可以在 webpack 中进行配置
 
   ```js
-  entry: [
-      require.resolve('./polyfills'),
-      path.resolve('./index')
-  ]
+  entry: [require.resolve("./polyfills"), path.resolve("./index")];
   ```
 
   ```js
   // polyfill.js
-  import '@babel/polyfill';
+  import "@babel/polyfill";
   ```
 
-- 很多时候，我们未必需要完整的 `@babel/polyfill`，这会导致我们最终构建出的包的体积增大，`@babel/polyfill`的包大小为89K
+- 很多时候，我们未必需要完整的 `@babel/polyfill`，这会导致我们最终构建出的包的体积增大，`@babel/polyfill`的包大小为 89K
 
   `@babel/preset-env` 提供了一个 `useBuiltIns` 参数，设置值为 `usage` 时，就只会包含代码需要的 `polyfill` ，有一点需要注意的是如果配置此参数的值为 `usage` ，必须要同时设置 `corejs`
 
@@ -141,11 +138,11 @@ title: 'Babel基础'
     [
       "@babel/env",
       {
-        "useBuiltIns": "usage",
-        "corejs": 3
-      }
-    ]
-  ]
+        useBuiltIns: "usage",
+        corejs: 3,
+      },
+    ],
+  ];
   ```
 
 ## @babel/plugin-transform-runtime
@@ -205,7 +202,6 @@ title: 'Babel基础'
 ## 插件/预设
 
 - 如果两个转换插件都将处理“程序（Program）”的某个代码片段，则将根据转换插件或 `preset` 的排列顺序依次执行
-  1. 插件在 Preset前运行
+  1. 插件在 Preset 前运行
   2. 插件顺序从前往后排列
   3. Preset 顺序是颠倒的（从后往前）
-
