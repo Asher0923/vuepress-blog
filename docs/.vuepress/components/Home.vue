@@ -66,7 +66,7 @@ export default {
         { path: "/web/", imgUrl: "/js.png", label: "Web基础" },
         { path: "/vue/", imgUrl: "/vue.png", label: "Vue" },
         { path: "/react/", imgUrl: "/react.png", label: "React" },
-        { path: "/webpack/", imgUrl: "/webpack.png", label: "Webpack" },
+        { path: "/build/webpack/", imgUrl: "/webpack.png", label: "Webpack" },
         { path: "/node/", imgUrl: "/node.png", label: "Node" },
         { path: "/more/数据结构", imgUrl: "/other.png", label: "数据结构与算法" }
       ]
@@ -80,7 +80,7 @@ export default {
     const _data = this.$site.pages.filter(item => {
       return item.title;
     })
-    this.tableData = _data.sort(function(item1, item2){
+    this.tableData = _data.sort((item1, item2)=>{
       return item1.lastUpdated < item2.lastUpdated ? 1 : -1
     }).splice(0, 10);
   },
