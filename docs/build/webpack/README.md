@@ -155,72 +155,13 @@ title: 'webpack入门'
   
   2. `MiniCssExtractPlugin`：为每个包含`css`的`js`文件创键一个`css`文件，webpack版本4.x适用
   
-     ```js
-     npm install mini-css-extract-plugin -D // 安装
-     
-     const MiniCssExtractPlugin = require("mini-css-extract-plugin"); // 引入
-     //使用  loader中style-loader需改为MiniCssExtractPlugin.loader
-       module: {
-         rules: [
-           {
-             test: /\.css$/,
-             use: [MiniCssExtractPlugin.loader, "css-loader"],
-           }
-         ],
-       },
-       plugins: [
-         new MiniCssExtractPlugin({
-           filename: "[name]-[contenthash:6].css", // 打包后输出的文件名
-           chunkFilename: "[id]-[contenthash:6].css", // 未在entry中却又需要被打包出来的文件的名称
-         })
-       ]
-     ```
-  
   3. `HtmlWebpackPlugin`：以template对应的文件作为模板重构入口 `html`
-  
-     ```js
-     npm install html-webpack-plugin-D // 安装
-     
-     const HtmlWebpackPlugin = require("html-webpack-plugin"); // 引入
-     // 使用
-     new HtmlWebpackPlugin({
-         template: './src/index.html'
-       })
-     ```
   
   4. `CleanWebpackPlugin`：每次打包前删除之前打包的目录文件
   
-     ``` js
-     npm install clean-webpack-plugin-D // 安装
-     
-     const { CleanWebpackPlugin } = require("clean-webpack-plugin"); // 引入
-     
-     new CleanWebpackPlugin() // 使用
-     ```
-     
   5. `optimization.splitChunks`：替代`CommonsChunkPlugin`插件提取第三方插件和公共代码
   
-     ``` js
-     optimization: {
-         splitChunks: {
-           cacheGroups: {
-             // 首先: 打包node_modules中的文件
-             vendor: {
-               name: "vendor",
-               test: /[\\/]node_modules[\\/]/,
-               chunks: "all",
-               priority: 10  //优先级
-             },
-             // 其次: 打包业务中公共代码
-             common: {
-               name: "common",
-               chunks: "all",
-               minSize: 1,
-               priority: 0  //优先级
-             }
-           }
-         }
-     ```
+     - cacheGroups：配置提取模块的方案，里面每一项代表一个提取模块的方案
   
   6. `DllPlugin`和`DllReferencePlugin`：减少构建时间，进行分离打包（用某种方法实现了拆分 bundles）
   
@@ -289,7 +230,7 @@ title: 'webpack入门'
 
 ``` js
 npm i -D webapck-dev-server
-// package.json 中添加"dev : webpack-dev-server"
+// package.json 中添加"server":"webpack-dev-server"
 devServer{
 	host: 'blog.zasher.com'
 	port: 8888
@@ -310,7 +251,19 @@ devServer{
 
 - hot
 
-  模块热替换功能，不刷新整个页面实现实时刷新
+  模块热替换功能，不刷新整个页面实现实时刷新，需实例化webpack自带的HotModuleReplacementPlugin()
+
+  ```
+  const webpack = require('webpack')
+  
+  plugins:[
+  	new webpack.HotModuleReplacementPlugin()
+  ],
+  devServer:{
+  	hot: true，
+  	hotOnly: true
+  }
+  ```
 
 - open
 
@@ -359,7 +312,8 @@ devServer{
 > 控制是否生成及如何生成source map
 
 - eval：将每一个module执行eval，执行后不生成sourcemap文件，仅仅在每个模块后，增加sourceURL来关联模块处理前后对应的关系
-- Source-map：为每一个打包后的模块生成独立的sourcemap文件
+- source-map：为每一个打包后的模块生成独立的sourcemap文件
+- inline-source-map：不用单独生成source map文件，直接保留在bundle文件中，会增大bundle文件的体积
 
 ## hash
 
@@ -382,5 +336,75 @@ devServer{
       path: path.resolve(__dirname, 'dist')
     }
   }
+```
+
+## 可视化插件
+
+webpack-bundle-analyzer
+
+## 代码
+
+```js
+const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin"); // loader中style-loader需改为MiniCssExtractPlugin.loader
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+
+module.exports = {
+  entry: {
+    index: "./src/index.js",
+    app: "./src/app.js",
+  },
+  mode: "development",
+  output: {
+    path: path.resolve(__dirname, "build"),
+    filename: "[name]-[chunkhash:6].js",
+  },
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: [MiniCssExtractPlugin.loader, "css-loader"],
+      },
+      {
+        test: /\.png$/,
+        loader: "url-loader",
+        options: {
+          limit: 1024 * 300,
+        },
+      },
+    ],
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: "./src/index.html",
+    }),
+    new CleanWebpackPlugin(),
+    new MiniCssExtractPlugin({
+      filename: "[name]-[contenthash:6].css", // 打包后输出的文件名
+      chunkFilename: "[id]-[contenthash:6].css", // 未在entry中却又需要被打包出来的文件的名称
+    }),
+  ],
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        // 首先: 打包node_modules中的文件
+        vendor: {
+          name: "vendor",
+          test: /[\\/]node_modules[\\/]/,
+          chunks: "all",
+          priority: 10, //优先级
+        },
+        // 其次: 打包业务中公共代码
+        common: {
+          name: "common",
+          chunks: "all",
+          minSize: 1,
+          priority: 0, //优先级
+        },
+      },
+    },
+  },
+};
 ```
 

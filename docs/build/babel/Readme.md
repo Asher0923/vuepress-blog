@@ -4,35 +4,39 @@ title: "Babel入门"
 
 ## 概念
 
-> Babel 是一个工具链，主要将 ES2015+版本的代码转换为向后兼容的 js 代码，以便能够运行在当前和旧版本浏览器或其他环境中
+> Babel是一个JavaScript编译器，通俗点说就是将浏览器无法识别的ES2015+语法编写的代码转换成向后兼容的js语法
 
 - 工作流程
   1. 解析：将代码解析成抽象语法树(AST)，每个 js 引擎都有自己的 AST 解析器，而 Babel 是通过 Babylon 实现的，在解析过程中有两个阶段：词法分析和语法分析，词法分析阶段把字符串形式的代码转换成令牌流，令牌类似于 AST 中节点；而语法分析阶段则会把一个令牌流转换成 AST 的形式，同时这个阶段会把令牌中的信息转换成 AST 的表述结构
   2. 转换：Babel 接受得到的 AST 并通过 babel-traverse 对其进行深度优先遍历，在此过程中对节点进行添加、更新及移除操作
   3. 生成：将经过转换的 AST 通过 babel-generator 再转换成 js 代码，过程就是深度优先遍历整个 AST，然后构建可以表示转换后代码的字符串
+  
+- 安装
+
+  ```js
+  npm install @babel/core @babel/cli @babel/preset-env -D  // 以@开头的版本为Babel7+
+  ```
+
+- 配置文件，根目录下添加.babelrc文件或者babel.config.json
+
+  ```json
+  {
+      "presets": [["@babel/preset-env"]]
+  }
+  ```
 
 ## 核心库@babel/core
 
 > Babel 的核心功能包含在@babel/core 模块中，不安装@babel/core，无法使用 babel 进行编译
 
-## CLI 命令行工具@babel/cli
+## 命令行工具@babel/cli
 
-> babel 提供的命令行工具，主要是提供 babel 这个命令，适合安装在项目里
+> 使用--out-dir 设置输出路径，可以通过npx babel --help 查看所有参数列表
 
-- 安装
-
-  ```
-  npm install --save-dev @babel/core @babel/cli
-  ```
-
-- 执行
-
-  ```
-  // package.json
-  "scripts": {
-      "compiler": "babel src --out-dir lib --watch"
-  }
-  ```
+```js
+// 将src目录下文件编译到lib中
+npx babel src --out-dir lib
+```
 
 ## 插件
 
@@ -57,7 +61,7 @@ title: "Babel入门"
 
 - 插件的使用
 
-  如果插件插件发布在 npm 上，可以直接填写插件的名称
+  如果插件发布在 npm 上，可以直接填写插件的名称
 
   ```js
   //.babelrc
