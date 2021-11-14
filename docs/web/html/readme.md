@@ -347,17 +347,17 @@ title: "Web基础-HTML"
         function getTop(e) {
           return e.offsetTop;
         }
-
+  
         function lazyLoad(imgs) {
-          var h = window.innerHeight;
-          var s = document.documentElement.scrollTop;
+          var h = window.innerHeight;// 窗口显示区的高度
+          var s = document.documentElement.scrollTop;// 纵向滚动条的位置
           for (let i = 0; i < imgs.length; i++) {
             if (h + s > getTop(imgs[i])) {
               imgs[i].src = imgs[i].getAttribute("data-src");
             }
           }
         }
-
+  
         window.onload = window.onscroll = function() {
           lazyLoad(imgs);
         };

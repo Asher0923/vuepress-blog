@@ -4,8 +4,6 @@ title: 'Vue入门'
 
 ## 概述
 
-> 用于构建用户界面的渐进式框架，主要用于快速的构建前端页面的MVVM框架
-
 - MVVM
 
   是Model-View-ViewModel的简写，即模型-视图-视图模型。模型指的是后端传递的数据，视图指的是所看见的页面，视图模型是mvvm的核心，是连接view和model的桥梁，有两个方向；一个是将模型转化成视图，实现的方式是数据绑定；另一个是将视图转化成模型，实现的方式是DOM事件监听，这两个方向都实现的就是数据的双向绑定。
@@ -59,7 +57,7 @@ title: 'Vue入门'
 
 - 脚手架
 
-  ```
+  ```bash
   npm install -g @vue/cli // 全局安装
   vue create my-project // 创建项目
   vue --version // 查看版本
@@ -70,7 +68,7 @@ title: 'Vue入门'
     │   ├── index.html          // 默认是单页面应用，这个是最终的html的基础模板      
     ├── src
     │   ├── assets              // 资源文件夹，存放图片之类的资源
-    │   ├── components          // 组件文件夹
+    │   ├── components          // 组件文件夹                
     │   ├── router              // 路由文件夹，决定了页面的跳转规则
     │   ├── store               // vuex状态管理文件
     │   ├── views               // 我们所写的页面都放在这里
